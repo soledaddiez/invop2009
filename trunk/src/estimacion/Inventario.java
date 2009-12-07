@@ -13,8 +13,8 @@ public class Inventario {
 	 * @return
 	 */
 	public static long getInventarioPorProducto(String tipoProducto){
-		long inventario = (long) Math.abs(Math.random()*300);
-		System.out.println("Inventario: " + inventario);
+		long inventario = 100; //(long) Math.abs(Math.random()*100);
+		System.out.println("Inventario del producto: " + inventario);
 		return inventario;
 	}
 }
