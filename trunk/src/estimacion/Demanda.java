@@ -1,5 +1,12 @@
 package estimacion;
 
+import java.util.Vector;
+
+import cosasAEliminar.ValoresASacarDeAlgunLado;
+
+import dbConnector.DemandaManager;
+import excepciones.DataAccessException;
+
 /**
  * 
  * Clase encargada de las operaciones relacionadas con la estimación
@@ -29,5 +36,15 @@ public class Demanda {
 		double demandaMaxima=400;//Math.abs(Math.random()*200 + 200);
 		System.out.println("Demanda máxima: " + demandaMaxima);
 		return demandaMaxima;
+	}
+	
+	public static Vector<Probabilidad> calcularProbabilidadesDeDemanda(Long idProducto) throws DataAccessException {
+		DemandaManager demandaManager = new DemandaManager();
+		
+		double maxima_demanda = demandaManager.demandaMaxima(idProducto, ValoresASacarDeAlgunLado.CANTIDAD_DE_DIAS_PERIODO);
+		double minima_demanda = demandaManager.demandaMinima(idProducto, ValoresASacarDeAlgunLado.CANTIDAD_DE_DIAS_PERIODO);
+		
+		return null;
+		
 	}
 }
