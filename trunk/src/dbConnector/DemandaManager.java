@@ -3,26 +3,53 @@ package dbConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import excepciones.DataAccessException;
+
 public class DemandaManager extends Conexion{
 
 	public DemandaManager() throws Exception {
 		super();
 	}
-
-	public void executeQuery(String query) throws SQLException {
-		if ((this.con != null)&&(this.stmt != null)){
-			ResultSet rs = stmt.executeQuery(query);
+	
+	public double demandaMaxima(Long idProducto) throws DataAccessException {
+		String query = "SELECT MAX(d.consumo) as maximo FROM demanda AS d WHERE id_producto = "+idProducto.longValue();
+		double demandaMaxima = 0;
+		try {
+			this.openConexion();
+			if ((this.con != null)&&(this.stmt != null)){ //si pudo conectar
+				ResultSet rs;
 		
-			while (rs.next()){
-				System.out.println("Nombre: " + rs.getString("nombre"));
-				System.out.println("\tCapacidad: " + rs.getString("cc") + "cc.");
+				rs = stmt.executeQuery(query);
+				if (rs.next()){
+					demandaMaxima = new Double(rs.getString("maximo"));
+				}
 			}
-			
-			rs = stmt.executeQuery("select count(*) as cant from (select distinct fecha_demanda from demanda) as aux");
-			while (rs.next()){
-				System.out.println("cant: " + rs.getString("cant"));
-			}
-		}
+			this.closeConexion();
+			return demandaMaxima;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DataAccessException(DataAccessException.ERROR_EJECUCION_CONSULTA);
+		}	
 	}
-
+	
+	public double demandaMinima(Long idProducto) throws DataAccessException {
+		String query = "SELECT MIN(d.consumo) as minimo FROM demanda AS d WHERE id_producto = "+idProducto.longValue();
+		double demandaMinima = 0;
+		try {
+			this.openConexion();
+			if ((this.con != null)&&(this.stmt != null)){ //si pudo conectar
+				ResultSet rs;
+		
+				rs = stmt.executeQuery(query);
+				if (rs.next()){
+					demandaMinima = new Double(rs.getString("minimo"));
+				}
+			}
+			this.closeConexion();
+			return demandaMinima;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DataAccessException(DataAccessException.ERROR_EJECUCION_CONSULTA);
+		}	
+	}
 }
