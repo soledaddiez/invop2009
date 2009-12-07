@@ -34,4 +34,34 @@ public class ProductoManager extends Conexion{
 		return productos;
 	}
 
+	public Producto getProductoByPrimaryKey(Long id) throws Exception{
+		this.openConexion();
+		Producto producto = null;
+		String query = "Select * FROM producto WHERE id = "+id.toString();
+		
+		if ((this.con != null)&&(this.stmt != null)){
+			ResultSet rs = stmt.executeQuery(query);
+			if (rs.next()){
+				producto = new Producto(new Long(rs.getString("id")), rs.getString("nombre"), new Float (rs.getString("cc")));
+			}
+		}
+		this.closeConexion();
+		return producto;
+	}
+	
+	public Producto getProductoByNombre(String nombre) throws Exception{
+		this.openConexion();
+		Producto producto = null;
+		String query = "Select * FROM producto WHERE nombre = '"+nombre+"'";
+		
+		if ((this.con != null)&&(this.stmt != null)){
+			ResultSet rs = stmt.executeQuery(query);
+			if (rs.next()){
+				producto = new Producto(new Long(rs.getString("id")), rs.getString("nombre"), new Float (rs.getString("cc")));
+			}
+		}
+		this.closeConexion();
+		return producto;
+	}
+
 }
