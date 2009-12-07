@@ -8,7 +8,7 @@ public class TasaDeFabricacion {
 	 * @return tasa de fabricacion
 	 */
 	public static double getTasaDeFabricacion(String tipoProducto){
-		double tasaDeFabricacion =100;// Math.abs(Math.random()*300);
+		double tasaDeFabricacion = 1000;// Math.abs(Math.random()*300);
 		return tasaDeFabricacion;
 	}
 	
