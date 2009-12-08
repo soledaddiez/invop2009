@@ -1,6 +1,7 @@
 import estimacion.Demanda;
 import estimacion.Inventario;
 import estimacion.TasaDeFabricacion;
+import excepciones.DataAccessException;
 
 
 /**
@@ -10,7 +11,7 @@ import estimacion.TasaDeFabricacion;
  */
 public class CantidadAPedir {
 	
-	static public double calcularCantidadAPedir(String tipoProducto, int diasDelPeriodo){
+	static public double calcularCantidadAPedir(Long tipoProducto, int diasDelPeriodo) throws DataAccessException{
 
 		double costoLanzamientoProduccion = 100;
 		double costoAlmacenamiento = 0.5;

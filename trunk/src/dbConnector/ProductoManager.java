@@ -63,5 +63,4 @@ public class ProductoManager extends Conexion{
 		this.closeConexion();
 		return producto;
 	}
-
 }
