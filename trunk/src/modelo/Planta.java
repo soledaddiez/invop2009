@@ -13,7 +13,7 @@ public class Planta {
 			lineas.add(l);
 	}
 	
-	public static double getTasaDeFabricacion(String tipoProducto){
+	public static double getTasaDeFabricacion(Long tipoProducto){
 		double tasaDeFabricacion = 0;
 		
 		for(int i = 0; i < lineas.size(); i++)
