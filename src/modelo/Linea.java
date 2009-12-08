@@ -28,7 +28,7 @@ public class Linea {
 		this.nombre = nombre;
 	}
 	
-	public double getTasaDeFabricacion(String tipoProducto){
+	public double getTasaDeFabricacion(Long tipoProducto){
 		//Reemplazar implementacion con consulta a la BD
 		return 1000;
 	}
