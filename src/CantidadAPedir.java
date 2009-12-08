@@ -16,7 +16,7 @@ public class CantidadAPedir {
 
 		double costoLanzamientoProduccion = 100;
 		double costoAlmacenamiento = 0.5;
-		
+
 		//Obtengo la demanda estimada en el período para el producto
 		double demandaPorDia = ProbabilidadesDemanda.calcularDemanda(tipoProducto, diasDelPeriodo);
 		double demanda = demandaPorDia * diasDelPeriodo;
@@ -38,6 +38,6 @@ public class CantidadAPedir {
 		System.out.println("Tasa de fabricación del producto: " + tasaFabricacion);
 		System.out.println("Fabricar "+ cantidadPedidos + " lotes de "+ loteOptimo);*/
 		
-		return new OrdenProduccion(cantidadPedidos, loteOptimo);
+		return new OrdenProduccion(tipoProducto, cantidadPedidos, loteOptimo);
 	}
 }
