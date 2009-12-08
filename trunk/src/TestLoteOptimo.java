@@ -1,16 +1,15 @@
-import java.awt.Image;
 import java.util.Vector;
 
+import modelo.Demanda;
+import modelo.Linea;
+import modelo.Planta;
 import pareto.Frecuencia;
 import pareto.Pareto;
-
-import modelo.Linea;
-import modelo.OrdenProduccion;
-import modelo.Planta;
-import modelo.Producto;
+import dbConnector.DemandaManager;
+import excepciones.DataAccessException;
 
 public class TestLoteOptimo{
-	public static void main(String [] args){
+	public static void main(String [] args) throws DataAccessException{
 		Linea l1 = new Linea(1, "Linea 1");
 		Linea l2 = new Linea(2, "Linea 2");
 		Linea l3 = new Linea(3, "Linea 3");
@@ -23,13 +22,9 @@ public class TestLoteOptimo{
 		OrdenProduccion orden = CantidadAPedir.calcularCantidadAPedir(Producto.PRODUCTO_AGUA_500_CC, diasDelPeriodo);
 		System.out.println(orden.getLotes() + " de " + orden.getCantidadPorLote() + " unidades cada uno");
 		*/
-		Vector<modelo.Demanda> demandas = new Vector<modelo.Demanda>();
-		Producto p1 = new Producto(1, "Producto 1", 100);
-		Producto p2 = new Producto(2, "Producto 2", 200);
-		Producto p3 = new Producto(3, "Producto 3", 300);
-		demandas.add(new modelo.Demanda(p1, 130));
-		demandas.add(new modelo.Demanda(p2, 250));
-		demandas.add(new modelo.Demanda(p3, 200));
+		
+		DemandaManager demandaManager = new DemandaManager();
+		Vector<Demanda> demandas = demandaManager.getDemandasTotalesPorProducto();
 		
 		Vector<Frecuencia> importancias = Pareto.calcularImportancia(demandas);
 
