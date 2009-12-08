@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -8,8 +7,6 @@ import java.awt.Dimension;
 import javax.swing.JMenu;
 import java.awt.Rectangle;
 import java.util.List;
-import java.util.Vector;
-
 import javax.swing.JMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JButton;
