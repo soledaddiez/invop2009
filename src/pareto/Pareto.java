@@ -2,9 +2,11 @@ package pareto;
 
 import java.util.Vector;
 
+import modelo.Demanda;
+
 public class Pareto {
 	
-	static public Vector<Frecuencia> calcularImportancia(Vector<modelo.Demanda> productos){
+	static public Vector<Frecuencia> calcularImportancia(Vector<Demanda> productos){
 		
 		//Calculo la demanda total
 		double demandaTotal = 0;
@@ -15,7 +17,7 @@ public class Pareto {
 		//Calculo las frecuencias relativas
 		Vector<Frecuencia> frecuencias = new Vector<Frecuencia>();
 		for(int i = 0; i < productos.size(); i++){
-			modelo.Demanda d = productos.elementAt(i);
+			Demanda d = productos.elementAt(i);
 			double frec = d.getCantidad() / demandaTotal; 
 			frecuencias.add(new Frecuencia(d.getProducto(), frec));
 		}

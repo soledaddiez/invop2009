@@ -5,6 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Vector;
+
+import modelo.Demanda;
+import modelo.Producto;
 
 import util.OperacionesSobreFechas;
 import cosasAEliminar.ValoresASacarDeAlgunLado;
@@ -155,5 +160,19 @@ public class DemandaManager extends Conexion{
 		}
 		
 		return cantidad;
+	}
+	
+	public Vector<Demanda> getDemandasTotalesPorProducto() throws DataAccessException {
+		ProductoManager productoManager = new ProductoManager();
+		List<Producto> productos = productoManager.getListadoDeProductos();
+		
+		Vector<Demanda> demandasTotales = new Vector<Demanda>();
+		Demanda demanda;
+		for(Producto producto : productos){
+			demanda = new Demanda(producto, this.demandaPorProducto(producto.getId(), ValoresASacarDeAlgunLado.FECHA_INICIO, ValoresASacarDeAlgunLado.CANTIDAD_DE_DIAS_PERIODO));
+			demandasTotales.add(demanda);
+		}
+		
+		return demandasTotales;
 	}
 }
