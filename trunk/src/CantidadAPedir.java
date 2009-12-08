@@ -1,7 +1,7 @@
+import modelo.OrdenProduccion;
+import modelo.Planta;
 import estimacion.Demanda;
 import estimacion.Inventario;
-import estimacion.TasaDeFabricacion;
-import excepciones.DataAccessException;
 
 
 /**
@@ -11,7 +11,7 @@ import excepciones.DataAccessException;
  */
 public class CantidadAPedir {
 	
-	static public double calcularCantidadAPedir(Long tipoProducto, int diasDelPeriodo) throws DataAccessException{
+	static public OrdenProduccion calcularCantidadAPedir(Long tipoProducto, int diasDelPeriodo){
 
 		double costoLanzamientoProduccion = 100;
 		double costoAlmacenamiento = 0.5;
@@ -21,7 +21,7 @@ public class CantidadAPedir {
 		double demanda = demandaPorDia * diasDelPeriodo;
 		
 		//Obtengo la tasa de fabricación en todo el período para el producto
-		double tasaFabricacionPorDia = TasaDeFabricacion.getTasaDeFabricacion(tipoProducto);
+		double tasaFabricacionPorDia = Planta.getTasaDeFabricacion(tipoProducto);
 		double tasaFabricacion = tasaFabricacionPorDia * diasDelPeriodo;
 		
 		//Obtengo el inventario
@@ -31,14 +31,12 @@ public class CantidadAPedir {
 		
 		long cantidadPedidos = (long) Math.ceil((demanda - inventario) / loteOptimo);
 
-		double cantidadAPedir = cantidadPedidos * loteOptimo;
-
 		//Impresiones para testeo
-		System.out.println("Días del período: "+ diasDelPeriodo);
+		/*System.out.println("Días del período: "+ diasDelPeriodo);
 		System.out.println("Demanda estimada en el período: "+ demanda);
 		System.out.println("Tasa de fabricación del producto: " + tasaFabricacion);
-		System.out.println("Fabricar "+ cantidadPedidos + " lotes de "+ loteOptimo);
-
-		return cantidadAPedir;
+		System.out.println("Fabricar "+ cantidadPedidos + " lotes de "+ loteOptimo);*/
+		
+		return new OrdenProduccion(cantidadPedidos, loteOptimo);
 	}
 }
