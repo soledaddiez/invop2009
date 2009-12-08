@@ -12,11 +12,11 @@ import excepciones.DataAccessException;
  * Clase encargada de las operaciones relacionadas con la estimación
  * de la demanda.
  */
-public class Demanda {
+public class ProbabilidadesDemanda {
 	
 
 	public static double calcularDemanda(Long idProducto, int diasPedido) throws DataAccessException{
-		Vector<Probabilidad> probabilidades = Demanda.calcularProbabilidadesDeDemanda(idProducto);
+		Vector<Probabilidad> probabilidades = ProbabilidadesDemanda.calcularProbabilidadesDeDemanda(idProducto);
 		
 		return Montecarlo.getEstimacion(probabilidades, ValoresASacarDeAlgunLado.DELTA);
 	}
