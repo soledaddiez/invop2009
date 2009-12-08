@@ -2,6 +2,7 @@ import modelo.OrdenProduccion;
 import modelo.Planta;
 import estimacion.Inventario;
 import estimacion.ProbabilidadesDemanda;
+import excepciones.DataAccessException;
 
 
 /**
@@ -11,7 +12,7 @@ import estimacion.ProbabilidadesDemanda;
  */
 public class CantidadAPedir {
 	
-	static public OrdenProduccion calcularCantidadAPedir(Long tipoProducto, int diasDelPeriodo){
+	static public OrdenProduccion calcularCantidadAPedir(Long tipoProducto, int diasDelPeriodo) throws DataAccessException{
 
 		double costoLanzamientoProduccion = 100;
 		double costoAlmacenamiento = 0.5;
