@@ -1,7 +1,7 @@
 import modelo.OrdenProduccion;
 import modelo.Planta;
-import estimacion.Demanda;
 import estimacion.Inventario;
+import estimacion.ProbabilidadesDemanda;
 
 
 /**
@@ -17,7 +17,7 @@ public class CantidadAPedir {
 		double costoAlmacenamiento = 0.5;
 		
 		//Obtengo la demanda estimada en el período para el producto
-		double demandaPorDia = Demanda.calcularDemanda(tipoProducto, diasDelPeriodo);
+		double demandaPorDia = ProbabilidadesDemanda.calcularDemanda(tipoProducto, diasDelPeriodo);
 		double demanda = demandaPorDia * diasDelPeriodo;
 		
 		//Obtengo la tasa de fabricación en todo el período para el producto
