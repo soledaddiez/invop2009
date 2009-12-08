@@ -1,21 +1,28 @@
 package gui;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import java.awt.BorderLayout;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import java.awt.Dimension;
+import javax.swing.JMenu;
+import java.awt.Rectangle;
+import java.util.List;
+import java.util.Vector;
+
+import javax.swing.JMenuItem;
+import javax.swing.JDialog;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+
+import modelo.Producto;
+
+import dbConnector.ProductoManager;
 
 public class MenuPrincipalVisual extends JFrame {
 
@@ -399,17 +406,19 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jTable.setShowGrid(true);
 			DefaultTableModel m=new DefaultTableModel(20,2);
-			m.setValueAt("Producto",0,0);
-			m.setValueAt("agua500",1,0);
-			m.setValueAt("agua1500",2,0);
-			m.setValueAt("agua2000",3,0);
-			m.setValueAt("sabor500",4,0);
-			m.setValueAt("sabor1500",5,0);
-			m.setValueAt("sodaBotella",6,0);
-			m.setValueAt("sodaSifon",7,0);
-			m.setValueAt("gaseosa500",8,0);
-			m.setValueAt("gaseosa2225",9,0);
-			m.setValueAt("Cantidad",0,1);
+			try {
+				ProductoManager p=new ProductoManager();
+				m.setValueAt("Producto",0,0);
+				m.setValueAt("Cantidad",0,1);
+				int nroCol=1;
+				List<Producto> productos=p.getListadoDeProductos();
+				for (int i=0;i<productos.size();i++,nroCol++){
+					m.setValueAt(productos.get(i).getNombre(),nroCol,0);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			m.setValueAt("0",1,1);
 			m.setValueAt("0",2,1);
 			m.setValueAt("0",3,1);
@@ -419,6 +428,8 @@ public class MenuPrincipalVisual extends JFrame {
 			m.setValueAt("0",7,1);
 			m.setValueAt("0",8,1);
 			m.setValueAt("0",9,1);
+			m.setValueAt("0",10,1);
+			m.setValueAt("0",11,1);
 			jTable.setModel(m);
 		}
 		return jTable;
