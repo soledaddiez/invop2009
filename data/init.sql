@@ -1,4 +1,4 @@
---producto
+﻿--producto
 INSERT INTO producto(id, nombre, cc)
 VALUES (1, 'Agua Chica', '500');
 INSERT INTO producto(id, nombre, cc)
@@ -55,3 +55,22 @@ INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (28,'28/01/20
 INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (29,'29/01/2009',1,338.52);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (60,'29/01/2009',2,7520.95);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (91,'29/01/2009',3,2233.02);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (122,'29/01/2009',4,23311.26);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (153,'29/01/2009',5,1936.22);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (184,'29/01/2009',8,1661.16);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (217,'29/01/2009',9,6135.18);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (248,'29/01/2009',10,8580.84);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (279,'29/01/2009',11,7087.44);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (310,'29/01/2009',7,2227.97);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (341,'29/01/2009',6,7345.02);
 INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (30,'30/01/2009',1,338.52);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (61,'30/01/2009',2,7520.95);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (92,'30/01/2009',3,2233.02);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (123,'30/01/2009',4,23311.26);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (154,'30/01/2009',5,1936.22);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (185,'30/01/2009',8,1661.16);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (218,'30/01/2009',9,6135.18);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (249,'30/01/2009',10,8580.84);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (280,'30/01/2009',11,7087.44);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (311,'30/01/2009',7,2227.97);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (342,'30/01/2009',6,7345.02);
 INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (31,'31/01/2009',1,338.52);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (62,'31/01/2009',2,7520.95);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (93,'31/01/2009',3,2233.02);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (124,'31/01/2009',4,23311.26);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (155,'31/01/2009',5,1936.22);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (186,'31/01/2009',8,1661.16);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (219,'31/01/2009',9,6135.18);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (250,'31/01/2009',10,8580.84);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (281,'31/01/2009',11,7087.44);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (312,'31/01/2009',7,2227.97);	INSERT into demanda(id,fecha_demanda, id_producto, consumo) values (343,'31/01/2009',6,7345.02);
+
+--linea
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (1,1,'Linea1_agua',240000);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (2,1,'Linea1_gaseosa',192000);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (3,1,'Linea2_gaseosa',48000);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (4,2,'Linea1_agua',240000);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (5,3,'Linea1_gaseosa',180000);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (6,3,'Linea2_gaseosa',36000);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (7,4,'Linea1_agua',230400);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (8,5,'Linea3_agua',13920);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (9,6,'Linea2_agua',64800);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (10,7,'Linea1_gaseosa',54000);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (11,8,'Linea1_gaseosa',192000);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (12,8,'Linea2_gaseosa',48000);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (13,9,'Linea1_gaseosa',180000);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (14,9,'Linea2_gaseosa',36000);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (15,10,'Linea1_gaseosa',54000);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (16,11,'Linea1_gaseosa',192000);
+INSERT into linea(id,id_producto,nombreLinea,tasaFabricacion) values (17,11,'Linea2_gaseosa',48000);
