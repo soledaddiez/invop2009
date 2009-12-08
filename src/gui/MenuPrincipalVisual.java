@@ -1,21 +1,19 @@
 package gui;
 
-import java.awt.BorderLayout;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import java.awt.Dimension;
-import javax.swing.JMenu;
 import java.awt.Rectangle;
-import java.util.Vector;
 
-import javax.swing.JMenuItem;
-import javax.swing.JDialog;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 

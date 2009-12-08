@@ -8,4 +8,6 @@ public class ValoresASacarDeAlgunLado {
 	public static final int CANTIDAD_DE_DIAS_PERIODO = 7;
 	
 	public static final int CANTIDAD_ANIOS_A_CONSIDERAR = 5;
+	
+	public static final double DELTA = 0.1;
 }

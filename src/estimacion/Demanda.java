@@ -14,37 +14,39 @@ import excepciones.DataAccessException;
  */
 public class Demanda {
 	
-	public double calcularDemanda(){
-		double resultado=0;
-		return resultado;
+
+	public static double calcularDemanda(Long idProducto, int diasPedido) throws DataAccessException{
+		Vector<Probabilidad> probabilidades = Demanda.calcularProbabilidadesDeDemanda(idProducto);
+		
+		return Montecarlo.getEstimacion(probabilidades, ValoresASacarDeAlgunLado.DELTA);
 	}
 	
 	/**
-	 * Obtiene la estimacion de la demanda para un tipo de producto en la
-	 * cantidad de dias indicados a partir de la fecha actual.
-	 * @param tipoProducto
-	 * @param diasDelPeriodo
-	 * @return demanda estimada
+	 * Arma la tabla de probabilidades de un producto.
+	 * @param idProducto
+	 * @return
+	 * @throws DataAccessException
 	 */
-	public static double calcularDemanda(String tipoProducto, int diasDelPeriodo){
-		double demanda=400;
-		System.out.println("Demanda estimada: " + demanda);
-		return demanda;
-	}
-	
-	public static double calcularDemandaMaxima(String tipoProducto, int diasDelPeriodo){
-		double demandaMaxima=400;//Math.abs(Math.random()*200 + 200);
-		System.out.println("Demanda máxima: " + demandaMaxima);
-		return demandaMaxima;
-	}
-	
 	public static Vector<Probabilidad> calcularProbabilidadesDeDemanda(Long idProducto) throws DataAccessException {
 		DemandaManager demandaManager = new DemandaManager();
 		
-		double maxima_demanda = demandaManager.demandaMaxima(idProducto, ValoresASacarDeAlgunLado.CANTIDAD_DE_DIAS_PERIODO);
-		double minima_demanda = demandaManager.demandaMinima(idProducto, ValoresASacarDeAlgunLado.CANTIDAD_DE_DIAS_PERIODO);
+		int cantidad_de_intervalos = 10;
+		int cantidad_demandas_intervalo;
 		
-		return null;
+		double demanda_maxima = demandaManager.demandaMaxima(idProducto, ValoresASacarDeAlgunLado.CANTIDAD_DE_DIAS_PERIODO);
+		double demanda_minima = demandaManager.demandaMinima(idProducto, ValoresASacarDeAlgunLado.CANTIDAD_DE_DIAS_PERIODO);
 		
+		double tamanio_intervalo = Math.ceil((demanda_maxima - demanda_minima) / cantidad_de_intervalos);
+		
+		Vector<Probabilidad> probabilidades = new Vector<Probabilidad>();
+		Probabilidad probabilidad;
+		for(int index = 0; index<cantidad_de_intervalos; index++){
+			cantidad_demandas_intervalo = demandaManager.getCantidadDemandasEnIntervalo(idProducto, (demanda_minima+(tamanio_intervalo*index)), (demanda_minima+(tamanio_intervalo*(index+1))));
+			// TODO preguntar a ale como toma la probabilidad
+			probabilidad = new Probabilidad( (demanda_minima+(tamanio_intervalo*index)), new Double(cantidad_demandas_intervalo)/ValoresASacarDeAlgunLado.CANTIDAD_ANIOS_A_CONSIDERAR);
+			
+			probabilidades.add(probabilidad);
+		}
+		return probabilidades;
 	}
 }
