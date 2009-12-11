@@ -6,6 +6,10 @@ import modelo.AsignacionProduccion;
 import modelo.Linea;
 import modelo.OrdenProduccion;
 
+/*
+ * Esta clase representa un plan de producción en proceso de asignación, no necesita ser persistida.
+ */
+
 public class PlanProduccionParcial {
 
 	private Vector<AsignacionProduccion> asignaciones;
