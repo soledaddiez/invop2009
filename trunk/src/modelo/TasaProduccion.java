@@ -1,7 +1,5 @@
 package modelo;
 
-import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,31 +10,30 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Representa un pedido recibido para un producto en una cantidad indicada.
+ * Representa la cantidad de botellas/hora que puede producir una línea para un producto dado.
  * @author Soledad Diez
  */
 
 @Entity
-@Table (name="PEDIDO")
-public class Pedido {
-	
+@Table (name="TASA_PRODUCCION")
+class TasaProduccion {
 	private Long id;
+	private Long botellasPorHora;
+	private Linea linea;
 	private Producto producto;
-	private Long cantidad;
-	private Timestamp fechaOrden;
 	
-	public Pedido() {
+	public TasaProduccion() {
 		super();
 	}
-
-	public Pedido(Long id, Producto producto, Long cantidad, Timestamp fechaOrden) {
+	
+	public TasaProduccion(Long id, Long botellasPorHora, Linea linea,	Producto producto) {
 		super();
 		this.id = id;
+		this.botellasPorHora = botellasPorHora;
+		this.linea = linea;
 		this.producto = producto;
-		this.cantidad = cantidad;
-		this.fechaOrden = fechaOrden;
 	}
-	
+
 	@Id
     @GeneratedValue
     @Column(name = "id")
@@ -47,6 +44,23 @@ public class Pedido {
 		this.id = id;
 	}
 	
+	@Column(name="botellas_hora")
+	public Long getBotellasPorHora() {
+		return botellasPorHora;
+	}
+	public void setBotellasPorHora(Long botellasPorHora) {
+		this.botellasPorHora = botellasPorHora;
+	}
+	
+	@ManyToOne(targetEntity=Linea.class, fetch=FetchType.LAZY)
+	@JoinColumn(name="id_linea")
+	public Linea getLinea() {
+		return linea;
+	}
+	public void setLinea(Linea linea) {
+		this.linea = linea;
+	}
+	
 	@ManyToOne(targetEntity=Producto.class, fetch=FetchType.LAZY)
 	@JoinColumn(name="id_producto")
 	public Producto getProducto() {
@@ -54,21 +68,5 @@ public class Pedido {
 	}
 	public void setProducto(Producto producto) {
 		this.producto = producto;
-	}
-	
-	@Column(name = "cantidad", nullable=false)
-    public Long getCantidad() {
-		return cantidad;
-	}
-	public void setCantidad(Long cantidad) {
-		this.cantidad = cantidad;
-	}
-	
-	@Column(name = "fecha_orden", nullable=false)
-	public Timestamp getFechaOrden() {
-		return fechaOrden;
-	}
-	public void setFechaOrden(Timestamp fechaOrden) {
-		this.fechaOrden = fechaOrden;
 	}
 }
