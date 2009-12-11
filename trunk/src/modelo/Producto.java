@@ -13,6 +13,8 @@ public class Producto {
 	private Long id;
 	private String nombre;
 	private Long cc;
+	private Double utilidad;
+	private Long loteMinimo;
 	
 	public Producto(){
 		super();
@@ -51,19 +53,21 @@ public class Producto {
 		this.cc = cc;
 	}
 	
-	//TODO agregar este campo en la bd
+	@Column(name="utilidad", nullable=false)
 	public Double getUtilidad(){
-		return 1.0;
-	}
-	public void setUtilidad(Double utilidad){
-		
+		return utilidad; //1.0
 	}
 	
-	//TODO agregar este campo en la bd
-	public Long getLoteMinimo(){
-		return (long) 1000;
+	public void setUtilidad(Double utilidad){
+		this.utilidad = utilidad;
 	}
+	
+	@Column(name="lote_minimo", nullable=false)
+	public Long getLoteMinimo(){
+		return loteMinimo; // 1000;
+	}
+	
 	public void setLoteMinimo(Long loteMinimo){
-		
+		this.loteMinimo = loteMinimo;
 	}
 }

@@ -13,6 +13,8 @@ public class mainDB {
         Producto prod = new Producto();
         prod.setNombre("Agua");
         prod.setCc(new Long(500));
+        prod.setLoteMinimo(new Long(1000));
+        prod.setUtilidad(new Double(1.0));
         try {
 			productoDAO.save(prod);
 		} catch (DataAccessException e) {
