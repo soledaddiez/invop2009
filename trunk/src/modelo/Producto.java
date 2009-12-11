@@ -50,4 +50,20 @@ public class Producto {
 	public void setCc(Long cc) {
 		this.cc = cc;
 	}
+	
+	//TODO agregar este campo en la bd
+	public Double getUtilidad(){
+		return 1.0;
+	}
+	public void setUtilidad(Double utilidad){
+		
+	}
+	
+	//TODO agregar este campo en la bd
+	public Long getLoteMinimo(){
+		return (long) 1000;
+	}
+	public void setLoteMinimo(Long loteMinimo){
+		
+	}
 }
