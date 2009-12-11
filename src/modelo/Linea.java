@@ -46,10 +46,4 @@ public class Linea {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	//TODO Este método tendría que recuperar de la bd la TasaProduccion
-	//que corresponde y devolver el atributo botellasPorHora
-	public Long getTasaProduccion(Producto producto){
-		return (long) 5000;
-	}
 }

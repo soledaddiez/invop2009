@@ -11,12 +11,15 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.Map.Entry;
 
+import dao.impl.TasaProduccionDAO;
+
 import modelo.AsignacionProduccion;
 import modelo.Linea;
 import modelo.OrdenProduccion;
 import modelo.Pedido;
 import modelo.PlanProduccion;
 import modelo.Producto;
+import modelo.TasaProduccion;
 
 public class Planificador {
 	public Planificador(){
@@ -30,6 +33,8 @@ public class Planificador {
 	 */
 	static private Vector<Pedido> planificarPedidos(Vector<Pedido> pedidos, Vector<Linea> lineas, PlanProduccionParcial planParcial){
 		
+		
+		TasaProduccionDAO tasaProduccionDAO = new TasaProduccionDAO();
 		//Cantidad de horas a planificar
 		Double horasTrabajo = 24.0;
 		Double horasCambioFormato = 4.0;
@@ -68,7 +73,8 @@ public class Planificador {
 			while(nextPedido < pedidosOrdenados.size() && horasOcupadas < horasTrabajo){
 				Pedido pedido = pedidosOrdenados.elementAt(nextPedido);
 				if(pedido.getProducto().getLoteMinimo() < pedido.getCantidad()){
-					Long tasaProd = linea.getTasaProduccion(pedido.getProducto());
+					TasaProduccion tasaProduccion = tasaProduccionDAO.getTasaProduccion(linea, pedido.getProducto());
+					Long tasaProd = tasaProduccion.getBotellasPorHora();
 					double tiempoEstimado = (double) pedido.getCantidad() / (double) tasaProd;
 					//Si hay cambio de formato, le sumo las horas del cambio de formato al tiempo estimado
 					if(nextPedido > 0 && pedido.getProducto().getCc() != pedidosOrdenados.elementAt(nextPedido-1).getProducto().getCc())
