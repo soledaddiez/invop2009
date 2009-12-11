@@ -13,6 +13,7 @@ PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
 		<property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
 		<property name="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
 		<property name="hibernate.hbm2ddl.auto">create</property>
+		<property name="hibernate.current_session_context_class">org.hibernate.context.ThreadLocalSessionContext</property> 
 		
 		<mapping class="modelo.AsignacionProduccion"/>
 		<mapping class="modelo.Linea"/>
