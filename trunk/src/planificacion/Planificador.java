@@ -102,6 +102,7 @@ public class Planificador {
 	 * Planifica la produccion de un conjunto de pedidos en un conjunto de lineas
 	 * Primero asigna los pedidos de la fecha más proxima y luego los demás
 	 * Debería haber 1 solo pedido por producto en el vector de pedidos (Se puede hacer en la consulta SQL)
+	 * TODO considerar el inventario de cada producto en cada dia y restarlo a la demanda
 	 */
 	static public PlanProduccion planificar(Vector<Pedido> pedidos, Vector<Linea> lineas){
 		
