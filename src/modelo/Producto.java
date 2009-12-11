@@ -1,38 +1,53 @@
 package modelo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table (name="PRODUCTO")
 public class Producto {
 	
-	long id;
-	String nombre;
-	float cc;
+	private Long id;
+	private String nombre;
+	private Long cc;
 	
-	public static String PRODUCTO_AGUA_500_CC = "AGUA_500"; 
+	public Producto(){
+		super();
+	}
 	
-	public Producto(long id, String nombre, float cc) {
+	public Producto(Long id, String nombre, Long cc) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.cc = cc;
 	}
 	
-	public long getId() {
+	@Id
+    @GeneratedValue
+    @Column(name = "id")
+	public Long getId() {
 		return id;
 	}
-
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
+    @Column(name = "nombre", nullable=false)
 	public String getNombre() {
 		return nombre;
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public float getCc() {
+	
+    @Column(name = "cc")
+	public Long getCc() {
 		return cc;
 	}
-	public void setCc(float cc) {
+	public void setCc(Long cc) {
 		this.cc = cc;
 	}
 }
