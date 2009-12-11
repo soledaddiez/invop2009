@@ -2,6 +2,8 @@ package excepciones;
 
 import java.sql.SQLException;
 
+import org.hibernate.HibernateException;
+
 public class DataAccessException extends SQLException {
 
 	private static final long serialVersionUID = 1L;
@@ -11,9 +13,15 @@ public class DataAccessException extends SQLException {
 	public static final String ERROR_CLASES_INEXISTENTES = "ERROR_CLASES_INEXISTENTES";
 	
 	String msg;
+	HibernateException e;
 
 	public DataAccessException(String msg) {
 		super();
 		this.msg = msg;
+	}
+
+	public DataAccessException(HibernateException e) {
+		this.e = e;
+		e.printStackTrace();
 	}
 }

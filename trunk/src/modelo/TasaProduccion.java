@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table (name="TASA_PRODUCCION")
-class TasaProduccion {
+public class TasaProduccion {
 	private Long id;
 	private Long botellasPorHora;
 	private Linea linea;
