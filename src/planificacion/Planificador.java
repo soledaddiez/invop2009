@@ -1,25 +1,14 @@
 package planificacion;
 
-import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.Vector;
-import java.util.Map.Entry;
 
-import dao.impl.TasaProduccionDAO;
-
-import modelo.AsignacionProduccion;
 import modelo.Linea;
 import modelo.OrdenProduccion;
 import modelo.Pedido;
 import modelo.PlanProduccion;
-import modelo.Producto;
 import modelo.TasaProduccion;
+import dao.impl.TasaProduccionDAO;
 
 public class Planificador {
 	public Planificador(){
