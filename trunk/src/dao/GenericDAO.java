@@ -1,11 +1,15 @@
 package dao;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Restrictions;
 
 import dao.util.HibernateSessionFactory;
 import excepciones.DataAccessException;
@@ -98,11 +102,27 @@ public abstract class GenericDAO<T> {
 		session.getTransaction().commit();
 		return list;
 	}
- 
+	
+	@SuppressWarnings("unchecked")
+	public List<T> findByCriteria(Hashtable<String, Object> criteria) {
+		Criteria crit = getHibernateTemplate().createCriteria(domainClass.getName());
+		if (criteria != null){
+			Set<String> ks = criteria.keySet();
+			if (ks.size()>0){
+				for(String key : ks){
+					crit.add(Restrictions.eq(key, criteria.get(key)));	
+				}
+			}
+		}
+		
+		List<T> returnList = crit.list(); 
+		session.getTransaction().commit();
+		return returnList;
+	} 
+	
 	private Session getHibernateTemplate() {
 		session = HibernateSessionFactory.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		return session;
 	}
- 
 }
