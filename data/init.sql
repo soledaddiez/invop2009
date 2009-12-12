@@ -1,26 +1,26 @@
-﻿--producto
-INSERT INTO producto(id, nombre, cc)
-VALUES (1, 'Agua Chica', '500');
-INSERT INTO producto(id, nombre, cc)
-VALUES (2, 'Agua 600', '600');
-INSERT INTO producto(id, nombre, cc)
-VALUES (3, 'Agua Lt. y 1/2', '1500');
-INSERT INTO producto(id, nombre, cc)
-VALUES (4, 'Agua Grande', '2000');
-INSERT INTO producto(id, nombre, cc)
-VALUES (5, 'Agua Bidon', '5000');
-INSERT INTO producto(id, nombre, cc)
-VALUES (6, 'Soda Sifon', '2000');
-INSERT INTO producto(id, nombre, cc)
-VALUES (7, 'Soda Botella', '2250');
-INSERT INTO producto(id, nombre, cc)
-VALUES (8, 'Saborizada Chica', '500');
-INSERT INTO producto(id, nombre, cc)
-VALUES (9, 'Saborizada Grande', '1500');
-INSERT INTO producto(id, nombre, cc)
-VALUES (10, 'Gaseosa Sport', '2250');
-INSERT INTO producto(id, nombre, cc)
-VALUES (11, 'Gaseosa Plena', '500');
+--producto 
+INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad)
+VALUES (1, 'Agua Chica', '500', '1000', '1.0');
+INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad)
+VALUES (2, 'Agua 600', '600', '1000', '1.0');
+INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad)
+VALUES (3, 'Agua Lt. y 1/2', '1500', '1000', '1.0');
+INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad)
+VALUES (4, 'Agua Grande', '2000', '1000', '1.0');
+INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad)
+VALUES (5, 'Agua Bidon', '5000', '1000', '1.0');
+INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad)
+VALUES (6, 'Soda Sifon', '2000', '1000', '1.0');
+INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad)
+VALUES (7, 'Soda Botella', '2250', '1000', '1.0');
+INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad)
+VALUES (8, 'Saborizada Chica', '500', '1000', '1.0');
+INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad)
+VALUES (9, 'Saborizada Grande', '1500', '1000', '1.0');
+INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad)
+VALUES (10, 'Gaseosa Sport', '2250', '1000', '1.0');
+INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad)
+VALUES (11, 'Gaseosa Plena', '500', '1000', '1.0');
 
 --demanda
 
