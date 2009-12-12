@@ -1,13 +1,14 @@
 package planificacion;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Vector;
 
 import dao.impl.TasaProduccionDAO;
 
 import modelo.Linea;
 import modelo.OrdenProduccion;
-import modelo.Pedido;
+import modelo.Demanda;
 import modelo.PlanProduccion;
 import modelo.TasaProduccion;
 
@@ -21,7 +22,7 @@ public class Planificador {
 	 * No tiene en cuenta las fechas de los pedidos, asume que es indiferente
 	 * @return pedidos sin asignar
 	 */
-	static private Vector<Pedido> planificarPedidos(Vector<Pedido> pedidos, Vector<Linea> lineas, PlanProduccionParcial planParcial){
+	static private List<Demanda> planificarDemandas(List<Demanda> demandas, List<Linea> lineas, PlanProduccionParcial planParcial){
 		
 		TasaProduccionDAO tasaProduccionDAO = new TasaProduccionDAO();
 		//Cantidad de horas a planificar
@@ -29,22 +30,22 @@ public class Planificador {
 		Double horasCambioFormato = 4.0;
 
 		//Ordeno los pedidos en orden descendente de acuerdo a su importancia relativa
-		Vector<Frecuencia> importancias = Pareto.calcularImportancia(pedidos);
+		List<Frecuencia> importancias = Pareto.calcularImportancia(demandas);
 		
 		//Por cada pedido, en orden descendente de importancia, pongo detrás de él
 		//los que tengan el mismo formato. Asumo que un cambio de formato siempre es
 		//más costoso que producir un producto de mayor importancia.
 		
-		Vector<Pedido> pedidosOrdenados = new Vector<Pedido>();
+		Vector<Demanda> demandasOrdenadas = new Vector<Demanda>();
 		for (int i = 0; i < importancias.size(); i++) {
-			Pedido p = importancias.elementAt(i).getPedido();
-			if(!pedidosOrdenados.contains(p)){
-				pedidosOrdenados.add(p);
-				Long formato = p.getProducto().getCc();
+			Demanda d = importancias.get(i).getDemanda();
+			if(!demandasOrdenadas.contains(d)){
+				demandasOrdenadas.add(d);
+				Long formato = d.getProducto().getCc();
 				for(int j = i+1; j < importancias.size(); j++){
-					Pedido ped = importancias.elementAt(j).getPedido();
-					if(ped.getProducto().getCc() == formato) //Si es del mismo formato lo coloco detrás de el
-						pedidosOrdenados.add(ped);
+					Demanda dem = importancias.get(j).getDemanda();
+					if(dem.getProducto().getCc() == formato) //Si es del mismo formato lo coloco detrás de el
+						demandasOrdenadas.add(dem);
 				}
 			}
 		}
@@ -53,47 +54,47 @@ public class Planificador {
 		//ordenados en los pasos anteriores. Asigno en el orden en que están.
 		
 		Long idPedido = (long) 1;
-		int nextPedido = 0;
+		int nextDemanda = 0;
 		boolean lineaCompleta = false;
-		Vector<Pedido> pedidosAsignados = new Vector<Pedido>();
+		Vector<Demanda> demandasAsignadas = new Vector<Demanda>();
 		for(int i = 0; i < lineas.size(); i++) {
-			Linea linea = lineas.elementAt(i);
+			Linea linea = lineas.get(i);
 			Double horasOcupadas = planParcial.getHorasOcupadas(linea);
 			lineaCompleta = false;
-			while(nextPedido < pedidosOrdenados.size() && horasOcupadas < horasTrabajo && !lineaCompleta){
-				Pedido pedido = pedidosOrdenados.elementAt(nextPedido);
-				if(pedido.getProducto().getLoteMinimo() <= pedido.getCantidad()){
-					TasaProduccion tasaProduccion = tasaProduccionDAO.getTasaProduccion(linea, pedido.getProducto());
+			while(nextDemanda < demandasOrdenadas.size() && horasOcupadas < horasTrabajo && !lineaCompleta){
+				Demanda demanda = demandasOrdenadas.elementAt(nextDemanda);
+				if(demanda.getProducto().getLoteMinimo() <= demanda.getCantidad()){
+					TasaProduccion tasaProduccion = tasaProduccionDAO.getTasaProduccion(linea, demanda.getProducto());
 					Long tasaProd = tasaProduccion.getBotellasPorHora();
-					double tiempoEstimado = (double) pedido.getCantidad() / (double) tasaProd;
+					double tiempoEstimado = (double) demanda.getCantidad() / (double) tasaProd;
 					//Si hay cambio de formato, le sumo las horas del cambio de formato al tiempo estimado
-					if(nextPedido > 0 && pedido.getProducto().getCc() != pedidosOrdenados.elementAt(nextPedido-1).getProducto().getCc())
+					if(nextDemanda > 0 && demanda.getProducto().getCc() != demandasOrdenadas.elementAt(nextDemanda-1).getProducto().getCc())
 						tiempoEstimado += horasCambioFormato;
 					//Si tengo tiempo en la linea, lo asigno. Sino, paso a la siguiente linea
 					if(horasOcupadas + tiempoEstimado < horasTrabajo){
 						horasOcupadas += tiempoEstimado;
-						OrdenProduccion orden = new OrdenProduccion(idPedido, pedido.getProducto(), pedido.getCantidad(), tiempoEstimado);
+						OrdenProduccion orden = new OrdenProduccion(idPedido, demanda.getProducto(), demanda.getCantidad(), tiempoEstimado);
 						planParcial.addAsignacion(linea, orden);
-						pedidosAsignados.add(pedido);
-						nextPedido++;
+						demandasAsignadas.add(demanda);
+						nextDemanda++;
 						idPedido++;
 					}else{
 						lineaCompleta = true;
 					}
 				}else{
-					nextPedido++;
+					nextDemanda++;
 				}
 			}
 		}
 		
-		Vector<Pedido> pedidosDescartados = new Vector<Pedido>();
-		for(int i = 0; i < pedidos.size(); i++){
-			Pedido pedido = pedidos.elementAt(i);
-			if(!pedidosAsignados.contains(pedido))
-				pedidosDescartados.add(pedido);
+		Vector<Demanda> demandasDescartadas = new Vector<Demanda>();
+		for(int i = 0; i < demandas.size(); i++){
+			Demanda demanda = demandas.get(i);
+			if(!demandasAsignadas.contains(demanda))
+				demandasDescartadas.add(demanda);
 		}
 
-		return pedidosDescartados;
+		return demandasDescartadas;
 	}
 	
 	/*
@@ -102,48 +103,48 @@ public class Planificador {
 	 * Debería haber 1 solo pedido por producto en el vector de pedidos (Se puede hacer en la consulta SQL)
 	 * TODO considerar el inventario de cada producto en cada dia y restarlo a la demanda
 	 */
-	static public PlanProduccion planificar(Vector<Pedido> pedidos, Vector<Linea> lineas){
+	static public PlanProduccion planificar(List<Demanda> demandas, List<Linea> lineas){
 		
-		//Tomo el dia de hoy como la menor fecha dentro de los pedidos
+		//Tomo el dia de hoy como la menor fecha dentro de las demandas
 		Calendar today = Calendar.getInstance();
 		today.setTimeInMillis((long) 999999999*99999999);
-		for (int i = 0; i < pedidos.size(); i++) {
+		for (int i = 0; i < demandas.size(); i++) {
 			Calendar fecha = Calendar.getInstance();
-			fecha.setTimeInMillis(pedidos.elementAt(i).getFechaOrden().getTime());
+			fecha.setTimeInMillis(demandas.get(i).getFecha().getTime());
 			if(fecha.compareTo(today) <= 0)
 				today = fecha;
 		}
 		
-		//Saco de la lista de pedidos aquellos que sean para el primero de los dias
-		Vector<Pedido> pedidosParaHoy = new Vector<Pedido>();
-		Vector<Pedido> pedidosRestantes = new Vector<Pedido>(); 
+		//Saco de la lista de demandas aquellas que sean para el primero de los dias
+		List<Demanda> demandasParaHoy = new Vector<Demanda>();
+		List<Demanda> demandasRestantes = new Vector<Demanda>(); 
 		int day = today.get(Calendar.DAY_OF_MONTH); //Entre 1 y 31
 		int month = today.get(Calendar.MONTH); //Entre 0 y 11
 		int year = today.get(Calendar.YEAR);
-		for (int i = 0; i < pedidos.size(); i++) {
-			Pedido pedido = pedidos.elementAt(i);
+		for (int i = 0; i < demandas.size(); i++) {
+			Demanda demanda = demandas.get(i);
 			Calendar fecha = Calendar.getInstance();
-			fecha.setTimeInMillis(pedido.getFechaOrden().getTime());
+			fecha.setTimeInMillis(demanda.getFecha().getTime());
 			if(fecha.get(Calendar.DAY_OF_MONTH) == day && fecha.get(Calendar.MONTH) == month && fecha.get(Calendar.YEAR) == year){
-				pedidosParaHoy.add(pedidos.elementAt(i));
+				demandasParaHoy.add(demandas.get(i));
 			}else{
-				pedidosRestantes.add(pedidos.elementAt(i));
+				demandasRestantes.add(demandas.get(i));
 			}
 		}
 
 		//1. Planifico los pedidos para el primero de los dias
 		PlanProduccionParcial planParcial = new PlanProduccionParcial((long) 1);
 		
-		Vector<Pedido> descartados1 = planificarPedidos(pedidosParaHoy, lineas, planParcial);
+		List<Demanda> descartados1 = planificarDemandas(demandasParaHoy, lineas, planParcial);
 		
 		
 		//2. Planifico los pedidos para los dias restantes si tengo tiempo
 		if(descartados1.size() == 0){
-			Vector<Pedido> descartados2 = planificarPedidos(pedidosRestantes, lineas, planParcial);
+			List<Demanda> descartados2 = planificarDemandas(demandasRestantes, lineas, planParcial);
 			
 			//3. Asignacion de la capacidad ociosa
 			// if(descartados2.size() == 0){
-			//TODO completar esta planificacion
+			//TODO completar esta planificacion.
 			//}
 		}
 		

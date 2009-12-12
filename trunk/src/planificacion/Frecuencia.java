@@ -1,23 +1,23 @@
 package planificacion;
 
-import modelo.Pedido;
+import modelo.Demanda;
 
 public class Frecuencia {
 	
-	private Pedido pedido;
+	private Demanda demanda;
 	private double frecuencia;
 	
-	public Frecuencia(Pedido pedido, double frecuencia){
-		this.pedido = pedido;
+	public Frecuencia(Demanda pedido, double frecuencia){
+		this.demanda = pedido;
 		this.frecuencia = frecuencia;
 	}
 	
-	public Pedido getPedido() {
-		return pedido;
+	public Demanda getDemanda() {
+		return demanda;
 	}
 
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
+	public void setDemanda(Demanda demanda) {
+		this.demanda = demanda;
 	}
 
 	public double getFrecuencia() {
