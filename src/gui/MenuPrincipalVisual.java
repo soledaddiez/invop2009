@@ -189,8 +189,8 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton getJButton() {
 		if (jButton == null) {
 			jButton = new JButton();
-			jButton.setBounds(new Rectangle(155, 345, 86, 31));
-			jButton.setText("Aceptar");
+			jButton.setBounds(new Rectangle(155, 345, 91, 31));
+			jButton.setText("Planificar");
 			jButton.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
 					jDialog.show(false);
@@ -209,7 +209,7 @@ public class MenuPrincipalVisual extends JFrame {
 		if (jButton1 == null) {
 			jButton1 = new JButton();
 			jButton1.setText("Cancelar");
-			jButton1.setBounds(new Rectangle(255, 346, 85, 30));
+			jButton1.setBounds(new Rectangle(263, 346, 85, 30));
 			jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
 					jDialog.show(false);
@@ -299,15 +299,15 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable.setShowGrid(true);
 			DefaultTableModel m=new DefaultTableModel(20,2);
 			try {
-				ProductoDAO p=new ProductoDAO();
+//				ProductoDAO p=new ProductoDAO();
 				m.setValueAt("Producto",0,0);
 				m.setValueAt("Cantidad",0,1);
-				int nroCol=1;
-				List<Producto> productos=p.getList();
-				System.out.println(productos.size());
-				for (int i=0;i<productos.size();i++,nroCol++){
-					//m.setValueAt(productos.get(i).getNombre(),nroCol,0);
-				}
+//				int nroCol=1;
+//				List<Producto> productos=p.getList();
+//				for (Producto pro : productos){
+//					m.setValueAt(pro.getNombre(),nroCol,0);
+//					nroCol++;
+//				}
 			} 
 		catch (Exception e) {
 				// TODO Auto-generated catch block
