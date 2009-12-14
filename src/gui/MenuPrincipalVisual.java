@@ -148,7 +148,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JMenuItem getJMenuItem() {
 		if (jMenuItem == null) {
 			jMenuItem = new JMenuItem();
-			jMenuItem.setText("Produccion...");
+			jMenuItem.setText("Producción...");
 			jMenuItem.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mousePressed(java.awt.event.MouseEvent e) {
 					getJDialog().show();
@@ -167,7 +167,7 @@ public class MenuPrincipalVisual extends JFrame {
 		if (jDialog == null) {
 			jDialog = new JDialog(this);
 			jDialog.setSize(new Dimension(527, 421));
-			jDialog.setTitle("Planificar Produccion");
+			jDialog.setTitle("Planificar Producción");
 			jDialog.setContentPane(getJContentPane1());
 			jDialog.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
@@ -428,6 +428,7 @@ public class MenuPrincipalVisual extends JFrame {
 		if (jDialog1 == null) {
 			jDialog1 = new JDialog(getJDialog());
 			jDialog1.setSize(new Dimension(472, 423));
+			jDialog1.setTitle("Asignación de Producción por Línea");
 			jDialog1.setContentPane(getJContentPane2());
 			jDialog1.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
