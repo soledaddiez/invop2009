@@ -17,13 +17,13 @@ public class Muestra extends Canvas implements Runnable{
 	private Font f;
 
 	Muestra(){
-		setSize(500,250);
+		setSize(500,300);
 		//setBackground(Color.LIGHT_GRAY);
 		rect = getBounds();
 		x = rect.width;
 		y = (int) rect.height / 2;
-		Pal = "Sistema de Ayuda para Planificacion de Produccion...";
-		f = new Font("Monospaced", Font.PLAIN | Font.BOLD, 30);
+		Pal = "Sistema de Ayuda para Planificación de Producción...";
+		f = new Font("Monospaced", Font.PLAIN | Font.BOLD, 20);
 	}
 	
 	public void paint(Graphics g){
@@ -50,7 +50,7 @@ public class Muestra extends Canvas implements Runnable{
 	}
 	
 	private int getPointX(){
-		if (x >= -1080)
+		if (x >= -700)
 			return x-1;
 		else
 			return x=rect.width;
