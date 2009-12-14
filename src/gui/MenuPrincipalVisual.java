@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import javax.swing.JMenu;
 import java.awt.Rectangle;
 import java.util.List;
+
 import javax.swing.JMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JButton;
@@ -19,6 +20,10 @@ import javax.swing.table.DefaultTableModel;
 
 import modelo.Producto;
 
+import dao.impl.ProductoDAO;
+
+//import modelo.Producto;
+
 public class MenuPrincipalVisual extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -27,23 +32,18 @@ public class MenuPrincipalVisual extends JFrame {
 	private JMenu jMenu = null;
 	private JMenu jMenu1 = null;
 	private JMenuItem jMenuItem = null;
-	private JDialog jDialog = null;  //  @jve:decl-index=0:visual-constraint="342,20"
+	private JDialog jDialog = null;  //  @jve:decl-index=0:visual-constraint="322,10"
 	private JPanel jContentPane1 = null;
 	private JButton jButton = null;
 	private JButton jButton1 = null;
-	private JMenuItem jMenuItem1 = null;
-	private JDialog jDialog1 = null;  //  @jve:decl-index=0:visual-constraint="562,40"
-	private JPanel jContentPane2 = null;
-	private JButton jButton2 = null;
-	private JLabel jLabel = null;
-	private JTextField jTextField = null;
-	private JTextField jTextField1 = null;
 	private JMenuItem jMenuItem2 = null;
-	private JDialog jDialog2 = null;  //  @jve:decl-index=0:visual-constraint="747,43"
+	private JDialog jDialog2 = null;  //  @jve:decl-index=0:visual-constraint="869,8"
 	private JPanel jContentPane3 = null;
 	private JScrollPane jScrollPane = null;
 	private JTable jTable = null;
 	private JButton jButton3 = null;
+	private JScrollPane jScrollPane1 = null;
+	private JTable jTable1 = null;
 
 	/**
 	 * This is the default constructor
@@ -108,7 +108,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jMenu = new JMenu();
 			jMenu.setText("Planificar");
 			jMenu.add(getJMenuItem());
-			jMenu.add(getJMenuItem1());
+			//jMenu.add(getJMenuItem1());
 		}
 		return jMenu;
 	}
@@ -153,7 +153,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDialog getJDialog() {
 		if (jDialog == null) {
 			jDialog = new JDialog(this);
-			jDialog.setSize(new Dimension(214, 170));
+			jDialog.setSize(new Dimension(527, 421));
 			jDialog.setTitle("Planificar Produccion");
 			jDialog.setContentPane(getJContentPane1());
 			jDialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -175,6 +175,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jContentPane1 = new JPanel();
 			jContentPane1.setLayout(null);
 			jContentPane1.add(getJButton(), null);
+			jContentPane1.add(getJScrollPane1(), null);
 			jContentPane1.add(getJButton1(), null);
 		}
 		return jContentPane1;
@@ -188,7 +189,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton getJButton() {
 		if (jButton == null) {
 			jButton = new JButton();
-			jButton.setBounds(new Rectangle(7, 90, 86, 31));
+			jButton.setBounds(new Rectangle(155, 345, 86, 31));
 			jButton.setText("Aceptar");
 			jButton.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -207,8 +208,8 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton getJButton1() {
 		if (jButton1 == null) {
 			jButton1 = new JButton();
-			jButton1.setBounds(new Rectangle(100, 91, 85, 31));
 			jButton1.setText("Cancelar");
+			jButton1.setBounds(new Rectangle(255, 346, 85, 30));
 			jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
 					jDialog.show(false);
@@ -216,110 +217,6 @@ public class MenuPrincipalVisual extends JFrame {
 			});
 		}
 		return jButton1;
-	}
-
-	/**
-	 * This method initializes jMenuItem1	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */
-	private JMenuItem getJMenuItem1() {
-		if (jMenuItem1 == null) {
-			jMenuItem1 = new JMenuItem();
-			jMenuItem1.setText("Calculos...");
-			jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
-				public void mousePressed(java.awt.event.MouseEvent e) {
-					getJDialog1().show();
-				}
-			});
-		}
-		return jMenuItem1;
-	}
-
-	/**
-	 * This method initializes jDialog1	
-	 * 	
-	 * @return javax.swing.JDialog	
-	 */
-	private JDialog getJDialog1() {
-		if (jDialog1 == null) {
-			jDialog1 = new JDialog(this);
-			jDialog1.setSize(new Dimension(176, 123));
-			jDialog1.setTitle("Efectuar Calculos");
-			jDialog1.setContentPane(getJContentPane2());
-			jDialog1.addWindowListener(new java.awt.event.WindowAdapter() {
-				public void windowClosing(java.awt.event.WindowEvent e) {
-					jDialog1.show(false);
-				}
-			});
-		}
-		return jDialog1;
-	}
-
-	/**
-	 * This method initializes jContentPane2	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */
-	private JPanel getJContentPane2() {
-		if (jContentPane2 == null) {
-			jLabel = new JLabel();
-			jLabel.setBounds(new Rectangle(16, 14, 38, 16));
-			jLabel.setText("QT:");
-			jContentPane2 = new JPanel();
-			jContentPane2.setLayout(null);
-			jContentPane2.add(getJButton2(), null);
-			jContentPane2.add(jLabel, null);
-			jContentPane2.add(getJTextField(), null);
-			jContentPane2.add(getJTextField1(), null);
-		}
-		return jContentPane2;
-	}
-
-	/**
-	 * This method initializes jButton2	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */
-	private JButton getJButton2() {
-		if (jButton2 == null) {
-			jButton2 = new JButton();
-			jButton2.setBounds(new Rectangle(35, 48, 96, 27));
-			jButton2.setText("Calcular");
-			jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-				public void mouseClicked(java.awt.event.MouseEvent e) {
-					jDialog1.show(false);
-				}
-			});
-		}
-		return jButton2;
-	}
-
-	/**
-	 * This method initializes jTextField	
-	 * 	
-	 * @return javax.swing.JTextField	
-	 */
-	private JTextField getJTextField() {
-		if (jTextField == null) {
-			jTextField = new JTextField();
-			jTextField.setBounds(new Rectangle(56, 13, 86, 18));
-			jTextField.setText("7");
-		}
-		return jTextField;
-	}
-
-	/**
-	 * This method initializes jTextField1	
-	 * 	
-	 * @return javax.swing.JTextField	
-	 */
-	private JTextField getJTextField1() {
-		if (jTextField1 == null) {
-			jTextField1 = new JTextField();
-			jTextField1.setBounds(new Rectangle(131, 41, 62, 1));
-		}
-		return jTextField1;
 	}
 
 	/**
@@ -402,15 +299,16 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable.setShowGrid(true);
 			DefaultTableModel m=new DefaultTableModel(20,2);
 			try {
-			//	ProductoManager p=new ProductoManager();
+				ProductoDAO p=new ProductoDAO();
 				m.setValueAt("Producto",0,0);
 				m.setValueAt("Cantidad",0,1);
 				int nroCol=1;
-			//	List<Producto> productos=p.getListadoDeProductos();
-			//	for (int i=0;i<productos.size();i++,nroCol++){
-			//		m.setValueAt(productos.get(i).getNombre(),nroCol,0);
+				List<Producto> productos=p.getList();
+				System.out.println(productos.size());
+				for (int i=0;i<productos.size();i++,nroCol++){
+					//m.setValueAt(productos.get(i).getNombre(),nroCol,0);
 				}
-	//		} 
+			} 
 		catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -448,6 +346,46 @@ public class MenuPrincipalVisual extends JFrame {
 			});
 		}
 		return jButton3;
+	}
+
+	/**
+	 * This method initializes jScrollPane1	
+	 * 	
+	 * @return javax.swing.JScrollPane	
+	 */
+	private JScrollPane getJScrollPane1() {
+		if (jScrollPane1 == null) {
+			jScrollPane1 = new JScrollPane();
+			jScrollPane1.setBounds(new Rectangle(2, 2, 507, 339));
+			jScrollPane1.setViewportView(getJTable1());
+		}
+		return jScrollPane1;
+	}
+
+	/**
+	 * This method initializes jTable1	
+	 * 	
+	 * @return javax.swing.JTable	
+	 */
+	private JTable getJTable1() {
+		if (jTable1 == null) {
+			jTable1 = new JTable();
+			jTable1.setCellSelectionEnabled(true);
+			jTable1.setShowGrid(true);
+			jTable1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+			DefaultTableModel m=new DefaultTableModel(20,10);
+			m.setValueAt("Cliente1",0,1);
+			m.setValueAt("Cliente2",0,2);
+			m.setValueAt("Cliente3",0,3);
+			m.setValueAt("Cliente4",0,4);
+			m.setValueAt("Cliente5",0,5);
+			m.setValueAt("Cliente6",0,6);
+			m.setValueAt("Cliente7",0,7);
+			m.setValueAt("Cliente8",0,8);
+			m.setValueAt("Stock 6 am",0,9);
+			jTable1.setModel(m);
+		}
+		return jTable1;
 	}
 
 }
