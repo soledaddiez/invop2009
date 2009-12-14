@@ -44,6 +44,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton jButton3 = null;
 	private JScrollPane jScrollPane1 = null;
 	private JTable jTable1 = null;
+	private JMenuItem jMenuItem1 = null;
 
 	/**
 	 * This is the default constructor
@@ -51,6 +52,12 @@ public class MenuPrincipalVisual extends JFrame {
 	public MenuPrincipalVisual() {
 		super();
 		initialize();
+		Muestra M = new Muestra();
+		getContentPane().add(M);
+//		pack();
+		setResizable(false);
+//		setVisible(true);
+		M.start();
 	}
 
 	/**
@@ -109,6 +116,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jMenu.setText("Planificar");
 			jMenu.add(getJMenuItem());
 			//jMenu.add(getJMenuItem1());
+			jMenu.add(getJMenuItem1());
 		}
 		return jMenu;
 	}
@@ -386,6 +394,24 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable1.setModel(m);
 		}
 		return jTable1;
+	}
+
+	/**
+	 * This method initializes jMenuItem1	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getJMenuItem1() {
+		if (jMenuItem1 == null) {
+			jMenuItem1 = new JMenuItem();
+			jMenuItem1.setText("Salir");
+			jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mousePressed(java.awt.event.MouseEvent e) {
+					System.exit(0);
+				}
+			});
+		}
+		return jMenuItem1;
 	}
 
 }
