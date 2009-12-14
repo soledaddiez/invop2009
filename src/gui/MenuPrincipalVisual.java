@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Producto;
 
 import dao.impl.ProductoDAO;
+import java.awt.BorderLayout;
 
 //import modelo.Producto;
 
@@ -45,6 +46,11 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane jScrollPane1 = null;
 	private JTable jTable1 = null;
 	private JMenuItem jMenuItem1 = null;
+	private JDialog jDialog1 = null;  //  @jve:decl-index=0:visual-constraint="1352,9"
+	private JPanel jContentPane2 = null;
+	private JScrollPane jScrollPane2 = null;
+	private JTable jTable2 = null;
+	private JButton jButton2 = null;
 
 	/**
 	 * This is the default constructor
@@ -66,7 +72,7 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(300, 200);
+		this.setSize(300, 204);
 		this.setJMenuBar(getJJMenuBar());
 		this.setContentPane(getJContentPane());
 		this.setTitle("Planificador");
@@ -115,7 +121,6 @@ public class MenuPrincipalVisual extends JFrame {
 			jMenu = new JMenu();
 			jMenu.setText("Planificar");
 			jMenu.add(getJMenuItem());
-			//jMenu.add(getJMenuItem1());
 			jMenu.add(getJMenuItem1());
 		}
 		return jMenu;
@@ -201,7 +206,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jButton.setText("Planificar");
 			jButton.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
-					jDialog.show(false);
+					getJDialog1().show();
 				}
 			});
 		}
@@ -345,7 +350,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton getJButton3() {
 		if (jButton3 == null) {
 			jButton3 = new JButton();
-			jButton3.setBounds(new Rectangle(182, 353, 89, 22));
+			jButton3.setBounds(new Rectangle(177, 351, 101, 29));
 			jButton3.setText("Aceptar");
 			jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -414,4 +419,95 @@ public class MenuPrincipalVisual extends JFrame {
 		return jMenuItem1;
 	}
 
-}
+	/**
+	 * This method initializes jDialog1	
+	 * 	
+	 * @return javax.swing.JDialog	
+	 */
+	private JDialog getJDialog1() {
+		if (jDialog1 == null) {
+			jDialog1 = new JDialog(getJDialog());
+			jDialog1.setSize(new Dimension(472, 423));
+			jDialog1.setContentPane(getJContentPane2());
+			jDialog1.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent e) {
+					jDialog1.show(false);
+					jDialog.show(false);
+				}
+			});
+		}
+		return jDialog1;
+	}
+
+	/**
+	 * This method initializes jContentPane2	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */
+	private JPanel getJContentPane2() {
+		if (jContentPane2 == null) {
+			jContentPane2 = new JPanel();
+			jContentPane2.setLayout(null);
+			jContentPane2.add(getJScrollPane2(), null);
+			jContentPane2.add(getJButton2(), null);
+		}
+		return jContentPane2;
+	}
+
+	/**
+	 * This method initializes jScrollPane2	
+	 * 	
+	 * @return javax.swing.JScrollPane	
+	 */
+	private JScrollPane getJScrollPane2() {
+		if (jScrollPane2 == null) {
+			jScrollPane2 = new JScrollPane();
+			jScrollPane2.setBounds(new Rectangle(2, 1, 450, 343));
+			jScrollPane2.setViewportView(getJTable2());
+		}
+		return jScrollPane2;
+	}
+
+	/**
+	 * This method initializes jTable2	
+	 * 	
+	 * @return javax.swing.JTable	
+	 */
+	private JTable getJTable2() {
+		if (jTable2 == null) {
+			jTable2 = new JTable();
+			jTable2.setCellSelectionEnabled(true);
+			jTable2.setShowGrid(true);
+			jTable2.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+			DefaultTableModel m=new DefaultTableModel(20,6);
+			m.setValueAt("Linea1",0,1);
+			m.setValueAt("Linea2",0,2);
+			m.setValueAt("Linea3",0,3);
+			m.setValueAt("Linea4",0,4);
+			m.setValueAt("Linea5",0,5);
+			jTable2.setModel(m);
+		}
+		return jTable2;
+	}
+
+	/**
+	 * This method initializes jButton2	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */
+	private JButton getJButton2() {
+		if (jButton2 == null) {
+			jButton2 = new JButton();
+			jButton2.setBounds(new Rectangle(168, 350, 91, 27));
+			jButton2.setText("Aceptar");
+			jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mouseClicked(java.awt.event.MouseEvent e) {
+					jDialog1.show(false);
+					jDialog.show(false);
+				}
+			});
+		}
+		return jButton2;
+	}
+
+}  //  @jve:decl-index=0:visual-constraint="10,10"
