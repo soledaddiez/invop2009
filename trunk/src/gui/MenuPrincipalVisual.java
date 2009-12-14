@@ -4,26 +4,24 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+
 import javax.swing.JMenu;
 import java.awt.Rectangle;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-
 import modelo.Producto;
-
 import dao.impl.ProductoDAO;
-import java.awt.BorderLayout;
-
-//import modelo.Producto;
+import javax.swing.JLabel;
 
 public class MenuPrincipalVisual extends JFrame {
 
@@ -51,6 +49,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane jScrollPane2 = null;
 	private JTable jTable2 = null;
 	private JButton jButton2 = null;
+	private JLabel jLabel = null;
 
 	/**
 	 * This is the default constructor
@@ -90,8 +89,12 @@ public class MenuPrincipalVisual extends JFrame {
 	 */
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
+			jLabel = new JLabel(new ImageIcon("logo.jpg"));
+			jLabel.setBounds(new Rectangle(45, 34, 194, 74));
+			//jLabel.setText("JLabel");
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
+			jContentPane.add(jLabel, null);
 		}
 		return jContentPane;
 	}
