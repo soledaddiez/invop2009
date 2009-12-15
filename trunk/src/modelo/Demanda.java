@@ -30,5 +30,4 @@ public class Demanda {
 	public void setFecha(Timestamp fecha) {
 		this.fecha = fecha;
 	}
-	
 }

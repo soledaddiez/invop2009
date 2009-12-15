@@ -18,7 +18,7 @@ public abstract class GenericDAO<T> {
  
 	public Class<T> domainClass = getDomainClass();
  
-	private Session session;
+	protected Session session;
  
 	/**
 	  * Method to return the class of the domain object
@@ -120,7 +120,7 @@ public abstract class GenericDAO<T> {
 		return returnList;
 	} 
 	
-	private Session getHibernateTemplate() {
+	protected Session getHibernateTemplate() {
 		session = HibernateSessionFactory.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		return session;
