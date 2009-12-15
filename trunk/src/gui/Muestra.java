@@ -2,10 +2,6 @@ package gui;
 
 import java.awt.*;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.text.html.ImageView;
-
 public class Muestra extends Canvas implements Runnable{
 
 	/**
