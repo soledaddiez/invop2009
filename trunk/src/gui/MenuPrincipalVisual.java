@@ -19,10 +19,8 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Producto;
 import dao.impl.ProductoDAO;
 import javax.swing.JLabel;
-import java.awt.BorderLayout;
 import javax.swing.JTextArea;
 import java.awt.Color;
-import java.awt.SystemColor;
 
 public class MenuPrincipalVisual extends JFrame {
 
