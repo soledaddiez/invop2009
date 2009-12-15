@@ -4,13 +4,10 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
 
 import javax.swing.JMenu;
 import java.awt.Rectangle;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JDialog;
@@ -22,6 +19,10 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Producto;
 import dao.impl.ProductoDAO;
 import javax.swing.JLabel;
+import java.awt.BorderLayout;
+import javax.swing.JTextArea;
+import java.awt.Color;
+import java.awt.SystemColor;
 
 public class MenuPrincipalVisual extends JFrame {
 
@@ -50,6 +51,12 @@ public class MenuPrincipalVisual extends JFrame {
 	private JTable jTable2 = null;
 	private JButton jButton2 = null;
 	private JLabel jLabel = null;
+	private ProductoDAO productoDAO = new ProductoDAO();
+	private JMenu jMenu2 = null;
+	private JDialog jDialog3 = null;  //  @jve:decl-index=0:visual-constraint="-12,219"
+	private JPanel jContentPane4 = null;
+	private JButton jButton4 = null;
+	private JTextArea jTextArea = null;
 
 	/**
 	 * This is the default constructor
@@ -110,6 +117,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jJMenuBar.setPreferredSize(new Dimension(20, 20));
 			jJMenuBar.add(getJMenu());
 			jJMenuBar.add(getJMenu1());
+			jJMenuBar.add(getJMenu2());
 		}
 		return jJMenuBar;
 	}
@@ -314,20 +322,13 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jTable.setShowGrid(true);
 			DefaultTableModel m=new DefaultTableModel(20,2);
-			try {
-//				ProductoDAO p=new ProductoDAO();
-				m.setValueAt("Producto",0,0);
-				m.setValueAt("Cantidad",0,1);
-//				int nroCol=1;
-//				List<Producto> productos=p.getList();
-//				for (Producto pro : productos){
-//					m.setValueAt(pro.getNombre(),nroCol,0);
-//					nroCol++;
-//				}
-			} 
-		catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			m.setValueAt("Producto",0,0);
+			m.setValueAt("Cantidad",0,1);
+			int nroCol=1;
+			List<Producto> productos=productoDAO.getList();
+			for (Producto pro : productos){
+				m.setValueAt(pro.getNombre(),nroCol,0);
+				nroCol++;
 			}
 			m.setValueAt("0",1,1);
 			m.setValueAt("0",2,1);
@@ -388,8 +389,16 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable1 = new JTable();
 			jTable1.setCellSelectionEnabled(true);
 			jTable1.setShowGrid(true);
+			jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			jTable1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			DefaultTableModel m=new DefaultTableModel(20,10);
+			m.setValueAt("Producto",0,0);
+			int nroCol=1;
+			List<Producto> productos=productoDAO.getList();
+			for (Producto pro : productos){
+				m.setValueAt(pro.getNombre(),nroCol,0);
+				nroCol++;
+			}
 			m.setValueAt("Cliente1",0,1);
 			m.setValueAt("Cliente2",0,2);
 			m.setValueAt("Cliente3",0,3);
@@ -512,6 +521,94 @@ public class MenuPrincipalVisual extends JFrame {
 			});
 		}
 		return jButton2;
+	}
+
+	/**
+	 * This method initializes jMenu2	
+	 * 	
+	 * @return javax.swing.JMenu	
+	 */
+	private JMenu getJMenu2() {
+		if (jMenu2 == null) {
+			jMenu2 = new JMenu();
+			jMenu2.setText("Acerca De...");
+			jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mouseClicked(java.awt.event.MouseEvent e) {
+					getJDialog3().show();
+				}
+			});
+		}
+		return jMenu2;
+	}
+
+	/**
+	 * This method initializes jDialog3	
+	 * 	
+	 * @return javax.swing.JDialog	
+	 */
+	private JDialog getJDialog3() {
+		if (jDialog3 == null) {
+			jDialog3 = new JDialog(this);
+			jDialog3.setSize(new Dimension(323, 205));
+			jDialog3.setTitle("@Copyright");
+			jDialog3.setContentPane(getJContentPane4());
+			jDialog3.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent e) {
+					jDialog3.show(false);
+				}
+			});
+		}
+		return jDialog3;
+	}
+
+	/**
+	 * This method initializes jContentPane4	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */
+	private JPanel getJContentPane4() {
+		if (jContentPane4 == null) {
+			jContentPane4 = new JPanel();
+			jContentPane4.setLayout(null);
+			jContentPane4.add(getJButton4(), null);
+			jContentPane4.add(getJTextArea(), null);
+		}
+		return jContentPane4;
+	}
+
+	/**
+	 * This method initializes jButton4	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */
+	private JButton getJButton4() {
+		if (jButton4 == null) {
+			jButton4 = new JButton();
+			jButton4.setBounds(new Rectangle(104, 139, 81, 23));
+			jButton4.setText("Aceptar");
+			jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mouseClicked(java.awt.event.MouseEvent e) {
+					jDialog3.show(false);
+				}
+			});
+		}
+		return jButton4;
+	}
+
+	/**
+	 * This method initializes jTextArea	
+	 * 	
+	 * @return javax.swing.JTextArea	
+	 */
+	private JTextArea getJTextArea() {
+		if (jTextArea == null) {
+			jTextArea = new JTextArea();
+			jTextArea.setBounds(new Rectangle(1, 2, 304, 130));
+			jTextArea.setEditable(false);
+			jTextArea.setBackground(Color.white);
+			jTextArea.setText("Programa realizado por:\n\n\tDiez Gonzalez, Soledad\n\tDurante, Alejandro\n\tGonzalez, Rodrigo\n\tSalvatierra,Gonzalo\n\nInvestigación Operativa-Proyecto Final-Diciembre 2009");
+		}
+		return jTextArea;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
