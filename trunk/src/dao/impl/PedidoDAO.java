@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 
+import modelo.Cliente;
 import modelo.Demanda;
 import modelo.Pedido;
+import modelo.Producto;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
@@ -58,5 +61,18 @@ public class PedidoDAO extends GenericDAO<Pedido>{
 		List<Pedido> returnList = crit.list(); 
 		session.getTransaction().commit();
 		return returnList;
+	}
+	
+	public Long getPedidoTotal(Cliente cliente, Producto producto, Timestamp fecha){
+		String query = "select SUM(cantidad) from " + domainClass.getName() + " x";
+		
+		query += " WHERE id_cliente = "+cliente.getId();
+		query += " AND id_producto = "+producto.getId();
+		query += " AND fecha_orden = '"+fecha.toString()+"'";
+		
+		Long cantidad = (Long) getHibernateTemplate().createQuery(query).uniqueResult();
+		session.getTransaction().commit();
+		
+		return cantidad;	
 	}
 }
