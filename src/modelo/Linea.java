@@ -21,9 +21,8 @@ public class Linea {
 		super();
 	}
 	
-	public Linea(Long id, String nombre) {
+	public Linea(String nombre) {
 		super();
-		this.id = id;
 		this.nombre = nombre;
 	}
 

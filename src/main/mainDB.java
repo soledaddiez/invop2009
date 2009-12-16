@@ -4,15 +4,10 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import modelo.Demanda;
-import modelo.Linea;
 import modelo.Pedido;
 import modelo.Producto;
-import modelo.TasaProduccion;
-import dao.impl.LineaDAO;
 import dao.impl.PedidoDAO;
 import dao.impl.ProductoDAO;
-import dao.impl.TasaProduccionDAO;
-import excepciones.DataAccessException;
 
 public class mainDB {
     public static void main(String[] args) {
@@ -57,11 +52,11 @@ public class mainDB {
 //		System.out.println(tp.getBotellasPorHora());
         
         PedidoDAO pedido = new PedidoDAO();
-        List<Pedido> pedidos = pedido.getPedidosDesdeFecha(new Timestamp(109, 2, 20, 0, 0, 0, 0));
+        List<Pedido> pedidos = pedido.getPedidosDesdeFecha(new Timestamp(109, 2, 20, 0, 0, 0, 0)); //20/03/2009
         for(Pedido p : pedidos)
         	System.out.println("Pedido ID "+p.getId()+" -> '"+p.getFechaOrden().toString()+"'");
         
-        List<Demanda> demandas = pedido.getDemandas(new Timestamp(109, 2, 20, 0, 0, 0, 0));
+        List<Demanda> demandas = pedido.getDemandas(new Timestamp(109, 2, 20, 0, 0, 0, 0));//20/03/2009
         for(Demanda d : demandas)
         	System.out.println("Demanda ID producto "+d.getProducto().getId()+" -> '"+d.getFecha().toString()+"' / Cantidad: "+d.getCantidad());
        

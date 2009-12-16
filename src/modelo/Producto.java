@@ -15,14 +15,14 @@ public class Producto {
 	private Long cc;
 	private Double utilidad;
 	private Long loteMinimo;
+	private Double inventarioSeguridad;
 	
 	public Producto(){
 		super();
 	}
 	
-	public Producto(Long id, String nombre, Long cc) {
+	public Producto(String nombre, Long cc) {
 		super();
-		this.id = id;
 		this.nombre = nombre;
 		this.cc = cc;
 	}
@@ -69,5 +69,14 @@ public class Producto {
 	
 	public void setLoteMinimo(Long loteMinimo){
 		this.loteMinimo = loteMinimo;
+	}
+
+	@Column(name="inventario_seguridad")
+	public Double getInventarioSeguridad() {
+		return inventarioSeguridad;
+	}
+
+	public void setInventarioSeguridad(Double inventarioSeguridad) {
+		this.inventarioSeguridad = inventarioSeguridad;
 	}
 }

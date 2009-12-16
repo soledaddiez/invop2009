@@ -30,9 +30,8 @@ public class AsignacionProduccion {
 		super();
 	}
 
-	public AsignacionProduccion(Long id, Linea linea, OrdenProduccion ordenProduccion) {
+	public AsignacionProduccion(Linea linea, OrdenProduccion ordenProduccion) {
 		super();
-		this.id = id;
 		this.linea = linea;
 		this.ordenProduccion = ordenProduccion;
 	}

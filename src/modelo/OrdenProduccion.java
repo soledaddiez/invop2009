@@ -26,9 +26,8 @@ public class OrdenProduccion {
 		super();
 	}
 
-	public OrdenProduccion(Long id, Producto producto, Long cantidadAProducir, Double tiempoEstimado) {
+	public OrdenProduccion(Producto producto, Long cantidadAProducir, Double tiempoEstimado) {
 		super();
-		this.id = id;
 		this.producto = producto;
 		this.cantidadAProducir = cantidadAProducir;
 		this.tiempoEstimado = tiempoEstimado;

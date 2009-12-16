@@ -6,17 +6,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import dao.impl.LineaDAO;
-import excepciones.DataAccessException;
-
 import modelo.AsignacionProduccion;
 import modelo.Demanda;
 import modelo.Linea;
-import modelo.Pedido;
 import modelo.PlanProduccion;
 import modelo.Producto;
-
 import planificacion.Planificador;
+import dao.impl.LineaDAO;
+import excepciones.DataAccessException;
 
 public class MainPlanificador {
 
@@ -25,9 +22,9 @@ public class MainPlanificador {
 	 */
 	public static void main(String[] args) {
 		
-		Producto p1 = new Producto((long)1, "Producto 1", (long)100);
-		Producto p2 = new Producto((long)2, "Producto 2", (long)200);
-		Producto p3 = new Producto((long)3, "Producto 3", (long)300);
+		Producto p1 = new Producto("Producto 1", (long)100);
+		Producto p2 = new Producto("Producto 2", (long)200);
+		Producto p3 = new Producto("Producto 3", (long)300);
 		p1.setLoteMinimo((long) 1000);
 		p2.setLoteMinimo((long) 800);
 		p3.setLoteMinimo((long) 900);
@@ -55,9 +52,9 @@ public class MainPlanificador {
 		Vector<Linea> lineas = new Vector<Linea>();
 		lineas.add(l1); lineas.add(l2); lineas.add(l3);
 		*/
-		Linea l1 = new Linea((long)1, "Linea 1");
-		Linea l2 = new Linea((long)2, "Linea 2");
-		Linea l3 = new Linea((long)3, "Linea 3");
+		Linea l1 = new Linea("Linea 1");
+		Linea l2 = new Linea("Linea 2");
+		Linea l3 = new Linea("Linea 3");
 		
 		LineaDAO lineaDAO = new LineaDAO();
 		
