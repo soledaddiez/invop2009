@@ -24,6 +24,7 @@ public class Pedido {
 	private Producto producto;
 	private Long cantidad;
 	private Timestamp fechaOrden;
+	private Cliente cliente;
 	
 	public Pedido() {
 		super();
@@ -47,7 +48,7 @@ public class Pedido {
 	}
 	
 	@ManyToOne(targetEntity=Producto.class, fetch=FetchType.LAZY)
-	@JoinColumn(name="id_producto")
+	@JoinColumn(name="id_producto", nullable=false)
 	public Producto getProducto() {
 		return producto;
 	}
@@ -69,5 +70,15 @@ public class Pedido {
 	}
 	public void setFechaOrden(Timestamp fechaOrden) {
 		this.fechaOrden = fechaOrden;
+	}
+
+	@ManyToOne(targetEntity=Cliente.class, fetch=FetchType.LAZY)
+	@JoinColumn(name="id_cliente", nullable=false)
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 }
