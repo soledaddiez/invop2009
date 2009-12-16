@@ -27,9 +27,7 @@ public class TasaProduccionDAO extends GenericDAO<TasaProduccion>{
 		
 		if ((tasaProd != null) &&(tasaProd.size()>0))
 			return tasaProd.get(0);
-//		return null;
-		//TODO (ELIMINAR)Lo dejo de prueba mientras no esten los valores reales en la base de la tasa de produccion
-		return new TasaProduccion(new Long (5000), linea, producto) ;
+		return null;		
 	}
 	
 }
