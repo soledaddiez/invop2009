@@ -38,7 +38,7 @@ public class Inventario {
 		this.id = id;
 	}
 	
-	@OneToOne(targetEntity=Producto.class, fetch=FetchType.LAZY)
+	@OneToOne(targetEntity=Producto.class, fetch=FetchType.EAGER)
 	@JoinColumn(name="id_producto")
 	public Producto getProducto() {
 		return producto;
