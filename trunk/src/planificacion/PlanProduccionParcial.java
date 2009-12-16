@@ -29,7 +29,7 @@ public class PlanProduccionParcial {
 	}
 	
 	public void addAsignacion(Linea linea, OrdenProduccion orden){
-		AsignacionProduccion asignacion = new AsignacionProduccion(idAsignacion, linea, orden);
+		AsignacionProduccion asignacion = new AsignacionProduccion(linea, orden);
 		this.asignaciones.add(asignacion);
 		idAsignacion++;
 	}

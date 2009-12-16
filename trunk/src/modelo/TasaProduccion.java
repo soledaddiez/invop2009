@@ -26,9 +26,8 @@ public class TasaProduccion {
 		super();
 	}
 	
-	public TasaProduccion(Long id, Long botellasPorHora, Linea linea,	Producto producto) {
+	public TasaProduccion(Long botellasPorHora, Linea linea, Producto producto) {
 		super();
-		this.id = id;
 		this.botellasPorHora = botellasPorHora;
 		this.linea = linea;
 		this.producto = producto;

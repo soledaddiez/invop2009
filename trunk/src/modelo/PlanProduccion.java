@@ -29,9 +29,8 @@ public class PlanProduccion {
 		super();
 	}
 
-	public PlanProduccion(Long id, List<AsignacionProduccion> asignaciones, Timestamp fechaInicio) {
+	public PlanProduccion(List<AsignacionProduccion> asignaciones, Timestamp fechaInicio) {
 		super();
-		this.id = id;
 		this.asignaciones = asignaciones;
 		this.fechaInicio = fechaInicio;
 	}

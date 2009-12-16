@@ -73,7 +73,7 @@ public class Planificador {
 					//Si tengo tiempo en la linea, lo asigno. Sino, paso a la siguiente linea
 					if(horasOcupadas + tiempoEstimado < horasTrabajo){
 						horasOcupadas += tiempoEstimado;
-						OrdenProduccion orden = new OrdenProduccion(idPedido, demanda.getProducto(), demanda.getCantidad(), tiempoEstimado);
+						OrdenProduccion orden = new OrdenProduccion(demanda.getProducto(), demanda.getCantidad(), tiempoEstimado);
 						planParcial.addAsignacion(linea, orden);
 						demandasAsignadas.add(demanda);
 						nextDemanda++;

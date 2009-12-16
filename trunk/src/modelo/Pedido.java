@@ -29,9 +29,8 @@ public class Pedido {
 		super();
 	}
 
-	public Pedido(Long id, Producto producto, Long cantidad, Timestamp fechaOrden) {
+	public Pedido(Producto producto, Long cantidad, Timestamp fechaOrden) {
 		super();
-		this.id = id;
 		this.producto = producto;
 		this.cantidad = cantidad;
 		this.fechaOrden = fechaOrden;
