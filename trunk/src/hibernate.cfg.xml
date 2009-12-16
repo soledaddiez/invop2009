@@ -12,7 +12,7 @@ PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
 		<property name="show_sql">true</property>
 		<property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
 		<property name="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
-		<property name="hibernate.hbm2ddl.auto">create</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="hibernate.current_session_context_class">org.hibernate.context.ThreadLocalSessionContext</property> 
 		
 		<mapping class="modelo.AsignacionProduccion"/>
@@ -22,6 +22,8 @@ PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
 		<mapping class="modelo.PlanProduccion"/>
 		<mapping class="modelo.Producto"/>
 		<mapping class="modelo.TasaProduccion"/>
+		<mapping class="modelo.Inventario"/>
+		<mapping class="modelo.Cliente"/>
 		
 	</session-factory>
 </hibernate-configuration>
