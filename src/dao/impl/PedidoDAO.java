@@ -63,6 +63,13 @@ public class PedidoDAO extends GenericDAO<Pedido>{
 		return returnList;
 	}
 	
+	/**
+	 * Obtiene la cantidad total pedida para un día para un cliente y un producto dado
+	 * @param cliente
+	 * @param producto
+	 * @param fecha
+	 * @return cantidad total
+	 */
 	public Long getPedidoTotal(Cliente cliente, Producto producto, Timestamp fecha){
 		String query = "select SUM(cantidad) from " + domainClass.getName() + " x";
 		
