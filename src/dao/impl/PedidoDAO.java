@@ -72,7 +72,6 @@ public class PedidoDAO extends GenericDAO<Pedido>{
 	 */
 	public Long getPedidoTotal(Cliente cliente, Producto producto, Timestamp fecha){
 		String query = "select SUM(cantidad) from " + domainClass.getName() + " x";
-		
 		query += " WHERE id_cliente = "+cliente.getId();
 		query += " AND id_producto = "+producto.getId();
 		query += " AND fecha_orden = '"+fecha.toString()+"'";
@@ -81,7 +80,14 @@ public class PedidoDAO extends GenericDAO<Pedido>{
 		session.getTransaction().commit();
 		if(cantidad != null)
 			return cantidad;
-		else
-			return new Long(0);
+		return new Long(0);
+	}
+	
+	public List<Pedido> getPedidoPorFecha(Timestamp fecha){
+		List<Pedido> pedidos = getHibernateTemplate().createQuery(
+	 			" from " + domainClass.getName() + " x" +
+	 			" WHERE fecha_orden = '"+fecha.toString()+"'").list();
+		session.getTransaction().commit();
+		return pedidos;
 	}
 }
