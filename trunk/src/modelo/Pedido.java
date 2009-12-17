@@ -30,11 +30,12 @@ public class Pedido {
 		super();
 	}
 
-	public Pedido(Producto producto, Long cantidad, Timestamp fechaOrden) {
+	public Pedido(Producto producto, Long cantidad, Timestamp fechaOrden,Cliente cliente) {
 		super();
 		this.producto = producto;
 		this.cantidad = cantidad;
 		this.fechaOrden = fechaOrden;
+		this.cliente = cliente;
 	}
 	
 	@Id
@@ -47,7 +48,7 @@ public class Pedido {
 		this.id = id;
 	}
 	
-	@ManyToOne(targetEntity=Producto.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=Producto.class, fetch=FetchType.EAGER)
 	@JoinColumn(name="id_producto", nullable=false)
 	public Producto getProducto() {
 		return producto;
@@ -72,7 +73,7 @@ public class Pedido {
 		this.fechaOrden = fechaOrden;
 	}
 
-	@ManyToOne(targetEntity=Cliente.class, fetch=FetchType.LAZY)
+	@ManyToOne(targetEntity=Cliente.class, fetch=FetchType.EAGER)
 	@JoinColumn(name="id_cliente", nullable=false)
 	public Cliente getCliente() {
 		return cliente;
