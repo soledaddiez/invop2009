@@ -1,39 +1,39 @@
 package gui;
 
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
+import java.awt.Color;
 import java.awt.Dimension;
-
-import javax.swing.JMenu;
+import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.Calendar;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
+
 import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
-import javax.swing.JDialog;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.text.TableView.TableRow;
+import javax.swing.table.TableModel;
 
+import modelo.Cliente;
 import modelo.Inventario;
 import modelo.Producto;
-import dao.impl.InventarioDAO;
-import dao.impl.ProductoDAO;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import java.awt.Color;
-import java.awt.Point;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JPopupMenu;
 
-import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
+
+import dao.impl.ClienteDAO;
+import dao.impl.InventarioDAO;
+import dao.impl.PedidoDAO;
+import dao.impl.ProductoDAO;
 
 public class MenuPrincipalVisual extends JFrame {
 
@@ -61,7 +61,6 @@ public class MenuPrincipalVisual extends JFrame {
 	private JTable jTable2 = null;
 	private JButton jButton2 = null;
 	private JLabel jLabel = null;
-	private ProductoDAO productoDAO = new ProductoDAO();  //  @jve:decl-index=0:
 	private JMenu jMenu2 = null;
 	private JDialog jDialog3 = null;  //  @jve:decl-index=0:visual-constraint="-12,219"
 	private JPanel jContentPane4 = null;
@@ -72,6 +71,10 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDateChooser jDateChooser = null;
 	private JMenu jMenu3 = null;
 	private JLabel jLabel1 = null;
+	
+	private ProductoDAO productoDAO = new ProductoDAO();  //  @jve:decl-index=0:
+	private ClienteDAO clienteDAO = new ClienteDAO();  //  @jve:decl-index=0:
+	private PedidoDAO pedidoDAO = new PedidoDAO();  //  @jve:decl-index=0:
 	/**
 	 * This is the default constructor
 	 */
@@ -396,20 +399,19 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable1.setEnabled(false);
 			jTable1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			DefaultTableModel m=new DefaultTableModel(20,10);
-			m.setValueAt("Producto",0,0);
+			m.setValueAt("Producto | Cliente",0,0);
 			int nroFila=1;
 			List<Producto> productos=productoDAO.getList();
 			for (Producto pro : productos){
 				m.setValueAt(pro.getNombre(),nroFila,0);
 				nroFila++;
 			}
-			m.setValueAt("Cliente1",0,1);
-			m.setValueAt("Cliente2",0,2);
-			m.setValueAt("Cliente3",0,3);
-			m.setValueAt("Cliente4",0,4);
-			m.setValueAt("Cliente5",0,5);
-			m.setValueAt("Cliente6",0,6);
-			m.setValueAt("Cliente7",0,7);
+			
+			List<Cliente> clientes = clienteDAO.getList();
+			for (int i=0; i<clientes.size(); i++){
+				m.setValueAt(clientes.get(i).getApellido()+", "+clientes.get(i).getNombre(), 0, i+1);
+			}
+			
 			jTable1.setModel(m);
 		}
 		return jTable1;
@@ -628,7 +630,20 @@ public class MenuPrincipalVisual extends JFrame {
 			jButton5.setText("Cargar");
 			jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
+					List<Producto> productos = productoDAO.getList();
+					List<Cliente> clientes = clienteDAO.getList();
+					TableModel m = jTable1.getModel();
 					
+					Date fecha = jDateChooser.getDate();
+					fecha.setHours(0);
+					fecha.setMinutes(0);
+					fecha.setSeconds(0);
+					//fecha.setTime(0);
+					for(int index_p = 0; index_p < productos.size(); index_p++){
+						for(int index_c = 0; index_c < clientes.size(); index_c++){
+							m.setValueAt(pedidoDAO.getPedidoTotal(clientes.get(index_c), productos.get(index_p), new Timestamp(fecha.getTime())), index_p+1, index_c+1);
+						}
+					}
 				}
 			});
 		}
