@@ -417,7 +417,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			jTable1.setEnabled(true);
 			jTable1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-			DefaultTableModel m=new DefaultTableModel(20,10);
+			DefaultTableModel m=new DefaultTableModel(20,22);
 			m.setValueAt("Producto | Cliente",0,0);
 			int nroFila=1;
 			List<Producto> productos=productoDAO.getList();
