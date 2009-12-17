@@ -32,8 +32,6 @@ public class PedidoDAO extends GenericDAO<Pedido>{
 		List<Pedido> pedidos = crit.list(); 
 		//session.getTransaction().commit();
 		
-		System.out.println("Hay " + pedidos.size() +  " pedidos desde esta fecha");
-		
 		Hashtable<String, Demanda> hash = new Hashtable<String, Demanda>();
 		Demanda demanda;
 
@@ -49,6 +47,7 @@ public class PedidoDAO extends GenericDAO<Pedido>{
 				double is = producto.getInventarioSeguridad();
 				double lm = producto.getLoteMinimo();
 				double u = producto.getUtilidad();
+				Long cc = producto.getCc();
 				demanda = new Demanda(producto, pedido.getCantidad(), pedido.getFechaOrden());
 				hash.put(pedido.getProducto().getId()+"-"+pedido.getFechaOrden().toString(), demanda);
 			}
