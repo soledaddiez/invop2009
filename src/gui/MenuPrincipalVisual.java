@@ -199,7 +199,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jMenuItem = new JMenuItem();
 			jMenuItem.setText("Planilla Pedidos");
 			jMenuItem.addMouseListener(new java.awt.event.MouseAdapter() {
-				public void mousePressed(java.awt.event.MouseEvent e) {
+				public void mousePressed(java.awt.event.MouseEvent e) {	
 					getJDialog().show();
 				}
 			});
@@ -246,6 +246,8 @@ public class MenuPrincipalVisual extends JFrame {
 			jContentPane1.add(getJButton5(), null);
 			jContentPane1.add(getJDateChooser(), null);
 			jContentPane1.add(jLabel1, null);
+			
+			jContentPane1.add(new VentanaGrafica(), null);
 		}
 		return jContentPane1;
 	}
