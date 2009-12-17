@@ -8,7 +8,6 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -29,19 +28,15 @@ import modelo.Cliente;
 import modelo.Demanda;
 import modelo.Inventario;
 import modelo.Linea;
-import modelo.Pedido;
 import modelo.PlanProduccion;
 import modelo.Producto;
-
 import com.toedter.calendar.JDateChooser;
-
 import dao.impl.ClienteDAO;
 import dao.impl.InventarioDAO;
 import dao.impl.LineaDAO;
 import dao.impl.PedidoDAO;
 import dao.impl.ProductoDAO;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollBar;
 
 public class MenuPrincipalVisual extends JFrame {
 
@@ -77,6 +72,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton jButton5 = null;
 	private JMenuItem jMenuItem3 = null;
 	private JDateChooser jDateChooser = null;
+	private JDateChooser jDateChooser1 = null;
 	private JLabel jLabel1 = null;
 	private JPopupMenu jPopupMenu = null;  //  @jve:decl-index=0:visual-constraint="241,435"
 	private JMenuItem jMenuItem4 = null;
@@ -93,6 +89,9 @@ public class MenuPrincipalVisual extends JFrame {
 	private List<AsignacionProduccion> asignacion = null;
 	private int CantidadClientes = 0;
 	private int CantidadProductos = 0;
+	private JDialog jDialog4 = null;  //  @jve:decl-index=0:visual-constraint="322,464"
+	private JPanel jContentPane5 = null;
+	private JButton jButton = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -101,9 +100,7 @@ public class MenuPrincipalVisual extends JFrame {
 		initialize();
 		Muestra M = new Muestra();
 		getContentPane().add(M);
-//		pack();
 		setResizable(false);
-//		setVisible(true);
 		M.start();
 	}
 
@@ -114,6 +111,7 @@ public class MenuPrincipalVisual extends JFrame {
 	 */
 	private void initialize() {
 		this.setSize(300, 204);
+		this.setResizable(false);
 		this.setLocation(new Point(300, 200));
 		this.setJMenuBar(getJJMenuBar());
 		this.setContentPane(getJContentPane());
@@ -134,7 +132,6 @@ public class MenuPrincipalVisual extends JFrame {
 		if (jContentPane == null) {
 			jLabel = new JLabel(new ImageIcon("logo.jpg"));
 			jLabel.setBounds(new Rectangle(45, 34, 194, 74));
-			//jLabel.setText("JLabel");
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
 			jContentPane.add(jLabel, null);
@@ -218,6 +215,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jDialog.setSize(new Dimension(526, 444));
 			jDialog.setTitle("Planilla de Pedidos");
 			jDialog.setLocation(new Point(200, 200));
+			jDialog.setResizable(false);
 			jDialog.setContentPane(getJContentPane1());
 			jDialog.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
@@ -251,6 +249,7 @@ public class MenuPrincipalVisual extends JFrame {
 		}
 		return jContentPane1;
 	}
+	
 	private JDateChooser getJDateChooser() {
 		if (jDateChooser == null) {
 			jDateChooser = new JDateChooser();
@@ -306,6 +305,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jDialog2.setSize(new Dimension(475, 423));
 			jDialog2.setTitle("Planilla Inventario");
 			jDialog2.setLocation(new Point(200, 200));
+			jDialog2.setResizable(false);
 			jDialog2.setContentPane(getJContentPane3());
 			jDialog2.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
@@ -466,7 +466,7 @@ public class MenuPrincipalVisual extends JFrame {
 	 */
 	private JDialog getJDialog1() {
 		if (jDialog1 == null) {
-			jDialog1 = new JDialog(this);
+			jDialog1 = new JDialog(getJDialog4());
 			jDialog1.setSize(new Dimension(762, 423));
 			jDialog1.setTitle("Asignación de Producción por Línea");
 			jDialog1.setLocation(new Point(100, 200));
@@ -475,6 +475,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jDialog1.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
 					jDialog1.show(false);
+					jDialog4.show(false);
 				}
 			});
 		}
@@ -563,6 +564,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
 					jDialog1.show(false);
+					jDialog4.show(false);
 				}
 			});
 		}
@@ -683,15 +685,6 @@ public class MenuPrincipalVisual extends JFrame {
 						 * Carga de la Planilla de pedidos y
 						 * seteo de la fecha de comienzo de planificación
 						 */
-//						List<Pedido> pedidos = pedidoDAO.getPedidoPorFecha(FechaPlan);
-//						int contProd=1;
-//						int contClient=1;
-//						for (Pedido p : pedidos){
-//							contProd=p.getProducto().getId().intValue();
-//							contClient=p.getCliente().getId().intValue();
-//							Long sum=(Long)jTable1.getValueAt(contProd,contClient)+p.getCantidad();
-//							jTable1.setValueAt(sum,contProd,contClient);
-//						}
 						for (int contC=0;contC<clientes.size();contC++)
 							for (int contP=0;contP<productos.size();contP++)
 								jTable1.setValueAt(pedidoDAO.getPedidoTotal(clientes.get(contC),productos.get(contP),FechaPlan),contP+1,contC+1);
@@ -713,47 +706,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jMenuItem3.setText("Planificar Produccion...");
 			jMenuItem3.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mousePressed(java.awt.event.MouseEvent e) {
-					/*
-					 * Comienzo de la planificación de la producción
-					 */
-					List<Producto> productos =productoDAO.getList();
-					/*List<Demanda> demandas=new Vector<Demanda>();
-					for (int j=0;j<CantidadClientes;j++)
-						for (int i=0;i<CantidadProductos;i++){
-							demandas.add(new Demanda(productos.get(i),(Long)jTable1.getValueAt(i+1,j+1),FechaPlan));
-							System.out.println("producto: "+productos.get(i).getNombre());
-							System.out.println("cantidad: "+(Long)jTable1.getValueAt(i+1,j+1));
-							System.out.println("fecha plan: "+FechaPlan);
-						}*/
-					
-					/*Long now = Calendar.getInstance().getTimeInMillis();
-					Timestamp fecha1 = new Timestamp(now);
-					Timestamp fecha2 = new Timestamp(now + (1000*60*60*24)*1);
-					Timestamp fecha3 = new Timestamp(now + (1000*60*60*24)*2);
-					
-					List<Demanda> demandas = new Vector<Demanda>();
-					demandas.add(new Demanda(productos.get(1), (long) 400, fecha1));
-					demandas.add(new Demanda(productos.get(2), (long) 2000, fecha1));
-					demandas.add(new Demanda(productos.get(3), (long) 3000, fecha1));
-					demandas.add(new Demanda(productos.get(1), (long) 3400, fecha2));
-					demandas.add(new Demanda(productos.get(2), (long) 1200, fecha2));
-					demandas.add(new Demanda(productos.get(3), (long) 1700, fecha2));
-					demandas.add(new Demanda(productos.get(1), (long) 300, fecha3));
-					demandas.add(new Demanda(productos.get(2), (long) 2000, fecha3));
-					demandas.add(new Demanda(productos.get(3), (long) 3000, fecha3));*/
-					
-					Long hoy = Calendar.getInstance().getTimeInMillis();
-					Timestamp fechaActual = new Timestamp(hoy);
-					if(FechaPlan != null)
-						fechaActual = FechaPlan;
-
-					PedidoDAO pedidoDAO = new PedidoDAO(); 
-					List<Demanda> demandas = pedidoDAO.getDemandas(fechaActual);
-					
-					PlanProduccion plan = Planificador.planificar(demandas, lineasDAO.getList());
-					plan.setFechaInicio(FechaPlan);
-					asignacion = plan.getAsignaciones();
-					getJDialog1().show();
+					getJDialog4().show();
 				}
 			});
 		}
@@ -859,6 +812,93 @@ public class MenuPrincipalVisual extends JFrame {
 			});
 		}
 		return jMenuItem7;
+	}
+
+	/**
+	 * This method initializes jDialog4	
+	 * 	
+	 * @return javax.swing.JDialog	
+	 */
+	private JDialog getJDialog4() {
+		if (jDialog4 == null) {
+			jDialog4 = new JDialog(this);
+			jDialog4.setSize(new Dimension(255, 203));
+			jDialog4.setTitle("Fecha de Planificación");
+			jDialog4.setLocation(new Point(300, 200));
+			jDialog4.setResizable(false);
+			jDialog4.setContentPane(getJContentPane5());
+			jDialog4.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent e) {
+					jDialog4.show(false);
+				}
+			});
+		}
+		return jDialog4;
+	}
+
+	/**
+	 * This method initializes jContentPane5	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */
+	private JPanel getJContentPane5() {
+		if (jContentPane5 == null) {
+			jContentPane5 = new JPanel();
+			jContentPane5.setLayout(null);
+			jContentPane5.add(getJDateChooser1(),null);
+			jContentPane5.add(getJButton(), null);
+		}
+		return jContentPane5;
+	}
+	
+	private JDateChooser getJDateChooser1() {
+		if (jDateChooser1 == null) {
+			jDateChooser1 = new JDateChooser();
+			jDateChooser1.setBounds(new Rectangle(0, 0, 250, 25));
+			
+		}
+		return jDateChooser1;
+	}
+
+	/**
+	 * This method initializes jButton	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */
+	private JButton getJButton() {
+		if (jButton == null) {
+			jButton = new JButton();
+			jButton.setBounds(new Rectangle(79, 142, 90, 24));
+			jButton.setText("Planificar");
+			jButton.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mouseClicked(java.awt.event.MouseEvent e) {
+					Date date1=jDateChooser1.getDate();
+					if (date1!=null){
+						int dia=date1.getDate();
+						int mes=date1.getMonth();
+						int anio=date1.getYear();
+						Date fecha=new Date(anio,mes,dia);
+						FechaPlan=new Timestamp(fecha.getTime());
+						/*
+						 * Comienzo de la planificación de la producción
+						 */
+						Long hoy = Calendar.getInstance().getTimeInMillis();
+						Timestamp fechaActual = new Timestamp(hoy);
+						if(FechaPlan != null)
+							fechaActual = FechaPlan;
+
+						PedidoDAO pedidoDAO = new PedidoDAO(); 
+						List<Demanda> demandas = pedidoDAO.getDemandas(fechaActual);
+						
+						PlanProduccion plan = Planificador.planificar(demandas, lineasDAO.getList());
+						plan.setFechaInicio(FechaPlan);
+						asignacion = plan.getAsignaciones();
+						getJDialog1().show();
+					}
+				}
+			});
+		}
+		return jButton;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
