@@ -71,7 +71,7 @@ public class Producto {
 		this.loteMinimo = loteMinimo;
 	}
 
-	@Column(name="inventario_seguridad")
+	@Column(name="inventario_seguridad", nullable=false)
 	public Double getInventarioSeguridad() {
 		return inventarioSeguridad;
 	}
