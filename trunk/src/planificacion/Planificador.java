@@ -280,8 +280,9 @@ public class Planificador {
 				asignacionesOrdenadas.add(asignacion);
 				Long formato = asignacion.getOrdenProduccion().getProducto().getCc();
 				for(int j = i+1; j < asignacionesFinales.size(); j++)
-					if(asignacionesFinales.get(j).getOrdenProduccion().getProducto().getCc() == formato) //Si es del mismo formato lo coloco detrás de el
+					if(asignacionesFinales.get(j).getOrdenProduccion().getProducto().getCc().equals(formato)){ //Si es del mismo formato lo coloco detrás de el
 						asignacionesOrdenadas.add(asignacionesFinales.get(j));
+					}
 			}
 		}
 	
