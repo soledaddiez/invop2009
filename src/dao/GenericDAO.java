@@ -22,8 +22,7 @@ public abstract class GenericDAO<T> {
  
 	/**
 	  * Method to return the class of the domain object
-	  */
- 
+	  */ 
 	protected Class getDomainClass() {
 	 	if (domainClass == null) {
 			ParameterizedType thisType = (ParameterizedType) getClass()

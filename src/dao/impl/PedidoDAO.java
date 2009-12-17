@@ -79,7 +79,9 @@ public class PedidoDAO extends GenericDAO<Pedido>{
 		
 		Long cantidad = (Long) getHibernateTemplate().createQuery(query).uniqueResult();
 		session.getTransaction().commit();
-		
-		return cantidad;	
+		if(cantidad != null)
+			return cantidad;
+		else
+			return new Long(0);
 	}
 }
