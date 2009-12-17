@@ -53,11 +53,11 @@ public class MainPlanificador {
 		Timestamp fecha2 = new Timestamp(now + (1000*60*60*24)*1);
 		Timestamp fecha3 = new Timestamp(now + (1000*60*60*24)*2);
 		
-		/*PedidoDAO pedidoDAO = new PedidoDAO(); 
+		PedidoDAO pedidoDAO = new PedidoDAO(); 
 		List<Demanda> demandas = pedidoDAO.getDemandas(fecha1);
-		*/
 		
-		List<Demanda> demandas = new Vector<Demanda>();
+		
+		/*List<Demanda> demandas = new Vector<Demanda>();
 		demandas.add(new Demanda(productos.get(1), (long) 400, fecha1));
 		demandas.add(new Demanda(productos.get(2), (long) 2000, fecha1));
 		demandas.add(new Demanda(productos.get(3), (long) 3000, fecha1));
@@ -67,7 +67,7 @@ public class MainPlanificador {
 		demandas.add(new Demanda(productos.get(1), (long) 300, fecha3));
 		demandas.add(new Demanda(productos.get(2), (long) 2000, fecha3));
 		demandas.add(new Demanda(productos.get(3), (long) 3000, fecha3));
-		
+		*/
 		/*
 		Vector<Linea> lineas = new Vector<Linea>();
 		lineas.add(l1); lineas.add(l2); lineas.add(l3);
