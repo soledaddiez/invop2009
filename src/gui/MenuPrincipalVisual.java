@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -28,6 +29,7 @@ import javax.swing.table.TableModel;
 
 import planificacion.Planificador;
 
+import modelo.AsignacionProduccion;
 import modelo.Cliente;
 import modelo.Demanda;
 import modelo.Inventario;
@@ -696,16 +698,43 @@ public class MenuPrincipalVisual extends JFrame {
 					/*
 					 * Comienzo de la planificación de la producción
 					 */
-					List<Producto> productos=productoDAO.getList();
-					List<Demanda> demandas=new Vector<Demanda>();
+					List<Producto> productos =productoDAO.getList();
+					/*List<Demanda> demandas=new Vector<Demanda>();
 					for (int j=0;j<CantidadClientes;j++)
 						for (int i=0;i<CantidadProductos;i++){
 							demandas.add(new Demanda(productos.get(i),(Long)jTable1.getValueAt(i+1,j+1),FechaPlan));
 							System.out.println("producto: "+productos.get(i).getNombre());
 							System.out.println("cantidad: "+(Long)jTable1.getValueAt(i+1,j+1));
 							System.out.println("fecha plan: "+FechaPlan);
-						}
-					//PlanProduccion plan=Planificador.planificar(demandas,lineasDAO.getList());
+						}*/
+					
+					Long now = Calendar.getInstance().getTimeInMillis();
+					Timestamp fecha1 = new Timestamp(now);
+					Timestamp fecha2 = new Timestamp(now + (1000*60*60*24)*1);
+					Timestamp fecha3 = new Timestamp(now + (1000*60*60*24)*2);
+					
+					List<Demanda> demandas = new Vector<Demanda>();
+					demandas.add(new Demanda(productos.get(1), (long) 400, fecha1));
+					demandas.add(new Demanda(productos.get(2), (long) 2000, fecha1));
+					demandas.add(new Demanda(productos.get(3), (long) 3000, fecha1));
+					demandas.add(new Demanda(productos.get(1), (long) 3400, fecha2));
+					demandas.add(new Demanda(productos.get(2), (long) 1200, fecha2));
+					demandas.add(new Demanda(productos.get(3), (long) 1700, fecha2));
+					demandas.add(new Demanda(productos.get(1), (long) 300, fecha3));
+					demandas.add(new Demanda(productos.get(2), (long) 2000, fecha3));
+					demandas.add(new Demanda(productos.get(3), (long) 3000, fecha3));
+					
+					PlanProduccion plan = Planificador.planificar(demandas, lineasDAO.getList());
+					
+					List<AsignacionProduccion> asignacion = plan.getAsignaciones();
+					for (Iterator iterator = asignacion.iterator(); iterator.hasNext();) {
+						AsignacionProduccion a = (AsignacionProduccion) iterator.next();
+						System.out.println("Asignar " + a.getOrdenProduccion().getProducto().getNombre() + 
+								" x " +a.getOrdenProduccion().getCantidadAProducir()+
+								" a la linea " + a.getLinea().getNombre() +
+								". Demora aprox:" + a.getOrdenProduccion().getTiempoEstimado() + " hs." );
+					}
+					
 					getJDialog1().show();
 				}
 			});
