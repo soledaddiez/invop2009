@@ -524,14 +524,19 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable2.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			DefaultTableModel m=new DefaultTableModel(20,5);
 			List<Linea> lineas=lineasDAO.getList();
-			for (int j=0;j<lineas.size();j++)
+			int[] indices=new int[lineas.size()];
+			for (int j=0;j<lineas.size();j++){
 				m.setValueAt(lineas.get(j).getNombre(),0,j);
-			for (int i=0;i<asignacion.size();i++) {
-				AsignacionProduccion a =asignacion.get(i);
+				indices[j]=1;
+			}
+			
+			for (AsignacionProduccion a : asignacion) {
 				m.setValueAt(a.getOrdenProduccion().getProducto().getNombre() + 
 						" x " +a.getOrdenProduccion().getCantidadAProducir()+
 						" (" + a.getOrdenProduccion().getTiempoEstimado() + " hs)",
-						i+1,a.getLinea().getId().intValue()-1);
+						indices[a.getLinea().getId().intValue()-1],
+						a.getLinea().getId().intValue()-1);
+				indices[a.getLinea().getId().intValue()-1]+=1;
 			}
 			jTable2.setModel(m);
 			jTable2.getColumn("A").setPreferredWidth(150);
