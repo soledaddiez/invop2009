@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -33,6 +34,7 @@ import modelo.AsignacionProduccion;
 import modelo.Cliente;
 import modelo.Demanda;
 import modelo.Inventario;
+import modelo.Linea;
 import modelo.Pedido;
 import modelo.PlanProduccion;
 import modelo.Producto;
@@ -45,6 +47,8 @@ import dao.impl.LineaDAO;
 import dao.impl.PedidoDAO;
 import dao.impl.ProductoDAO;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollBar;
+import javax.swing.JList;
 
 public class MenuPrincipalVisual extends JFrame {
 
@@ -81,20 +85,24 @@ public class MenuPrincipalVisual extends JFrame {
 	private JMenuItem jMenuItem3 = null;
 	private JDateChooser jDateChooser = null;
 	private JLabel jLabel1 = null;
-	
-	private ProductoDAO productoDAO = new ProductoDAO();  //  @jve:decl-index=0:
-	private ClienteDAO clienteDAO = new ClienteDAO();  //  @jve:decl-index=0:
-	private PedidoDAO pedidoDAO = new PedidoDAO();  //  @jve:decl-index=0:
-	private LineaDAO lineasDAO = new LineaDAO();
-	private Timestamp FechaPlan = new Timestamp(Calendar.getInstance().getTimeInMillis());  //  @jve:decl-index=0:
-	private int CantidadClientes = 0;
-	private int CantidadProductos = 0;
 	private JPopupMenu jPopupMenu = null;  //  @jve:decl-index=0:visual-constraint="241,435"
 	private JMenuItem jMenuItem4 = null;
 	private JPopupMenu jPopupMenu1 = null;  //  @jve:decl-index=0:visual-constraint="158,437"
 	private JMenuItem jMenuItem5 = null;
 	private JMenuItem jMenuItem6 = null;
 	private JMenuItem jMenuItem7 = null;
+	
+	private ProductoDAO productoDAO = new ProductoDAO();  //  @jve:decl-index=0:
+	private ClienteDAO clienteDAO = new ClienteDAO();  //  @jve:decl-index=0:
+	private PedidoDAO pedidoDAO = new PedidoDAO();  //  @jve:decl-index=0:
+	private LineaDAO lineasDAO = new LineaDAO();
+	private Timestamp FechaPlan = new Timestamp(Calendar.getInstance().getTimeInMillis());  //  @jve:decl-index=0:
+	private List<AsignacionProduccion> asignacion = null;
+	private int CantidadClientes = 0;
+	private int CantidadProductos = 0;
+	private JScrollBar jScrollBar = null;
+	private JScrollPane jScrollPane3 = null;
+	private JList jList = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -491,6 +499,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jContentPane2.setLayout(null);
 			jContentPane2.add(getJScrollPane2(), null);
 			jContentPane2.add(getJButton2(), null);
+			//jContentPane2.add(getJScrollPane3(), null);
 		}
 		return jContentPane2;
 	}
@@ -519,15 +528,19 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable2 = new JTable();
 			jTable2.setCellSelectionEnabled(true);
 			jTable2.setShowGrid(true);
+			jTable2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			jTable2.setComponentPopupMenu(getJPopupMenu1());
 			jTable2.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-			DefaultTableModel m=new DefaultTableModel(20,6);
-			m.setValueAt("Linea1",0,1);
-			m.setValueAt("Linea2",0,2);
-			m.setValueAt("Linea3",0,3);
-			m.setValueAt("Linea4",0,4);
-			m.setValueAt("Linea5",0,5);
+			DefaultTableModel m=new DefaultTableModel(20,1);
+			for (int i=0;i<asignacion.size();i++) {
+				AsignacionProduccion a =asignacion.get(i);
+				m.setValueAt("Asignar " + a.getOrdenProduccion().getProducto().getNombre() + 
+						" x " +a.getOrdenProduccion().getCantidadAProducir()+
+						" a la linea " + a.getLinea().getNombre() +
+						". Demora aprox:" + a.getOrdenProduccion().getTiempoEstimado() + " hs.",i,0);
+			}
 			jTable2.setModel(m);
+			jTable2.getColumn("A").setPreferredWidth(600);
 		}
 		return jTable2;
 	}
@@ -726,15 +739,7 @@ public class MenuPrincipalVisual extends JFrame {
 					
 					PlanProduccion plan = Planificador.planificar(demandas, lineasDAO.getList());
 					
-					List<AsignacionProduccion> asignacion = plan.getAsignaciones();
-					for (Iterator iterator = asignacion.iterator(); iterator.hasNext();) {
-						AsignacionProduccion a = (AsignacionProduccion) iterator.next();
-						System.out.println("Asignar " + a.getOrdenProduccion().getProducto().getNombre() + 
-								" x " +a.getOrdenProduccion().getCantidadAProducir()+
-								" a la linea " + a.getLinea().getNombre() +
-								". Demora aprox:" + a.getOrdenProduccion().getTiempoEstimado() + " hs." );
-					}
-					
+					asignacion = plan.getAsignaciones();
 					getJDialog1().show();
 				}
 			});
@@ -841,6 +846,41 @@ public class MenuPrincipalVisual extends JFrame {
 			});
 		}
 		return jMenuItem7;
+	}
+
+	/**
+	 * This method initializes jScrollPane3	
+	 * 	
+	 * @return javax.swing.JScrollPane	
+	 */
+	private JScrollPane getJScrollPane3() {
+		if (jScrollPane3 == null) {
+			jScrollPane3 = new JScrollPane();
+			jScrollPane3.setBounds(new Rectangle(1, 0, 456, 326));
+			jScrollPane3.setViewportView(getJList());
+		}
+		return jScrollPane3;
+	}
+
+	/**
+	 * This method initializes jList	
+	 * 	
+	 * @return javax.swing.JList	
+	 */
+	private JList getJList() {
+		if (jList == null) {
+			jList = new JList();
+			DefaultListModel m=new DefaultListModel();
+			for (Iterator iterator = asignacion.iterator(); iterator.hasNext();) {
+				AsignacionProduccion a = (AsignacionProduccion) iterator.next();
+				m.addElement("Asignar " + a.getOrdenProduccion().getProducto().getNombre() + 
+						" x " +a.getOrdenProduccion().getCantidadAProducir()+
+						" a la linea " + a.getLinea().getNombre() +
+						". Demora aprox:" + a.getOrdenProduccion().getTiempoEstimado() + " hs." );
+			}
+			jList.setModel(m);
+		}
+		return jList;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
