@@ -742,11 +742,14 @@ public class MenuPrincipalVisual extends JFrame {
 					
 					Long hoy = Calendar.getInstance().getTimeInMillis();
 					Timestamp fechaActual = new Timestamp(hoy);
+					if(FechaPlan != null)
+						fechaActual = FechaPlan;
+
 					PedidoDAO pedidoDAO = new PedidoDAO(); 
 					List<Demanda> demandas = pedidoDAO.getDemandas(fechaActual);
 					
 					PlanProduccion plan = Planificador.planificar(demandas, lineasDAO.getList());
-					
+					plan.setFechaInicio(FechaPlan);
 					asignacion = plan.getAsignaciones();
 					getJDialog1().show();
 				}
