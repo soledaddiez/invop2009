@@ -7,11 +7,8 @@ import java.awt.Rectangle;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -26,10 +23,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-
 import planificacion.Planificador;
-
 import modelo.AsignacionProduccion;
 import modelo.Cliente;
 import modelo.Demanda;
@@ -48,7 +42,6 @@ import dao.impl.PedidoDAO;
 import dao.impl.ProductoDAO;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollBar;
-import javax.swing.JList;
 
 public class MenuPrincipalVisual extends JFrame {
 
@@ -100,9 +93,6 @@ public class MenuPrincipalVisual extends JFrame {
 	private List<AsignacionProduccion> asignacion = null;
 	private int CantidadClientes = 0;
 	private int CantidadProductos = 0;
-	private JScrollBar jScrollBar = null;
-	private JScrollPane jScrollPane3 = null;
-	private JList jList = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -475,9 +465,10 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDialog getJDialog1() {
 		if (jDialog1 == null) {
 			jDialog1 = new JDialog(this);
-			jDialog1.setSize(new Dimension(472, 423));
+			jDialog1.setSize(new Dimension(762, 423));
 			jDialog1.setTitle("Asignación de Producción por Línea");
-			jDialog1.setLocation(new Point(300, 200));
+			jDialog1.setLocation(new Point(100, 200));
+			jDialog1.setResizable(false);
 			jDialog1.setContentPane(getJContentPane2());
 			jDialog1.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
@@ -512,7 +503,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane getJScrollPane2() {
 		if (jScrollPane2 == null) {
 			jScrollPane2 = new JScrollPane();
-			jScrollPane2.setBounds(new Rectangle(2, 1, 450, 343));
+			jScrollPane2.setBounds(new Rectangle(2, 1, 753, 340));
 			jScrollPane2.setViewportView(getJTable2());
 		}
 		return jScrollPane2;
@@ -531,16 +522,23 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			jTable2.setComponentPopupMenu(getJPopupMenu1());
 			jTable2.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-			DefaultTableModel m=new DefaultTableModel(20,1);
+			DefaultTableModel m=new DefaultTableModel(20,5);
+			List<Linea> lineas=lineasDAO.getList();
+			for (int j=0;j<lineas.size();j++)
+				m.setValueAt(lineas.get(j).getNombre(),0,j);
 			for (int i=0;i<asignacion.size();i++) {
 				AsignacionProduccion a =asignacion.get(i);
-				m.setValueAt("Asignar " + a.getOrdenProduccion().getProducto().getNombre() + 
+				m.setValueAt(a.getOrdenProduccion().getProducto().getNombre() + 
 						" x " +a.getOrdenProduccion().getCantidadAProducir()+
-						" a la linea " + a.getLinea().getNombre() +
-						". Demora aprox:" + a.getOrdenProduccion().getTiempoEstimado() + " hs.",i,0);
+						" (" + a.getOrdenProduccion().getTiempoEstimado() + " hs)",
+						i+1,a.getLinea().getId().intValue()-1);
 			}
 			jTable2.setModel(m);
-			jTable2.getColumn("A").setPreferredWidth(600);
+			jTable2.getColumn("A").setPreferredWidth(150);
+			jTable2.getColumn("B").setPreferredWidth(150);
+			jTable2.getColumn("C").setPreferredWidth(150);
+			jTable2.getColumn("D").setPreferredWidth(150);
+			jTable2.getColumn("E").setPreferredWidth(150);
 		}
 		return jTable2;
 	}
@@ -553,7 +551,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton getJButton2() {
 		if (jButton2 == null) {
 			jButton2 = new JButton();
-			jButton2.setBounds(new Rectangle(168, 350, 91, 27));
+			jButton2.setBounds(new Rectangle(332, 360, 91, 27));
 			jButton2.setText("Aceptar");
 			jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -846,41 +844,6 @@ public class MenuPrincipalVisual extends JFrame {
 			});
 		}
 		return jMenuItem7;
-	}
-
-	/**
-	 * This method initializes jScrollPane3	
-	 * 	
-	 * @return javax.swing.JScrollPane	
-	 */
-	private JScrollPane getJScrollPane3() {
-		if (jScrollPane3 == null) {
-			jScrollPane3 = new JScrollPane();
-			jScrollPane3.setBounds(new Rectangle(1, 0, 456, 326));
-			jScrollPane3.setViewportView(getJList());
-		}
-		return jScrollPane3;
-	}
-
-	/**
-	 * This method initializes jList	
-	 * 	
-	 * @return javax.swing.JList	
-	 */
-	private JList getJList() {
-		if (jList == null) {
-			jList = new JList();
-			DefaultListModel m=new DefaultListModel();
-			for (Iterator iterator = asignacion.iterator(); iterator.hasNext();) {
-				AsignacionProduccion a = (AsignacionProduccion) iterator.next();
-				m.addElement("Asignar " + a.getOrdenProduccion().getProducto().getNombre() + 
-						" x " +a.getOrdenProduccion().getCantidadAProducir()+
-						" a la linea " + a.getLinea().getNombre() +
-						". Demora aprox:" + a.getOrdenProduccion().getTiempoEstimado() + " hs." );
-			}
-			jList.setModel(m);
-		}
-		return jList;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
