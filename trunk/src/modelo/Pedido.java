@@ -48,7 +48,7 @@ public class Pedido {
 		this.id = id;
 	}
 	
-	@ManyToOne(targetEntity=Producto.class, fetch=FetchType.EAGER)
+	@ManyToOne(targetEntity=Producto.class, fetch=FetchType.LAZY)
 	@JoinColumn(name="id_producto", nullable=false)
 	public Producto getProducto() {
 		return producto;
@@ -73,7 +73,7 @@ public class Pedido {
 		this.fechaOrden = fechaOrden;
 	}
 
-	@ManyToOne(targetEntity=Cliente.class, fetch=FetchType.EAGER)
+	@ManyToOne(targetEntity=Cliente.class, fetch=FetchType.LAZY)
 	@JoinColumn(name="id_cliente", nullable=false)
 	public Cliente getCliente() {
 		return cliente;
