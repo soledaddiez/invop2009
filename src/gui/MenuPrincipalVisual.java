@@ -5,8 +5,10 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,16 +26,23 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import planificacion.Planificador;
+
 import modelo.Cliente;
+import modelo.Demanda;
 import modelo.Inventario;
+import modelo.Pedido;
+import modelo.PlanProduccion;
 import modelo.Producto;
 
 import com.toedter.calendar.JDateChooser;
 
 import dao.impl.ClienteDAO;
 import dao.impl.InventarioDAO;
+import dao.impl.LineaDAO;
 import dao.impl.PedidoDAO;
 import dao.impl.ProductoDAO;
+import javax.swing.JPopupMenu;
 
 public class MenuPrincipalVisual extends JFrame {
 
@@ -69,12 +78,21 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton jButton5 = null;
 	private JMenuItem jMenuItem3 = null;
 	private JDateChooser jDateChooser = null;
-	private JMenu jMenu3 = null;
 	private JLabel jLabel1 = null;
 	
 	private ProductoDAO productoDAO = new ProductoDAO();  //  @jve:decl-index=0:
 	private ClienteDAO clienteDAO = new ClienteDAO();  //  @jve:decl-index=0:
 	private PedidoDAO pedidoDAO = new PedidoDAO();  //  @jve:decl-index=0:
+	private LineaDAO lineasDAO = new LineaDAO();
+	private Timestamp FechaPlan = new Timestamp(Calendar.getInstance().getTimeInMillis());  //  @jve:decl-index=0:
+	private int CantidadClientes = 0;
+	private int CantidadProductos = 0;
+	private JPopupMenu jPopupMenu = null;  //  @jve:decl-index=0:visual-constraint="241,435"
+	private JMenuItem jMenuItem4 = null;
+	private JPopupMenu jPopupMenu1 = null;  //  @jve:decl-index=0:visual-constraint="158,437"
+	private JMenuItem jMenuItem5 = null;
+	private JMenuItem jMenuItem6 = null;
+	private JMenuItem jMenuItem7 = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -246,8 +264,8 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton getJButton1() {
 		if (jButton1 == null) {
 			jButton1 = new JButton();
-			jButton1.setText("Cancelar");
-			jButton1.setBounds(new Rectangle(164, 360, 90, 31));
+			jButton1.setText("Cerrar Ventana");
+			jButton1.setBounds(new Rectangle(164, 360, 125, 31));
 			jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
 					jDialog.show(false);
@@ -336,6 +354,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable.setCellSelectionEnabled(true);
 			jTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jTable.setShowGrid(true);
+			jTable.setComponentPopupMenu(getJPopupMenu());
 			DefaultTableModel m=new DefaultTableModel(20,2);
 			m.setValueAt("Producto",0,0);
 			m.setValueAt("Cantidad",0,1);
@@ -396,22 +415,25 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable1.setCellSelectionEnabled(true);
 			jTable1.setShowGrid(true);
 			jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			jTable1.setEnabled(false);
+			jTable1.setEnabled(true);
 			jTable1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			DefaultTableModel m=new DefaultTableModel(20,10);
 			m.setValueAt("Producto | Cliente",0,0);
 			int nroFila=1;
 			List<Producto> productos=productoDAO.getList();
+			CantidadProductos=productos.size();
 			for (Producto pro : productos){
 				m.setValueAt(pro.getNombre(),nroFila,0);
 				nroFila++;
 			}
 			
 			List<Cliente> clientes = clienteDAO.getList();
+			CantidadClientes = clientes.size();
 			for (int i=0; i<clientes.size(); i++){
 				m.setValueAt(clientes.get(i).getApellido()+", "+clientes.get(i).getNombre(), 0, i+1);
+				for (int j=0;j<productos.size();j++)
+					m.setValueAt(new Long(0), j+1, i+1);
 			}
-			
 			jTable1.setModel(m);
 		}
 		return jTable1;
@@ -442,7 +464,7 @@ public class MenuPrincipalVisual extends JFrame {
 	 */
 	private JDialog getJDialog1() {
 		if (jDialog1 == null) {
-			jDialog1 = new JDialog(getJDialog());
+			jDialog1 = new JDialog(this);
 			jDialog1.setSize(new Dimension(472, 423));
 			jDialog1.setTitle("Asignación de Producción por Línea");
 			jDialog1.setLocation(new Point(300, 200));
@@ -450,7 +472,6 @@ public class MenuPrincipalVisual extends JFrame {
 			jDialog1.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
 					jDialog1.show(false);
-					jDialog.show(false);
 				}
 			});
 		}
@@ -496,6 +517,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable2 = new JTable();
 			jTable2.setCellSelectionEnabled(true);
 			jTable2.setShowGrid(true);
+			jTable2.setComponentPopupMenu(getJPopupMenu1());
 			jTable2.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			DefaultTableModel m=new DefaultTableModel(20,6);
 			m.setValueAt("Linea1",0,1);
@@ -521,7 +543,6 @@ public class MenuPrincipalVisual extends JFrame {
 			jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
 					jDialog1.show(false);
-					jDialog.show(false);
 				}
 			});
 		}
@@ -578,7 +599,6 @@ public class MenuPrincipalVisual extends JFrame {
 			jContentPane4.setLayout(null);
 			jContentPane4.add(getJButton4(), null);
 			jContentPane4.add(getJTextArea(), null);
-			jContentPane4.add(getJMenu3(), null);
 		}
 		return jContentPane4;
 	}
@@ -626,23 +646,35 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton getJButton5() {
 		if (jButton5 == null) {
 			jButton5 = new JButton();
-			jButton5.setBounds(new Rectangle(64, 360, 91, 31));
-			jButton5.setText("Cargar");
+			jButton5.setBounds(new Rectangle(31, 360, 124, 31));
+			jButton5.setText("Cargar Planilla");
 			jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
-					List<Producto> productos = productoDAO.getList();
-					List<Cliente> clientes = clienteDAO.getList();
-					TableModel m = jTable1.getModel();
-					
 					Date fecha = jDateChooser.getDate();
-					fecha.setHours(0);
-					fecha.setMinutes(0);
-					fecha.setSeconds(0);
-					//fecha.setTime(0);
-					for(int index_p = 0; index_p < productos.size(); index_p++){
-						for(int index_c = 0; index_c < clientes.size(); index_c++){
-							m.setValueAt(pedidoDAO.getPedidoTotal(clientes.get(index_c), productos.get(index_p), new Timestamp(fecha.getTime())), index_p+1, index_c+1);
-						}
+					if (fecha!=null){
+						List<Cliente> clientes=clienteDAO.getList();
+						List<Producto> productos=productoDAO.getList();
+						int dia=fecha.getDate();
+						int mes=fecha.getMonth();
+						int anio=fecha.getYear();
+						Date date1=new Date(anio,mes,dia);
+						FechaPlan = new Timestamp(date1.getTime());
+						/*
+						 * Carga de la Planilla de pedidos y
+						 * seteo de la fecha de comienzo de planificación
+						 */
+//						List<Pedido> pedidos = pedidoDAO.getPedidoPorFecha(FechaPlan);
+//						int contProd=1;
+//						int contClient=1;
+//						for (Pedido p : pedidos){
+//							contProd=p.getProducto().getId().intValue();
+//							contClient=p.getCliente().getId().intValue();
+//							Long sum=(Long)jTable1.getValueAt(contProd,contClient)+p.getCantidad();
+//							jTable1.setValueAt(sum,contProd,contClient);
+//						}
+						for (int contC=0;contC<clientes.size();contC++)
+							for (int contP=0;contP<productos.size();contP++)
+								jTable1.setValueAt(pedidoDAO.getPedidoTotal(clientes.get(contC),productos.get(contP),FechaPlan),contP+1,contC+1);
 					}
 				}
 			});
@@ -661,6 +693,19 @@ public class MenuPrincipalVisual extends JFrame {
 			jMenuItem3.setText("Planificar Produccion...");
 			jMenuItem3.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mousePressed(java.awt.event.MouseEvent e) {
+					/*
+					 * Comienzo de la planificación de la producción
+					 */
+					List<Producto> productos=productoDAO.getList();
+					List<Demanda> demandas=new Vector<Demanda>();
+					for (int j=0;j<CantidadClientes;j++)
+						for (int i=0;i<CantidadProductos;i++){
+							demandas.add(new Demanda(productos.get(i),(Long)jTable1.getValueAt(i+1,j+1),FechaPlan));
+							System.out.println("producto: "+productos.get(i).getNombre());
+							System.out.println("cantidad: "+(Long)jTable1.getValueAt(i+1,j+1));
+							System.out.println("fecha plan: "+FechaPlan);
+						}
+					//PlanProduccion plan=Planificador.planificar(demandas,lineasDAO.getList());
 					getJDialog1().show();
 				}
 			});
@@ -669,16 +714,104 @@ public class MenuPrincipalVisual extends JFrame {
 	}
 
 	/**
-	 * This method initializes jMenu3	
+	 * This method initializes jPopupMenu	
 	 * 	
-	 * @return javax.swing.JMenu	
+	 * @return javax.swing.JPopupMenu	
 	 */
-	private JMenu getJMenu3() {
-		if (jMenu3 == null) {
-			jMenu3 = new JMenu();
-			jMenu3.setBounds(new Rectangle(194, 144, 87, 14));
+	private JPopupMenu getJPopupMenu() {
+		if (jPopupMenu == null) {
+			jPopupMenu = new JPopupMenu();
+			jPopupMenu.add(getJMenuItem4());
 		}
-		return jMenu3;
+		return jPopupMenu;
+	}
+
+	/**
+	 * This method initializes jMenuItem4	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getJMenuItem4() {
+		if (jMenuItem4 == null) {
+			jMenuItem4 = new JMenuItem();
+			jMenuItem4.setText("Guardar Inventario");
+			jMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mousePressed(java.awt.event.MouseEvent e) {
+					System.out.println("mousePressed()"); // TODO Auto-generated Event stub mousePressed()
+				}
+			});
+		}
+		return jMenuItem4;
+	}
+
+	/**
+	 * This method initializes jPopupMenu1	
+	 * 	
+	 * @return javax.swing.JPopupMenu	
+	 */
+	private JPopupMenu getJPopupMenu1() {
+		if (jPopupMenu1 == null) {
+			jPopupMenu1 = new JPopupMenu();
+			jPopupMenu1.add(getJMenuItem5());
+			jPopupMenu1.add(getJMenuItem6());
+			jPopupMenu1.addSeparator();
+			jPopupMenu1.add(getJMenuItem7());
+		}
+		return jPopupMenu1;
+	}
+
+	/**
+	 * This method initializes jMenuItem5	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getJMenuItem5() {
+		if (jMenuItem5 == null) {
+			jMenuItem5 = new JMenuItem();
+			jMenuItem5.setText("Colorear");
+			jMenuItem5.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mousePressed(java.awt.event.MouseEvent e) {
+					System.out.println("mousePressed()"); // TODO Auto-generated Event stub mousePressed()
+				}
+			});
+		}
+		return jMenuItem5;
+	}
+
+	/**
+	 * This method initializes jMenuItem6	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getJMenuItem6() {
+		if (jMenuItem6 == null) {
+			jMenuItem6 = new JMenuItem();
+			jMenuItem6.setText("Observar Graficamente");
+			jMenuItem6.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mousePressed(java.awt.event.MouseEvent e) {
+					System.out.println("mousePressed()"); // TODO Auto-generated Event stub mousePressed()
+				}
+			});
+		}
+		return jMenuItem6;
+	}
+
+	/**
+	 * This method initializes jMenuItem7	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getJMenuItem7() {
+		if (jMenuItem7 == null) {
+			jMenuItem7 = new JMenuItem();
+			jMenuItem7.setText("Guardar Estado");
+			jMenuItem7.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mousePressed(java.awt.event.MouseEvent e) {
+					System.out.println("mousePressed()"); // TODO Auto-generated Event stub mousePressed()
+				}
+			});
+		}
+		return jMenuItem7;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
