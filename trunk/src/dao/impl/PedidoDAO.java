@@ -22,7 +22,17 @@ public class PedidoDAO extends GenericDAO<Pedido>{
 	public List<Demanda> getDemandas(Timestamp fechaInicio){
 		List<Demanda> demandas = new ArrayList<Demanda>();
 
-		List<Pedido> pedidos = this.getPedidosDesdeFecha(fechaInicio);
+		//List<Pedido> pedidos = this.getPedidosDesdeFecha(fechaInicio);
+		
+		Criteria crit = getHibernateTemplate().createCriteria(domainClass.getName());
+		if (fechaInicio != null){
+			crit.add(Restrictions.ge("fechaOrden", fechaInicio));	
+		}
+		
+		List<Pedido> pedidos = crit.list(); 
+		//session.getTransaction().commit();
+		
+		System.out.println("Hay " + pedidos.size() +  " pedidos desde esta fecha");
 		
 		Hashtable<String, Demanda> hash = new Hashtable<String, Demanda>();
 		Demanda demanda;
@@ -35,7 +45,11 @@ public class PedidoDAO extends GenericDAO<Pedido>{
 				hash.put(pedido.getProducto().getId()+"-"+pedido.getFechaOrden().toString(), demanda);
 			}
 			else{
-				demanda = new Demanda(pedido.getProducto(), pedido.getCantidad(), pedido.getFechaOrden());
+				Producto producto = pedido.getProducto();
+				double is = producto.getInventarioSeguridad();
+				double lm = producto.getLoteMinimo();
+				double u = producto.getUtilidad();
+				demanda = new Demanda(producto, pedido.getCantidad(), pedido.getFechaOrden());
 				hash.put(pedido.getProducto().getId()+"-"+pedido.getFechaOrden().toString(), demanda);
 			}
 		}
