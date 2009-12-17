@@ -12,7 +12,10 @@ import modelo.Linea;
 import modelo.PlanProduccion;
 import modelo.Producto;
 import planificacion.Planificador;
+import planificacion.PlanificadorViejo;
 import dao.impl.LineaDAO;
+import dao.impl.PedidoDAO;
+import dao.impl.ProductoDAO;
 import excepciones.DataAccessException;
 
 public class MainPlanificador {
@@ -22,7 +25,11 @@ public class MainPlanificador {
 	 */
 	public static void main(String[] args) {
 		
-		Producto p1 = new Producto("Producto 1", (long)100);
+		ProductoDAO productoDAO = new ProductoDAO();
+		
+		List<Producto> productos = productoDAO.getList();
+		System.out.println("Hay " + productos.size() + " productos");
+		/*Producto p1 = new Producto("Producto 1", (long)100);
 		Producto p2 = new Producto("Producto 2", (long)200);
 		Producto p3 = new Producto("Producto 3", (long)300);
 		p1.setLoteMinimo((long) 1000);
@@ -32,31 +39,43 @@ public class MainPlanificador {
 		p2.setUtilidad(0.8);
 		p3.setUtilidad(0.9);
 		
+		try {
+			productoDAO.save(p1);
+			productoDAO.save(p2);
+			productoDAO.save(p3);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
 		Long now = Calendar.getInstance().getTimeInMillis();
 		Timestamp fecha1 = new Timestamp(now);
 		Timestamp fecha2 = new Timestamp(now + (1000*60*60*24)*1);
 		Timestamp fecha3 = new Timestamp(now + (1000*60*60*24)*2);
 		
+		/*PedidoDAO pedidoDAO = new PedidoDAO(); 
+		List<Demanda> demandas = pedidoDAO.getDemandas(fecha1);
+		*/
+		
 		List<Demanda> demandas = new Vector<Demanda>();
-		demandas.add(new Demanda(p1, (long) 1000, fecha1));
-		demandas.add(new Demanda(p2, (long) 2000, fecha1));
-		demandas.add(new Demanda(p3, (long) 3000, fecha1));
-		demandas.add(new Demanda(p1, (long) 3400, fecha2));
-		demandas.add(new Demanda(p2, (long) 1200, fecha2));
-		demandas.add(new Demanda(p3, (long) 1700, fecha2));
-		demandas.add(new Demanda(p1, (long) 1000, fecha3));
-		demandas.add(new Demanda(p2, (long) 2000, fecha3));
-		demandas.add(new Demanda(p3, (long) 3000, fecha3));
+		demandas.add(new Demanda(productos.get(1), (long) 400, fecha1));
+		demandas.add(new Demanda(productos.get(2), (long) 2000, fecha1));
+		demandas.add(new Demanda(productos.get(3), (long) 3000, fecha1));
+		demandas.add(new Demanda(productos.get(1), (long) 3400, fecha2));
+		demandas.add(new Demanda(productos.get(2), (long) 1200, fecha2));
+		demandas.add(new Demanda(productos.get(3), (long) 1700, fecha2));
+		demandas.add(new Demanda(productos.get(1), (long) 300, fecha3));
+		demandas.add(new Demanda(productos.get(2), (long) 2000, fecha3));
+		demandas.add(new Demanda(productos.get(3), (long) 3000, fecha3));
 		
 		/*
 		Vector<Linea> lineas = new Vector<Linea>();
 		lineas.add(l1); lineas.add(l2); lineas.add(l3);
 		*/
+		/*
 		Linea l1 = new Linea("Linea 1");
 		Linea l2 = new Linea("Linea 2");
 		Linea l3 = new Linea("Linea 3");
-		
-		LineaDAO lineaDAO = new LineaDAO();
 		
 		try {
 			lineaDAO.save(l1);
@@ -65,8 +84,9 @@ public class MainPlanificador {
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
+		LineaDAO lineaDAO = new LineaDAO();
 		List<Linea> lineas = lineaDAO.getList();
 		
 		System.out.println("Hay " + lineas.size() + " lineas");
