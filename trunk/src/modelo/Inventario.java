@@ -54,4 +54,7 @@ public class Inventario {
 	public void setCantidad(Double cantidad) {
 		this.cantidad = cantidad;
 	}
+	public void setCantidad(String cantidad) {
+		this.cantidad = new Double(cantidad);
+	}
 }

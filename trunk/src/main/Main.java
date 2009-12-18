@@ -8,5 +8,4 @@ public class Main {
 		MenuPrincipalVisual m=new MenuPrincipalVisual();
 		m.show();
 	}
-
 }
