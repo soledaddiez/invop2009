@@ -826,10 +826,11 @@ public class MenuPrincipalVisual extends JFrame {
 	private JMenuItem getJMenuItem7() {
 		if (jMenuItem7 == null) {
 			jMenuItem7 = new JMenuItem();
-			jMenuItem7.setText("Guardar Estado");
+			jMenuItem7.setText("Cerrar");
 			jMenuItem7.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mousePressed(java.awt.event.MouseEvent e) {
-					System.out.println("mousePressed()"); // TODO Auto-generated Event stub mousePressed()
+					jDialog1.show(false);
+					jDialog4.show(false);
 				}
 			});
 		}
