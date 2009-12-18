@@ -279,9 +279,9 @@ public class Planificador {
 		List<AsignacionProduccion> asignacionesOrdenadas = new Vector<AsignacionProduccion>(); 
 		for(int i = 0; i < asignacionesFinales.size(); i++){
 			AsignacionProduccion asignacion = asignacionesFinales.get(i);
-			//Agrego el cambio de formato como un producto más
-			asignacionesOrdenadas.add(new AsignacionProduccion(asignacion.getLinea(), ordenCambioFormato));
 			if(!asignacionesOrdenadas.contains(asignacion)){
+				//Agrego el cambio de formato como un producto más
+				asignacionesOrdenadas.add(new AsignacionProduccion(asignacion.getLinea(), ordenCambioFormato));
 				asignacionesOrdenadas.add(asignacion);
 				Long formato = asignacion.getOrdenProduccion().getProducto().getCc();
 				for(int j = i+1; j < asignacionesFinales.size(); j++)
