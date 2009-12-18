@@ -933,7 +933,6 @@ public class MenuPrincipalVisual extends JFrame {
 			jDialog5.setSize(new Dimension(800, 600));
 			jDialog5.setTitle("Gráfico de Asignación");
 			jDialog5.setResizable(true);
-			//jDialog5.setContentPane(getJContentPane6());
 			jDialog5.setContentPane(new PlanificacionDeTareasGantt(asignacion));
 			jDialog5.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
