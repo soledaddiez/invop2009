@@ -11,6 +11,9 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javassist.expr.Instanceof;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -25,6 +28,8 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import planificacion.Planificador;
 import util.HoursConverter;
 import modelo.AsignacionProduccion;
@@ -94,7 +99,10 @@ public class MenuPrincipalVisual extends JFrame {
 	private PedidoDAO pedidoDAO = new PedidoDAO();  //  @jve:decl-index=0:
 	private LineaDAO lineasDAO = new LineaDAO();  //  @jve:decl-index=0:
 	private Timestamp FechaPlan = new Timestamp(Calendar.getInstance().getTimeInMillis());  //  @jve:decl-index=0:
+	
 	private List<AsignacionProduccion> asignacion = null;
+	private List<Inventario> inventario = null;  //  @jve:decl-index=0:
+	
 	private int CantidadClientes = 0;
 	private int CantidadProductos = 0;
 	private JDialog jDialog4 = null;  //  @jve:decl-index=0:visual-constraint="322,464"
@@ -373,7 +381,7 @@ public class MenuPrincipalVisual extends JFrame {
 			m.setValueAt("Cantidad",0,1);
 			int nroFila=1;
 			InventarioDAO inventarioDAO=new InventarioDAO();
-			List<Inventario> inventario=inventarioDAO.getList();
+			inventario=inventarioDAO.getList();
 			for (Inventario inv : inventario){
 				m.setValueAt(inv.getProducto().getNombre(),nroFila,0);
 				m.setValueAt(inv.getCantidad(),nroFila,1);
@@ -756,7 +764,22 @@ public class MenuPrincipalVisual extends JFrame {
 			jMenuItem4.setText("Guardar Inventario");
 			jMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mousePressed(java.awt.event.MouseEvent e) {
-					System.out.println("mousePressed()"); // TODO Auto-generated Event stub mousePressed()
+					
+					TableModel m = jTable.getModel();
+
+					int index = 0;
+					for (Inventario inv: inventario){
+						String i = m.getValueAt(index+1, 1).toString();
+						inv.setCantidad(new Double(i));
+						index++;
+					}
+					InventarioDAO inventarioDAO = new InventarioDAO();
+					try {
+						inventarioDAO.updateAll(inventario);
+					} catch (DataAccessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			});
 		}

@@ -47,14 +47,26 @@ public abstract class GenericDAO<T> {
 	 		throw new DataAccessException(e);
 		}
 	}
+	
+	public void updateAll(List<T> list) throws DataAccessException {
+		for(T element : list)
+			update(element);
+	}
  
 	public void save(T t) throws DataAccessException {
 	 	try {
 	 		getHibernateTemplate().save(t);
+	 	
 	 		session.getTransaction().commit();
+	 		session.flush();
 	 	} catch (HibernateException e) {
 	 		throw new DataAccessException(e);
 	 	}
+	}
+	
+	public void saveAll(List<T> list) throws DataAccessException {
+		for(T element : list)
+			save(element);
 	}
  
 	public void delete(T t) {
