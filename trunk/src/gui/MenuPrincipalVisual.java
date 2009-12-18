@@ -38,6 +38,7 @@ import dao.impl.LineaDAO;
 import dao.impl.PedidoDAO;
 import dao.impl.ProductoDAO;
 import javax.swing.JPopupMenu;
+import java.awt.BorderLayout;
 
 public class MenuPrincipalVisual extends JFrame {
 
@@ -93,6 +94,8 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDialog jDialog4 = null;  //  @jve:decl-index=0:visual-constraint="322,464"
 	private JPanel jContentPane5 = null;
 	private JButton jButton = null;
+	private JDialog jDialog5 = null;  //  @jve:decl-index=0:visual-constraint="1353,441"
+	private JPanel jContentPane6 = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -798,7 +801,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jMenuItem6.setText("Observar Graficamente");
 			jMenuItem6.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mousePressed(java.awt.event.MouseEvent e) {
-					System.out.println("mousePressed()"); // TODO Auto-generated Event stub mousePressed()
+					getJDialog5().show();
 				}
 			});
 		}
@@ -908,6 +911,41 @@ public class MenuPrincipalVisual extends JFrame {
 			});
 		}
 		return jButton;
+	}
+
+	/**
+	 * This method initializes jDialog5	
+	 * 	
+	 * @return javax.swing.JDialog	
+	 */
+	private JDialog getJDialog5() {
+		if (jDialog5 == null) {
+			jDialog5 = new JDialog(getJDialog1());
+			jDialog5.setSize(new Dimension(369, 398));
+			jDialog5.setTitle("Gráfico de Asignación");
+			jDialog5.setResizable(false);
+			//jDialog5.setContentPane(getJContentPane6());
+			jDialog5.setContentPane(new VentanaGrafica());
+			jDialog5.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent e) {
+					jDialog5.show(false);
+				}
+			});
+		}
+		return jDialog5;
+	}
+
+	/**
+	 * This method initializes jContentPane6	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */
+	private JPanel getJContentPane6() {
+		if (jContentPane6 == null) {
+			jContentPane6 = new JPanel();
+			jContentPane6.setLayout(null);
+		}
+		return jContentPane6;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
