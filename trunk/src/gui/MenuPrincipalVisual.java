@@ -12,8 +12,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javassist.expr.Instanceof;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -49,7 +47,6 @@ import dao.impl.ProductoDAO;
 import excepciones.DataAccessException;
 
 import javax.swing.JPopupMenu;
-import java.awt.BorderLayout;
 
 public class MenuPrincipalVisual extends JFrame {
 
