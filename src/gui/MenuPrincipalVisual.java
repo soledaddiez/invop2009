@@ -36,7 +36,6 @@ import modelo.PlanProduccion;
 import modelo.Producto;
 import com.toedter.calendar.JDateChooser;
 
-import dao.impl.AsignacionProduccionDAO;
 import dao.impl.ClienteDAO;
 import dao.impl.InventarioDAO;
 import dao.impl.LineaDAO;
@@ -54,7 +53,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JMenuBar jJMenuBar = null;
 	private JMenu jMenu = null;
 	private JMenu jMenu1 = null;
-	private JMenuItem jMenuItem = null;  //  @jve:decl-index=0:visual-constraint="154,435"
+	private JMenuItem jMenuItem = null;
 	private JDialog jDialog = null;  //  @jve:decl-index=0:visual-constraint="322,10"
 	private JPanel jContentPane1 = null;
 	private JButton jButton1 = null;
@@ -93,8 +92,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private ProductoDAO productoDAO = new ProductoDAO();  //  @jve:decl-index=0:
 	private ClienteDAO clienteDAO = new ClienteDAO();  //  @jve:decl-index=0:
 	private PedidoDAO pedidoDAO = new PedidoDAO();  //  @jve:decl-index=0:
-	private LineaDAO lineasDAO = new LineaDAO();
-	private AsignacionProduccionDAO asignacionProduccionDAO = new AsignacionProduccionDAO();  //  @jve:decl-index=0:
+	private LineaDAO lineasDAO = new LineaDAO();  //  @jve:decl-index=0:
 	private Timestamp FechaPlan = new Timestamp(Calendar.getInstance().getTimeInMillis());  //  @jve:decl-index=0:
 	private List<AsignacionProduccion> asignacion = null;
 	private int CantidadClientes = 0;
@@ -104,6 +102,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton jButton = null;
 	private JDialog jDialog5 = null;  //  @jve:decl-index=0:visual-constraint="1353,441"
 	private JPanel jContentPane6 = null;
+	private JLabel jLabel2 = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -176,7 +175,6 @@ public class MenuPrincipalVisual extends JFrame {
 		if (jMenu == null) {
 			jMenu = new JMenu();
 			jMenu.setText("Planificar");
-			jMenu.add(getJMenuItem());
 			jMenu.add(getJMenuItem3());
 			jMenu.addSeparator();
 			jMenu.add(getJMenuItem1());
@@ -192,8 +190,9 @@ public class MenuPrincipalVisual extends JFrame {
 	private JMenu getJMenu1() {
 		if (jMenu1 == null) {
 			jMenu1 = new JMenu();
-			jMenu1.setText("Cargar");
+			jMenu1.setText("Mostrar");
 			jMenu1.add(getJMenuItem2());
+			jMenu1.add(getJMenuItem());
 		}
 		return jMenu1;
 	}
@@ -842,8 +841,8 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDialog getJDialog4() {
 		if (jDialog4 == null) {
 			jDialog4 = new JDialog(this);
-			jDialog4.setSize(new Dimension(255, 203));
-			jDialog4.setTitle("Fecha de Planificación");
+			jDialog4.setSize(new Dimension(224, 136));
+			jDialog4.setTitle("Planificar Producción");
 			jDialog4.setLocation(new Point(300, 200));
 			jDialog4.setResizable(false);
 			jDialog4.setContentPane(getJContentPane5());
@@ -863,10 +862,14 @@ public class MenuPrincipalVisual extends JFrame {
 	 */
 	private JPanel getJContentPane5() {
 		if (jContentPane5 == null) {
+			jLabel2 = new JLabel();
+			jLabel2.setBounds(new Rectangle(2, 8, 215, 22));
+			jLabel2.setText("Elija la fecha que desea planificar:");
 			jContentPane5 = new JPanel();
 			jContentPane5.setLayout(null);
 			jContentPane5.add(getJDateChooser1(),null);
 			jContentPane5.add(getJButton(), null);
+			jContentPane5.add(jLabel2, null);
 		}
 		return jContentPane5;
 	}
@@ -874,7 +877,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDateChooser getJDateChooser1() {
 		if (jDateChooser1 == null) {
 			jDateChooser1 = new JDateChooser();
-			jDateChooser1.setBounds(new Rectangle(0, 0, 250, 25));
+			jDateChooser1.setBounds(new Rectangle(0, 36, 217, 25));
 			
 		}
 		return jDateChooser1;
@@ -887,7 +890,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton getJButton() {
 		if (jButton == null) {
 			jButton = new JButton();
-			jButton.setBounds(new Rectangle(79, 142, 90, 24));
+			jButton.setBounds(new Rectangle(63, 74, 90, 24));
 			jButton.setText("Planificar");
 			jButton.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
