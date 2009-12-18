@@ -3,7 +3,6 @@ package gui;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -36,7 +35,7 @@ import org.jfree.data.general.DefaultPieDataset;
 				System.exit(0);
 			}
 		});
-//		ventana.pack();
+		//ventana.pack();
 		ventana.setSize(400, 400);
 		ventana.show();
 	}
@@ -64,5 +63,6 @@ import org.jfree.data.general.DefaultPieDataset;
 			grafica = this.creaImagen();
 		}
 		g.drawImage(grafica, 30, 30, null);
+		this.invalidate();
 	}
 }
