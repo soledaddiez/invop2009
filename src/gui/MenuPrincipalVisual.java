@@ -90,7 +90,6 @@ public class MenuPrincipalVisual extends JFrame {
 	private JPopupMenu jPopupMenu = null;  //  @jve:decl-index=0:visual-constraint="241,435"
 	private JMenuItem jMenuItem4 = null;
 	private JPopupMenu jPopupMenu1 = null;  //  @jve:decl-index=0:visual-constraint="158,437"
-	private JMenuItem jMenuItem5 = null;
 	private JMenuItem jMenuItem6 = null;
 	private JMenuItem jMenuItem7 = null;
 	
@@ -794,30 +793,11 @@ public class MenuPrincipalVisual extends JFrame {
 	private JPopupMenu getJPopupMenu1() {
 		if (jPopupMenu1 == null) {
 			jPopupMenu1 = new JPopupMenu();
-			jPopupMenu1.add(getJMenuItem5());
 			jPopupMenu1.add(getJMenuItem6());
 			jPopupMenu1.addSeparator();
 			jPopupMenu1.add(getJMenuItem7());
 		}
 		return jPopupMenu1;
-	}
-
-	/**
-	 * This method initializes jMenuItem5	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */
-	private JMenuItem getJMenuItem5() {
-		if (jMenuItem5 == null) {
-			jMenuItem5 = new JMenuItem();
-			jMenuItem5.setText("Colorear");
-			jMenuItem5.addMouseListener(new java.awt.event.MouseAdapter() {
-				public void mousePressed(java.awt.event.MouseEvent e) {
-					System.out.println("mousePressed()"); // TODO Auto-generated Event stub mousePressed()
-				}
-			});
-		}
-		return jMenuItem5;
 	}
 
 	/**
