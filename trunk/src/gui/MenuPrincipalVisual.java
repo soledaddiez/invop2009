@@ -1,5 +1,8 @@
 package gui;
 
+import gui.chart.PlanificacionDeTareasGant;
+import gui.chart.VentanaGrafica;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -921,11 +924,11 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDialog getJDialog5() {
 		if (jDialog5 == null) {
 			jDialog5 = new JDialog(getJDialog1());
-			jDialog5.setSize(new Dimension(369, 398));
+			jDialog5.setSize(new Dimension(800, 600));
 			jDialog5.setTitle("Gráfico de Asignación");
-			jDialog5.setResizable(false);
+			jDialog5.setResizable(true);
 			//jDialog5.setContentPane(getJContentPane6());
-			jDialog5.setContentPane(new VentanaGrafica());
+			jDialog5.setContentPane(new PlanificacionDeTareasGant(asignacion));
 			jDialog5.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
 					jDialog5.show(false);
