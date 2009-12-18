@@ -877,7 +877,6 @@ public class MenuPrincipalVisual extends JFrame {
 
 	/**
 	 * This method initializes jButton	
-	 * 	
 	 * @return javax.swing.JButton	
 	 */
 	private JButton getJButton() {
@@ -918,7 +917,6 @@ public class MenuPrincipalVisual extends JFrame {
 
 	/**
 	 * This method initializes jDialog5	
-	 * 	
 	 * @return javax.swing.JDialog	
 	 */
 	private JDialog getJDialog5() {
