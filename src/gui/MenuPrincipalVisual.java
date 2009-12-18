@@ -23,6 +23,7 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import planificacion.Planificador;
+import util.HoursConverter;
 import modelo.AsignacionProduccion;
 import modelo.Cliente;
 import modelo.Demanda;
@@ -534,12 +535,20 @@ public class MenuPrincipalVisual extends JFrame {
 			}
 			
 			for (AsignacionProduccion a : asignacion) {
-				m.setValueAt(a.getOrdenProduccion().getProducto().getNombre() + 
+				if(a.getOrdenProduccion().getCantidadAProducir() > 0){
+					m.setValueAt(a.getOrdenProduccion().getProducto().getNombre() + 
 						" x " +a.getOrdenProduccion().getCantidadAProducir()+
-						" (" + a.getOrdenProduccion().getTiempoEstimado() + " hs)",
+						" (" + HoursConverter.getString(a.getOrdenProduccion().getTiempoEstimado()) + " hs)",
 						indices[a.getLinea().getId().intValue()-1],
 						a.getLinea().getId().intValue()-1);
-				indices[a.getLinea().getId().intValue()-1]+=1;
+				}else{
+					m.setValueAt(a.getOrdenProduccion().getProducto().getNombre() + 
+							" (" + HoursConverter.getString(a.getOrdenProduccion().getTiempoEstimado()) + " hs)",
+							indices[a.getLinea().getId().intValue()-1],
+							a.getLinea().getId().intValue()-1);
+				}
+				indices[a.getLinea().getId().intValue()-1] += 1;
+
 			}
 			jTable2.setModel(m);
 			jTable2.getColumn("A").setPreferredWidth(150);
