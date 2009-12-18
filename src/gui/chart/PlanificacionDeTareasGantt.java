@@ -32,7 +32,7 @@ import dao.impl.LineaDAO;
 
 import util.HoursConverter;
 
-public class PlanificacionDeTareasGant extends JPanel {
+public class PlanificacionDeTareasGantt extends JPanel {
 
 	/**
 	 * 
@@ -41,14 +41,14 @@ public class PlanificacionDeTareasGant extends JPanel {
 	BufferedImage grafica = null;
 	List<AsignacionProduccion> asignacion;
 
-	public PlanificacionDeTareasGant(List<AsignacionProduccion> asignacion) {
+	public PlanificacionDeTareasGantt(List<AsignacionProduccion> asignacion) {
 		super();
 		this.asignacion = asignacion;
 	}
 
 	public static void main(String args[]) {
 		JFrame ventana = new JFrame("Ejemplo");
-		PlanificacionDeTareasGant panel = new PlanificacionDeTareasGant(null);
+		PlanificacionDeTareasGantt panel = new PlanificacionDeTareasGantt(null);
 		ventana.getContentPane().add(panel);
 		ventana.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -64,7 +64,7 @@ public class PlanificacionDeTareasGant extends JPanel {
 		final IntervalCategoryDataset dataset = createDataset();
 	    final JFreeChart chart = createChart(dataset);
 
-		BufferedImage image = chart.createBufferedImage(800, 600);
+		BufferedImage image = chart.createBufferedImage(700, 500);
 
 		return image;
 	}
@@ -126,9 +126,9 @@ public class PlanificacionDeTareasGant extends JPanel {
      */
     private JFreeChart createChart(final IntervalCategoryDataset dataset) {
         final JFreeChart chart = ChartFactory.createGanttChart(
-            "Gantt Chart Demo",  // chart title
-            "Task",              // domain axis label
-            "Date",              // range axis label
+            "Asignación de Producción por Línea",  // chart title
+            "Producto",              // domain axis label
+            "Tiempo [hs]",              // range axis label
             dataset,             // data
             true,                // include legend
             true,                // tooltips

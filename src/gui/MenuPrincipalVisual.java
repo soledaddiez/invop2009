@@ -1,6 +1,6 @@
 package gui;
 
-import gui.chart.PlanificacionDeTareasGant;
+import gui.chart.PlanificacionDeTareasGantt;
 import gui.chart.VentanaGrafica;
 
 import java.awt.Color;
@@ -35,11 +35,15 @@ import modelo.Linea;
 import modelo.PlanProduccion;
 import modelo.Producto;
 import com.toedter.calendar.JDateChooser;
+
+import dao.impl.AsignacionProduccionDAO;
 import dao.impl.ClienteDAO;
 import dao.impl.InventarioDAO;
 import dao.impl.LineaDAO;
 import dao.impl.PedidoDAO;
 import dao.impl.ProductoDAO;
+import excepciones.DataAccessException;
+
 import javax.swing.JPopupMenu;
 import java.awt.BorderLayout;
 
@@ -90,6 +94,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private ClienteDAO clienteDAO = new ClienteDAO();  //  @jve:decl-index=0:
 	private PedidoDAO pedidoDAO = new PedidoDAO();  //  @jve:decl-index=0:
 	private LineaDAO lineasDAO = new LineaDAO();
+	private AsignacionProduccionDAO asignacionProduccionDAO = new AsignacionProduccionDAO();  //  @jve:decl-index=0:
 	private Timestamp FechaPlan = new Timestamp(Calendar.getInstance().getTimeInMillis());  //  @jve:decl-index=0:
 	private List<AsignacionProduccion> asignacion = null;
 	private int CantidadClientes = 0;
@@ -926,7 +931,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jDialog5.setTitle("Gráfico de Asignación");
 			jDialog5.setResizable(true);
 			//jDialog5.setContentPane(getJContentPane6());
-			jDialog5.setContentPane(new PlanificacionDeTareasGant(asignacion));
+			jDialog5.setContentPane(new PlanificacionDeTareasGantt(asignacion));
 			jDialog5.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
 					jDialog5.show(false);
