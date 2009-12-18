@@ -272,20 +272,26 @@ public class Planificador {
 		//Calculo nuevamente la asignación para todas las lineas pero sin los tiempos de cambio de formato
 		List<AsignacionProduccion> asignacionesFinales = calcularAsignacion(demandasRangoFinales, lineasHora);
 		
+		Producto cambioFormato = new Producto("[ Cambio de formato ]", (long) 0);
+		OrdenProduccion ordenCambioFormato = new OrdenProduccion(cambioFormato, (long) 0, HORAS_CAMBIO_FORMATO);
+		
 		//Ordeno las asignaciones por formato para minimizar los cambios
 		List<AsignacionProduccion> asignacionesOrdenadas = new Vector<AsignacionProduccion>(); 
 		for(int i = 0; i < asignacionesFinales.size(); i++){
 			AsignacionProduccion asignacion = asignacionesFinales.get(i);
+			//Agrego el cambio de formato como un producto más
+			asignacionesOrdenadas.add(new AsignacionProduccion(asignacion.getLinea(), ordenCambioFormato));
 			if(!asignacionesOrdenadas.contains(asignacion)){
 				asignacionesOrdenadas.add(asignacion);
 				Long formato = asignacion.getOrdenProduccion().getProducto().getCc();
 				for(int j = i+1; j < asignacionesFinales.size(); j++)
-					if(asignacionesFinales.get(j).getOrdenProduccion().getProducto().getCc().equals(formato)){ //Si es del mismo formato lo coloco detrás de el
+					//Si es del mismo formato y esta en la misma linea lo coloco detrás de el
+					if(asignacionesFinales.get(j).getLinea().getId().equals(asignacion.getLinea().getId()) &&  asignacionesFinales.get(j).getOrdenProduccion().getProducto().getCc().equals(formato)){ 
 						asignacionesOrdenadas.add(asignacionesFinales.get(j));
 					}
 			}
 		}
-	
+		
 		PlanProduccion plan = new PlanProduccion();
 		plan.setAsignaciones(asignacionesOrdenadas);
 		return plan;
