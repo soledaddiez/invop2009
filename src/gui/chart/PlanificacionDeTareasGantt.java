@@ -7,30 +7,22 @@ import java.awt.image.BufferedImage;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import modelo.AsignacionProduccion;
 import modelo.Linea;
+import util.HoursConverter;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.category.IntervalCategoryDataset;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
-import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.time.SimpleTimePeriod;
-import org.jfree.data.time.TimePeriod;
-
 
 import dao.impl.LineaDAO;
-
-import util.HoursConverter;
 
 public class PlanificacionDeTareasGantt extends JPanel {
 
@@ -74,18 +66,22 @@ public class PlanificacionDeTareasGantt extends JPanel {
 		LineaDAO lineaDAO = new LineaDAO();
 		List<Linea> lineas = lineaDAO.getList();
 		
-		int[] tiempos=new int[lineas.size()];
+		long[] tiempos=new long[lineas.size()];
 		TaskSeries tSeries;
 		TaskSeriesCollection collection = new TaskSeriesCollection();
 		
 		for (int j=0;j<lineas.size();j++){
 			tSeries = new TaskSeries(lineas.get(j).getNombre());
-			tiempos[j] = 0; //inicializo el contador de tiempos
+			Date d=new Date(109,0,1,0,0,0);
+			tiempos[j] = d.getTime(); //inicializo el contador de tiempos
 			for (AsignacionProduccion a : this.asignacion) {
 				if(a.getLinea().getId().longValue()==lineas.get(j).getId().longValue()){
+					int hasta=d.getHours()+(a.getOrdenProduccion().getTiempoEstimado()).intValue();
+					Date aux=new Date(109,0,1,hasta,0,0);
+					long estimado=aux.getTime();
 					if(!(a.getOrdenProduccion().getProducto().getNombre().equals("[Cambio de formato]"))){
 						if(a.getOrdenProduccion().getCantidadAProducir() > 0){
-							tSeries.add(new Task(a.getOrdenProduccion().getProducto().getNombre(), new SimpleTimePeriod(tiempos[j], tiempos[j]+(a.getOrdenProduccion().getTiempoEstimado()).longValue()))); //TODO ese mas 10 debe ser el tiempo de la tarea real
+							tSeries.add(new Task(a.getOrdenProduccion().getProducto().getNombre(), new SimpleTimePeriod(tiempos[j],estimado))); //TODO ese mas 10 debe ser el tiempo de la tarea real
 						}else{
 		//					m.setValueAt(a.getOrdenProduccion().getProducto().getNombre() + 
 		//							" (" + HoursConverter.getString(a.getOrdenProduccion().getTiempoEstimado()) + " hs)",
@@ -95,10 +91,12 @@ public class PlanificacionDeTareasGantt extends JPanel {
 						}
 					}
 		//			tiempos[a.getLinea().getId().intValue()-1] += 10;
-					tiempos[j] += (a.getOrdenProduccion().getTiempoEstimado()).longValue();
+					d.setHours(d.getHours()+(a.getOrdenProduccion().getTiempoEstimado()).intValue());
+					tiempos[j] = estimado;
+					d=new Date(aux.getTime());
 				}
 			}
-			collection.add(tSeries);	
+			collection.add(tSeries);
 		}
 		return collection;
 	}
