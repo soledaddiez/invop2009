@@ -87,8 +87,12 @@ public class MenuPrincipalVisual extends JFrame {
 	private JPopupMenu jPopupMenu = null;  //  @jve:decl-index=0:visual-constraint="241,435"
 	private JMenuItem jMenuItem4 = null;
 	private JPopupMenu jPopupMenu1 = null;  //  @jve:decl-index=0:visual-constraint="158,437"
+	private JPopupMenu jPopupMenu2 = null;
 	private JMenuItem jMenuItem6 = null;
 	private JMenuItem jMenuItem7 = null;
+	private JMenuItem jMenuItemGuardarUtilidades = null;
+	private JScrollPane jScrollPane3 = null;
+	private JTable jTableUtilidad = null;
 	
 	private ProductoDAO productoDAO = new ProductoDAO();  //  @jve:decl-index=0:
 	private ClienteDAO clienteDAO = new ClienteDAO();  //  @jve:decl-index=0:
@@ -98,15 +102,19 @@ public class MenuPrincipalVisual extends JFrame {
 	
 	private List<AsignacionProduccion> asignacion = null;
 	private List<Inventario> inventario = null;  //  @jve:decl-index=0:
+	private List<Producto> productos = null;  //  @jve:decl-index=0:
 	
 	private int CantidadClientes = 0;
 	private int CantidadProductos = 0;
-	private JDialog jDialog4 = null;  //  @jve:decl-index=0:visual-constraint="322,464"
+	private JDialog jDialog4 = null;  //  @jve:decl-index=0:visual-constraint="552,462"
 	private JPanel jContentPane5 = null;
 	private JButton jButton = null;
 	private JDialog jDialog5 = null;  //  @jve:decl-index=0:visual-constraint="1353,441"
-	private JPanel jContentPane6 = null;
+	private JPanel jContentPaneUtilidad = null;
 	private JLabel jLabel2 = null;
+	private JMenuItem jMenuItem8 = null;
+	private JDialog jDialogUtilidad = null;  //  @jve:decl-index=0:visual-constraint="9,491"
+	private JButton jButton6 = null;  //  @jve:decl-index=0:visual-constraint="73,587"
 	/**
 	 * This is the default constructor
 	 */
@@ -197,6 +205,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jMenu1.setText("Mostrar");
 			jMenu1.add(getJMenuItem2());
 			jMenu1.add(getJMenuItem());
+			jMenu1.add(getJMenuItem8());
 		}
 		return jMenu1;
 	}
@@ -437,9 +446,9 @@ public class MenuPrincipalVisual extends JFrame {
 			DefaultTableModel m=new DefaultTableModel(20,22);
 			m.setValueAt("Producto | Cliente",0,0);
 			int nroFila=1;
-			List<Producto> productos=productoDAO.getList();
-			CantidadProductos=productos.size();
-			for (Producto pro : productos){
+			
+			CantidadProductos= this.getProductos().size();
+			for (Producto pro : this.getProductos()){
 				m.setValueAt(pro.getNombre(),nroFila,0);
 				nroFila++;
 			}
@@ -448,7 +457,7 @@ public class MenuPrincipalVisual extends JFrame {
 			CantidadClientes = clientes.size();
 			for (int i=0; i<clientes.size(); i++){
 				m.setValueAt(clientes.get(i).getApellido()+", "+clientes.get(i).getNombre(), 0, i+1);
-				for (int j=0;j<productos.size();j++)
+				for (int j=0; j < this.getProductos().size(); j++)
 					m.setValueAt(new Long(0), j+1, i+1);
 			}
 			jTable1.setModel(m);
@@ -678,7 +687,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jTextArea.setBounds(new Rectangle(1, 2, 304, 130));
 			jTextArea.setEditable(false);
 			jTextArea.setBackground(Color.white);
-			jTextArea.setText("Programa realizado por:\n\n\tDiez Gonzalez, Soledad\n\tDurante, Alejandro\n\tGonzalez, Rodrigo\n\tSalvatierra,Gonzalo\n\nInvestigación Operativa-Proyecto Final-Diciembre 2009");
+			jTextArea.setText("Programa realizado por:\n\n\tDiez González, Soledad\n\tDurante, Alejandro\n\tGonzález, Rodrigo\n\tSalvatierra,Gonzalo\n\nInvestigación Operativa-Proyecto Final-Diciembre 2009");
 		}
 		return jTextArea;
 	}
@@ -878,7 +887,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDateChooser getJDateChooser1() {
 		if (jDateChooser1 == null) {
 			jDateChooser1 = new JDateChooser();
-			jDateChooser1.setBounds(new Rectangle(0, 36, 217, 25));
+			jDateChooser1.setBounds(new Rectangle(41, 35, 138, 22));
 			
 		}
 		return jDateChooser1;
@@ -944,17 +953,163 @@ public class MenuPrincipalVisual extends JFrame {
 		return jDialog5;
 	}
 
+//Desde aca arranqué con lo de utilidad...
 	/**
-	 * This method initializes jContentPane6	
+	 * This method initializes jMenuItem8	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getJMenuItem8() {
+		if (jMenuItem8 == null) {
+			jMenuItem8 = new JMenuItem();
+			jMenuItem8.setText("Utilidad");
+			jMenuItem8.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mousePressed(java.awt.event.MouseEvent e) {
+					getJDialogUtilidad().show();
+				}
+			});
+		}
+		return jMenuItem8;
+	}
+
+	/**
+	 * This method initializes jDialogUtilidad	
+	 * 	
+	 * @return javax.swing.JDialog	
+	 */
+	private JDialog getJDialogUtilidad() {
+		if (jDialogUtilidad == null) {
+			jDialogUtilidad = new JDialog(this);
+			jDialogUtilidad.setSize(new Dimension(475, 423));
+			jDialogUtilidad.setTitle("Utilidades por Producto");
+			jDialogUtilidad.setLocation(new Point(200, 200));
+			jDialogUtilidad.setResizable(false);
+			jDialogUtilidad.setContentPane(getJContentPaneUtilidad());
+			jDialogUtilidad.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent e) {
+					jDialogUtilidad.show(false);
+				}
+			});
+		}
+		return jDialogUtilidad;
+	}
+
+	/**
+	 * This method initializes jContentPaneUtilidad	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */
-	private JPanel getJContentPane6() {
-		if (jContentPane6 == null) {
-			jContentPane6 = new JPanel();
-			jContentPane6.setLayout(null);
+	private JPanel getJContentPaneUtilidad() {
+		if (jContentPaneUtilidad == null) {
+			jContentPaneUtilidad = new JPanel();
+			jContentPaneUtilidad.setLayout(null);
+			jContentPaneUtilidad.add(getJScrollPane3(), null);
+			jContentPaneUtilidad.add(getJButton6(), null);
 		}
-		return jContentPane6;
+		return jContentPaneUtilidad;
+	}
+
+	/**
+	 * This method initializes jButton6	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */
+	private JButton getJButton6() {
+		if (jButton6 == null) {
+			jButton6 = new JButton();
+			jButton6.setBounds(new Rectangle(177, 351, 101, 29));
+			jButton6.setText("Aceptar");
+			jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mouseClicked(java.awt.event.MouseEvent e) {
+					jDialogUtilidad.show(false);
+				}
+			});
+		}
+		return jButton6;
+	}
+	
+	private JScrollPane getJScrollPane3() {
+		if (jScrollPane3 == null) {
+			jScrollPane3 = new JScrollPane();
+			jScrollPane3.setBounds(new Rectangle(4, 5, 453, 340));
+			jScrollPane3.setViewportView(getJTableUtilidad());
+		}
+		return jScrollPane3;
+	}
+	
+	private JTable getJTableUtilidad() {
+		if (jTableUtilidad == null) {
+			jTableUtilidad = new JTable();
+			jTableUtilidad.setCellSelectionEnabled(true);
+			jTableUtilidad.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+			jTableUtilidad.setShowGrid(true);
+			jTableUtilidad.setComponentPopupMenu(getJPopupMenu2());
+			DefaultTableModel m=new DefaultTableModel(20,2);
+			m.setValueAt("Producto",0,0);
+			m.setValueAt("Utilidad",0,1);
+			int nroFila=1;
+			
+			for (Producto producto : getProductos()){
+				m.setValueAt(producto.getNombre(),nroFila,0);
+				m.setValueAt(producto.getUtilidad(),nroFila,1);
+				nroFila++;
+			}
+			jTableUtilidad.setModel(m);
+		}
+		return jTableUtilidad;
+	}
+	
+	/**
+	 * This method initializes jPopupMenu	
+	 * 	
+	 * @return javax.swing.JPopupMenu	
+	 */
+	private JPopupMenu getJPopupMenu2() {
+		if (jPopupMenu2 == null) {
+			jPopupMenu2 = new JPopupMenu();
+			jPopupMenu2.add(getJMenuItemGuardarUtilidades());
+		}
+		return jPopupMenu2;
+	}
+
+	/**
+	 * This method initializes jMenuItemGuardarUtilidades	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getJMenuItemGuardarUtilidades() {
+		if (jMenuItemGuardarUtilidades == null) {
+			jMenuItemGuardarUtilidades = new JMenuItem();
+			jMenuItemGuardarUtilidades.setText("Guardar Utilidad");
+			jMenuItemGuardarUtilidades.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mousePressed(java.awt.event.MouseEvent e) {
+					System.out.println("Guardando Utilidades");
+					TableModel m = jTableUtilidad.getModel();
+
+					int index = 0;
+					for (Producto producto: productos){
+						String i = m.getValueAt(index+1, 1).toString();
+						producto.setUtilidad(new Double(i));
+						index++;
+					}
+					
+					try {
+						productoDAO.updateAll(productos);
+					} catch (DataAccessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			});
+		}
+		return jMenuItemGuardarUtilidades;
+	}
+
+	
+	private List<Producto> getProductos(){
+		if(this.productos == null)
+			productos = productoDAO.getList();
+		return productos;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
