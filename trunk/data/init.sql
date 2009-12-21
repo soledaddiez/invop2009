@@ -1,4 +1,4 @@
---producto 
+﻿--producto 
 INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad, inventario_seguridad)
 VALUES (1, 'Agua Chica', '500', '1000', '0.6', '100000');
 INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad, inventario_seguridad)
@@ -4434,23 +4434,23 @@ INSERT into linea(id, nombre) values (4, 'Linea1_gaseosa');
 INSERT into linea(id, nombre) values (5, 'Linea2_gaseosa');
 
 --tasa produccion
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (1,1,1,240000);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (2,1,4,192000);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (3,1,5,48000);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (4,2,1,240000);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (5,3,4,180000);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (6,3,5,36000);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (7,4,1,230400);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (8,5,3,13920);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (9,6,2,64800);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (10,7,4,54000);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (11,8,4,192000);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (12,8,5,48000);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (13,9,4,180000);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (14,9,5,36000);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (15,10,4,54000);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (16,11,4,192000);
-INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (17,11,5,48000);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (1,1,1,10000);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (2,1,4,8000);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (3,1,5,2000);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (4,2,1,10000);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (5,3,4,7500);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (6,3,5,1500);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (7,4,1,9600);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (8,5,3,580);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (9,6,2,2700);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (10,7,4,7500);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (11,8,4,8000);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (12,8,5,1500);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (13,9,4,7500);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (14,9,5,1500);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (15,10,4,7500);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (16,11,4,8000);
+INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (17,11,5,2000);
 
 
 --inventario
