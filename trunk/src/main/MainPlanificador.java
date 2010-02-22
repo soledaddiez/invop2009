@@ -12,7 +12,7 @@ import modelo.Linea;
 import modelo.PlanProduccion;
 import modelo.Producto;
 import planificacion.Planificador;
-import planificacion.PlanificadorViejo;
+//import planificacion.PlanificadorViejo;
 import dao.impl.LineaDAO;
 import dao.impl.PedidoDAO;
 import dao.impl.ProductoDAO;

@@ -202,7 +202,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JMenu getJMenu1() {
 		if (jMenu1 == null) {
 			jMenu1 = new JMenu();
-			jMenu1.setText("Mostrar");
+			jMenu1.setText("Configuración");
 			jMenu1.add(getJMenuItem2());
 			jMenu1.add(getJMenuItem());
 			jMenu1.add(getJMenuItem8());
@@ -611,7 +611,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JMenu getJMenu2() {
 		if (jMenu2 == null) {
 			jMenu2 = new JMenu();
-			jMenu2.setText("Acerca De...");
+			jMenu2.setText("Acerca de...");
 			jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
 					getJDialog3().show();

@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JFrame;
@@ -12,7 +11,6 @@ import javax.swing.JPanel;
 
 import modelo.AsignacionProduccion;
 import modelo.Linea;
-import util.HoursConverter;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -55,7 +53,7 @@ public class PlanificacionDeTareasGantt extends JPanel {
 	public BufferedImage creaImagen() {
 		final IntervalCategoryDataset dataset = createDataset();
 	    final JFreeChart chart = createChart(dataset);
-
+	   
 		BufferedImage image = chart.createBufferedImage(700, 500);
 
 		return image;
@@ -75,11 +73,12 @@ public class PlanificacionDeTareasGantt extends JPanel {
 			Date d=new Date(109,0,1,0,0,0);
 			tiempos[j] = d.getTime(); //inicializo el contador de tiempos
 			for (AsignacionProduccion a : this.asignacion) {
+				
 				if(a.getLinea().getId().longValue()==lineas.get(j).getId().longValue()){
 					int hasta=d.getHours()+(a.getOrdenProduccion().getTiempoEstimado()).intValue();
 					Date aux=new Date(109,0,1,hasta,0,0);
 					long estimado=aux.getTime();
-					if(!(a.getOrdenProduccion().getProducto().getNombre().equals("[Cambio de formato]"))){
+					if(!(a.getOrdenProduccion().getProducto().getNombre().equals("[ Cambio de formato ]"))){
 						if(a.getOrdenProduccion().getCantidadAProducir() > 0){
 							tSeries.add(new Task(a.getOrdenProduccion().getProducto().getNombre(), new SimpleTimePeriod(tiempos[j],estimado))); //TODO ese mas 10 debe ser el tiempo de la tarea real
 						}else{
@@ -100,22 +99,43 @@ public class PlanificacionDeTareasGantt extends JPanel {
 		}
 		return collection;
 	}
-
-	/**
-	 * Utility method for creating <code>Date</code> objects.
-	 * @param day the date.
-	 * @param month the month.
-	 * @param year the year.
-	 * @return a date.
-	 */
-	private static Date date(final int day, final int month, final int year) {
-
-		final Calendar calendar = Calendar.getInstance();
-		calendar.set(year, month, day);
-		final Date result = calendar.getTime();
-		return result;
-
-	}
+	
+//	public IntervalCategoryDataset createDataset() {
+//
+//		LineaDAO lineaDAO = new LineaDAO();
+//		List<Linea> lineas = lineaDAO.getList();
+//		
+//		double[] tiempos=new double[lineas.size()];
+//		TaskSeriesNutreco tSeries;
+//		TaskSeriesCollectionNutreco collection = new TaskSeriesCollectionNutreco();
+//		
+//		for (int j=0;j<lineas.size();j++){
+//			tSeries = new TaskSeriesNutreco(lineas.get(j).getNombre());
+//			tiempos[j] = 0; //inicializo el contador de tiempos
+//			for (AsignacionProduccion a : this.asignacion) {
+//				
+//				if(a.getLinea().getId().longValue()==lineas.get(j).getId().longValue()){
+//					if(!(a.getOrdenProduccion().getProducto().getNombre().equals("[ Cambio de formato ]"))){
+//						if(a.getOrdenProduccion().getCantidadAProducir() > 0){
+//							tSeries.add(new TaskNutreco(a.getOrdenProduccion().getProducto().getNombre(), new TimePeriodNutreco(tiempos[j], tiempos[j] + a.getOrdenProduccion().getTiempoEstimado())));
+//						}else{
+//		//					m.setValueAt(a.getOrdenProduccion().getProducto().getNombre() + 
+//		//							" (" + HoursConverter.getString(a.getOrdenProduccion().getTiempoEstimado()) + " hs)",
+//		//							indices[a.getLinea().getId().intValue()-1],
+//		//							a.getLinea().getId().intValue()-1);
+////							tSeries.add(new Task(a.getOrdenProduccion().getProducto().getNombre(), new SimpleTimePeriod(tiempos[j], tiempos[j]+10))); //TODO ese mas 10 debe ser el tiempo de la tarea real
+//						}
+//					}
+//		//			tiempos[a.getLinea().getId().intValue()-1] += 10;
+//					
+//					tiempos[j] += a.getOrdenProduccion().getTiempoEstimado();
+//					
+//				}
+//			}
+//			collection.add(tSeries);
+//		}
+//		return collection;
+//	}
 	
 	  /**
      * Creates a chart.
