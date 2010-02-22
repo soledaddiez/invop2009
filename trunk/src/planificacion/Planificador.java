@@ -262,8 +262,9 @@ public class Planificador {
 			List<Long> formatos = new Vector<Long>();
 			for(AsignacionProduccion asignacion : asignaciones){
 				if(asignacion.getLinea().getId().equals(lineaHora.getLinea().getId())){
-					if(!formatos.contains(asignacion.getOrdenProduccion().getProducto().getCc()))
-						formatos.add(asignacion.getOrdenProduccion().getProducto().getCc());
+					if(!formatos.contains(asignacion.getOrdenProduccion().getProducto().getFormato().getId()))
+						formatos.add(asignacion.getOrdenProduccion().getProducto().getFormato().getId());
+					// TODO mejora: lo agrego si el formato no coincide con el formato en el que se encuentra la linea
 				}
 			}
 			lineaHora.setHorasLibres(lineaHora.getHorasLibres() - formatos.size() * HORAS_CAMBIO_FORMATO);
@@ -272,7 +273,7 @@ public class Planificador {
 		//Calculo nuevamente la asignación para todas las lineas pero sin los tiempos de cambio de formato
 		List<AsignacionProduccion> asignacionesFinales = calcularAsignacion(demandasRangoFinales, lineasHora);
 		
-		Producto cambioFormato = new Producto("[ Cambio de formato ]", (long) 0);
+		Producto cambioFormato = new Producto("[ Cambio de formato ]", null);
 		OrdenProduccion ordenCambioFormato = new OrdenProduccion(cambioFormato, (long) 0, HORAS_CAMBIO_FORMATO);
 		
 		//Ordeno las asignaciones por formato para minimizar los cambios
@@ -283,10 +284,10 @@ public class Planificador {
 				//Agrego el cambio de formato como un producto más
 				asignacionesOrdenadas.add(new AsignacionProduccion(asignacion.getLinea(), ordenCambioFormato));
 				asignacionesOrdenadas.add(asignacion);
-				Long formato = asignacion.getOrdenProduccion().getProducto().getCc();
+				Long formato = asignacion.getOrdenProduccion().getProducto().getFormato().getId();
 				for(int j = i+1; j < asignacionesFinales.size(); j++)
 					//Si es del mismo formato y esta en la misma linea lo coloco detrás de el
-					if(asignacionesFinales.get(j).getLinea().getId().equals(asignacion.getLinea().getId()) &&  asignacionesFinales.get(j).getOrdenProduccion().getProducto().getCc().equals(formato)){ 
+					if(asignacionesFinales.get(j).getLinea().getId().equals(asignacion.getLinea().getId()) &&  asignacionesFinales.get(j).getOrdenProduccion().getProducto().getFormato().getId().equals(formato)){ 
 						asignacionesOrdenadas.add(asignacionesFinales.get(j));
 					}
 			}
