@@ -2,8 +2,11 @@ package modelo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -12,7 +15,7 @@ public class Producto {
 	
 	private Long id;
 	private String nombre;
-	private Long cc;
+	private Formato formato;
 	private Double utilidad;
 	private Long loteMinimo;
 	private Double inventarioSeguridad;
@@ -21,10 +24,10 @@ public class Producto {
 		super();
 	}
 	
-	public Producto(String nombre, Long cc) {
+	public Producto(String nombre, Formato formato) {
 		super();
 		this.nombre = nombre;
-		this.cc = cc;
+		this.formato = formato;
 	}
 	
 	@Id
@@ -45,14 +48,16 @@ public class Producto {
 		this.nombre = nombre;
 	}
 	
-    @Column(name = "cc")
-	public Long getCc() {
-		return cc;
+	@ManyToOne(targetEntity=Formato.class, fetch=FetchType.LAZY)
+	@JoinColumn(name="id_formato")
+	public Formato getFormato() {
+		return formato;
 	}
-	public void setCc(Long cc) {
-		this.cc = cc;
+
+	public void setFormato(Formato formato) {
+		this.formato = formato;
 	}
-	
+
 	@Column(name="utilidad", nullable=false)
 	public Double getUtilidad(){
 		return utilidad; //1.0

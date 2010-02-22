@@ -1,26 +1,42 @@
-﻿--producto 
-INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad, inventario_seguridad)
-VALUES (1, 'Agua Chica', '500', '1000', '0.6', '100000');
-INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad, inventario_seguridad)
-VALUES (2, 'Agua 600', '600', '1000', '0.7', '90000');
-INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad, inventario_seguridad)
-VALUES (3, 'Agua Lt. y 1/2', '1500', '1000', '1.0', '110000');
-INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad, inventario_seguridad)
-VALUES (4, 'Agua Grande', '2000', '1000', '1.5', '120000');
-INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad, inventario_seguridad)
-VALUES (5, 'Agua Bidon', '5000', '1000', '3.0', '300000');
-INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad, inventario_seguridad)
-VALUES (6, 'Soda Sifon', '2000', '1000', '1.2', '250000');
-INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad, inventario_seguridad)
-VALUES (7, 'Soda Botella', '2250', '1000', '1.4', '190000');
-INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad, inventario_seguridad)
-VALUES (8, 'Saborizada Chica', '500', '1000', '1.8', '80000');
-INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad, inventario_seguridad)
-VALUES (9, 'Saborizada Grande', '1500', '1000', '2.0', '112000');
-INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad, inventario_seguridad)
-VALUES (10, 'Gaseosa Sport', '2250', '1000', '2.4', '40000');
-INSERT INTO producto(id, nombre, cc, lote_minimo, utilidad, inventario_seguridad)
-VALUES (11, 'Gaseosa Plena', '500', '1000', '1.0', '115000');
+--formato
+INSERT INTO formato(id, capacidad, nombre)
+VALUES (1, 500, '500 cc');
+INSERT INTO formato(id, capacidad, nombre)
+VALUES (2, 600, '600 cc');
+INSERT INTO formato(id, capacidad, nombre)
+VALUES (3, 1000, '1 lt');
+INSERT INTO formato(id, capacidad, nombre)
+VALUES (4, 1500, '1.5 lts');
+INSERT INTO formato(id, capacidad, nombre)
+VALUES (5, 2000, '2 lts');
+INSERT INTO formato(id, capacidad, nombre)
+VALUES (6, 2250, '2.25 lts');
+INSERT INTO formato(id, capacidad, nombre)
+VALUES (7, 5000, '5 lts');
+
+--producto 
+INSERT INTO producto(id, nombre, id_formato, lote_minimo, utilidad, inventario_seguridad)
+VALUES (1, 'Agua Chica', 1, '1000', '0.6', '100000');
+INSERT INTO producto(id, nombre, id_formato, lote_minimo, utilidad, inventario_seguridad)
+VALUES (2, 'Agua 600', 2, '1000', '0.7', '90000');
+INSERT INTO producto(id, nombre, id_formato, lote_minimo, utilidad, inventario_seguridad)
+VALUES (3, 'Agua Lt. y 1/2', 4, '1000', '1.0', '110000');
+INSERT INTO producto(id, nombre, id_formato, lote_minimo, utilidad, inventario_seguridad)
+VALUES (4, 'Agua Grande', 5, '1000', '1.5', '120000');
+INSERT INTO producto(id, nombre, id_formato, lote_minimo, utilidad, inventario_seguridad)
+VALUES (5, 'Agua Bidon', 7, '1000', '3.0', '300000');
+INSERT INTO producto(id, nombre, id_formato, lote_minimo, utilidad, inventario_seguridad)
+VALUES (6, 'Soda Sifon', 5, '1000', '1.2', '250000');
+INSERT INTO producto(id, nombre, id_formato, lote_minimo, utilidad, inventario_seguridad)
+VALUES (7, 'Soda Botella', 6, '1000', '1.4', '190000');
+INSERT INTO producto(id, nombre, id_formato, lote_minimo, utilidad, inventario_seguridad)
+VALUES (8, 'Saborizada Chica', 1, '1000', '1.8', '80000');
+INSERT INTO producto(id, nombre, id_formato, lote_minimo, utilidad, inventario_seguridad)
+VALUES (9, 'Saborizada Grande', 4, '1000', '2.0', '112000');
+INSERT INTO producto(id, nombre, id_formato, lote_minimo, utilidad, inventario_seguridad)
+VALUES (10, 'Gaseosa Sport', 6, '1000', '2.4', '40000');
+INSERT INTO producto(id, nombre, id_formato, lote_minimo, utilidad, inventario_seguridad)
+VALUES (11, 'Gaseosa Plena', 1, '1000', '1.0', '115000');
 
 --clientes
 INSERT INTO cliente(id, nombre, apellido, direccion, telefono)

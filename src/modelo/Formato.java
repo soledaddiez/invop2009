@@ -2,9 +2,6 @@ package modelo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,19 +12,14 @@ import javax.persistence.Id;
  */
 
 @Entity
-@Table (name="LINEA")
-public class Linea {
+@Table (name="FORMATO")
+public class Formato {
 	private Long id;
 	private String nombre;
-	private Formato ultimoFormato;
+	private Long Capacidad;
 	
-	public Linea() {
+	public Formato() {
 		super();
-	}
-	
-	public Linea(String nombre) {
-		super();
-		this.nombre = nombre;
 	}
 
 	@Id
@@ -49,14 +41,13 @@ public class Linea {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	@ManyToOne(targetEntity=Formato.class, fetch=FetchType.LAZY)
-	@JoinColumn(name="id_ultimo_formato")
-	public Formato getUltimoFormato() {
-		return ultimoFormato;
+	
+	@Column (name="capacidad")
+	public Long getCapacidad() {
+		return Capacidad;
 	}
 
-	public void setUltimoFormato(Formato ultimoFormato) {
-		this.ultimoFormato = ultimoFormato;
+	public void setCapacidad(Long capacidad) {
+		Capacidad = capacidad;
 	}
 }

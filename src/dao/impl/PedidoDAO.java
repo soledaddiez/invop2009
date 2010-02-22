@@ -9,6 +9,7 @@ import java.util.Set;
 
 import modelo.Cliente;
 import modelo.Demanda;
+import modelo.Formato;
 import modelo.Pedido;
 import modelo.Producto;
 
@@ -47,7 +48,7 @@ public class PedidoDAO extends GenericDAO<Pedido>{
 				double is = producto.getInventarioSeguridad();
 				double lm = producto.getLoteMinimo();
 				double u = producto.getUtilidad();
-				Long cc = producto.getCc();
+				Formato formato = producto.getFormato();
 				demanda = new Demanda(producto, pedido.getCantidad(), pedido.getFechaOrden());
 				hash.put(pedido.getProducto().getId()+"-"+pedido.getFechaOrden().toString(), demanda);
 			}
