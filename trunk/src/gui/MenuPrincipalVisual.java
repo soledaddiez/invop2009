@@ -109,12 +109,15 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDialog jDialog4 = null;  //  @jve:decl-index=0:visual-constraint="552,462"
 	private JPanel jContentPane5 = null;
 	private JButton jButton = null;
-	private JDialog jDialog5 = null;  //  @jve:decl-index=0:visual-constraint="1353,441"
+	private JDialog jDialog5 = null;  //  @jve:decl-index=0:visual-constraint="1355,594"
 	private JPanel jContentPaneUtilidad = null;
 	private JLabel jLabel2 = null;
 	private JMenuItem jMenuItem8 = null;
 	private JDialog jDialogUtilidad = null;  //  @jve:decl-index=0:visual-constraint="9,491"
 	private JButton jButton6 = null;  //  @jve:decl-index=0:visual-constraint="73,587"
+	private JScrollPane jScrollPane4 = null;
+	private JLabel jLabel3 = null;
+	private JTextArea jTextArea1 = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -491,7 +494,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDialog getJDialog1() {
 		if (jDialog1 == null) {
 			jDialog1 = new JDialog(getJDialog4());
-			jDialog1.setSize(new Dimension(762, 423));
+			jDialog1.setSize(new Dimension(762, 546));
 			jDialog1.setTitle("Asignación de Producción por Línea");
 			jDialog1.setLocation(new Point(100, 200));
 			jDialog1.setResizable(false);
@@ -513,11 +516,31 @@ public class MenuPrincipalVisual extends JFrame {
 	 */
 	private JPanel getJContentPane2() {
 		if (jContentPane2 == null) {
+			jLabel3 = new JLabel();
+			jLabel3.setBounds(new Rectangle(8, 356, 109, 16));
+			jLabel3.setText("(+) DESCRIPCION: ");
+			jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mousePressed(java.awt.event.MouseEvent e) {
+					if ((jLabel3.getText()).equals("(-) DESCRIPCION: ")){
+						jLabel3.setText("(+) DESCRIPCION: ");
+						getJScrollPane4().setBounds(new Rectangle(3, 376, 749, 5));
+						getJTextArea1().setVisible(false);
+					}
+					else{
+						jLabel3.setText("(-) DESCRIPCION: ");
+						getJScrollPane4().setBounds(new Rectangle(3, 376, 749, 90));
+						getJTextArea1().setText("Lalalalala");
+						getJTextArea1().setVisible(true);
+					}
+				}
+			});
 			jContentPane2 = new JPanel();
 			jContentPane2.setLayout(null);
 			jContentPane2.add(getJScrollPane2(), null);
 			jContentPane2.add(getJButton2(), null);
 			//jContentPane2.add(getJScrollPane3(), null);
+			jContentPane2.add(getJScrollPane4(), null);
+			jContentPane2.add(jLabel3, null);
 		}
 		return jContentPane2;
 	}
@@ -591,7 +614,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton getJButton2() {
 		if (jButton2 == null) {
 			jButton2 = new JButton();
-			jButton2.setBounds(new Rectangle(332, 360, 91, 27));
+			jButton2.setBounds(new Rectangle(326, 477, 91, 27));
 			jButton2.setText("Aceptar");
 			jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -1110,6 +1133,34 @@ public class MenuPrincipalVisual extends JFrame {
 		if(this.productos == null)
 			productos = productoDAO.getList();
 		return productos;
+	}
+
+	/**
+	 * This method initializes jScrollPane4	
+	 * 	
+	 * @return javax.swing.JScrollPane	
+	 */
+	private JScrollPane getJScrollPane4() {
+		if (jScrollPane4 == null) {
+			jScrollPane4 = new JScrollPane();
+			jScrollPane4.setBounds(new Rectangle(3, 376, 749, 5));
+			jScrollPane4.setViewportView(getJTextArea1());
+			
+		}
+		return jScrollPane4;
+	}
+
+	/**
+	 * This method initializes jTextArea1	
+	 * 	
+	 * @return javax.swing.JTextArea	
+	 */
+	private JTextArea getJTextArea1() {
+		if (jTextArea1 == null) {
+			jTextArea1 = new JTextArea();
+			jTextArea1.setVisible(false);
+		}
+		return jTextArea1;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"
