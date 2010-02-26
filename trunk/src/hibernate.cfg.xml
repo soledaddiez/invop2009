@@ -15,15 +15,17 @@ PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
 		<property name="hibernate.hbm2ddl.auto">validate</property>
 		<property name="hibernate.current_session_context_class">org.hibernate.context.ThreadLocalSessionContext</property> 
 		
-		<mapping class="modelo.AsignacionProduccion"/>
-		<mapping class="modelo.Linea"/>
-		<mapping class="modelo.OrdenProduccion"/>
-		<mapping class="modelo.Pedido"/>
-		<mapping class="modelo.PlanProduccion"/>
-		<mapping class="modelo.Producto"/>
-		<mapping class="modelo.TasaProduccion"/>
-		<mapping class="modelo.Inventario"/>
-		<mapping class="modelo.Cliente"/>
+		<!--
+		<mapping class="modelo.AsignacionProduccion" />
+		<mapping class="modelo.OrdenProduccion" />
+		<mapping class="modelo.PlanProduccion" />
+		-->
+		<mapping class="modelo.Linea"  />
+		<mapping class="modelo.Pedido" />
+		<mapping class="modelo.Producto" />
+		<mapping class="modelo.TasaProduccion" />
+		<mapping class="modelo.Inventario" />
+		<mapping class="modelo.Cliente" />
 		<mapping class="modelo.Formato"/>
 		
 	</session-factory>
