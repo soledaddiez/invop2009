@@ -945,7 +945,7 @@ public class MenuPrincipalVisual extends JFrame {
 						PedidoDAO pedidoDAO = new PedidoDAO(); 
 						List<Demanda> demandas = pedidoDAO.getDemandas(fechaActual);
 						
-						PlanProduccion plan = Planificador.planificar(demandas, lineasDAO.getList());
+						PlanProduccion plan = Planificador.planificar(demandas, lineasDAO.getLineas());
 						plan.setFechaInicio(FechaPlan);
 						asignacion = plan.getAsignaciones();
 						getJDialog1().show();
