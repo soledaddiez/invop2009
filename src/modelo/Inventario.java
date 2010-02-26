@@ -15,9 +15,9 @@ public class Inventario {
 	
 	private Long id;
 	private Producto producto;
-	private Double cantidad;
+	private Long cantidad;
 
-	public Inventario(Producto producto, Double cantidad) {
+	public Inventario(Producto producto, Long cantidad) {
 		super();
 		this.producto = producto;
 		this.cantidad = cantidad;
@@ -48,13 +48,13 @@ public class Inventario {
 	}
 	
 	@Column(name="cantidad", nullable=false)
-	public Double getCantidad() {
+	public Long getCantidad() {
 		return cantidad;
 	}
-	public void setCantidad(Double cantidad) {
+	public void setCantidad(Long cantidad) {
 		this.cantidad = cantidad;
 	}
 	public void setCantidad(String cantidad) {
-		this.cantidad = new Double(cantidad);
+		this.cantidad = Long.parseLong(cantidad);
 	}
 }
