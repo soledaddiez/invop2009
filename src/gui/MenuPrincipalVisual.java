@@ -798,7 +798,7 @@ public class MenuPrincipalVisual extends JFrame {
 					int index = 0;
 					for (Inventario inv: inventario){
 						String i = m.getValueAt(index+1, 1).toString();
-						inv.setCantidad(new Double(i));
+						inv.setCantidad(new Long(i));
 						index++;
 					}
 					InventarioDAO inventarioDAO = new InventarioDAO();
