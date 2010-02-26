@@ -49,6 +49,7 @@ public class PedidoDAO extends GenericDAO<Pedido>{
 				double lm = producto.getLoteMinimo();
 				double u = producto.getUtilidad();
 				Formato formato = producto.getFormato();
+				Long idf = formato.getId(); 
 				demanda = new Demanda(producto, pedido.getCantidad(), pedido.getFechaOrden());
 				hash.put(pedido.getProducto().getId()+"-"+pedido.getFechaOrden().toString(), demanda);
 			}
