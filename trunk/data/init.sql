@@ -433,8 +433,8 @@ INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (3
 INSERT into linea(id, nombre, id_ultimo_formato) values (1, 'Linea1_agua', 1);
 INSERT into linea(id, nombre, id_ultimo_formato) values (2, 'Linea2_agua', 5);
 INSERT into linea(id, nombre, id_ultimo_formato) values (3, 'Linea3_agua', 7);
-INSERT into linea(id, nombre, id_ultimo_formato) values (4, 'Linea1_gaseosa', 4);
-INSERT into linea(id, nombre, id_ultimo_formato) values (5, 'Linea2_gaseosa', 6);
+INSERT into linea(id, nombre, id_ultimo_formato) values (4, 'Linea1_gaseosa', 6);
+INSERT into linea(id, nombre, id_ultimo_formato) values (5, 'Linea2_gaseosa', 4);
 
 --tasa produccion
 INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (1,1,1,10000);
