@@ -59,7 +59,11 @@ public class Simplex
 	m2=new LinkedList();
 	m3=new LinkedList();
     }
-
+    
+    public boolean isSolved(){
+    	return solved;
+    }
+    
     public void addConstraint (String inequality, double value, LinkedList vars, String slack)
     {
 	if (slack!=null) {
@@ -419,8 +423,10 @@ public class Simplex
 	int dotpos=rep.indexOf(".");
         int replen=rep.length();
 	String prepad= "     "; // 5 spaces
-	String nurep=prepad.substring(dotpos).concat(rep);
-        printPostPadded(out, nurep, 10);
+		if(dotpos < prepad.length() && dotpos >= 0){
+			String nurep=prepad.substring(dotpos).concat(rep);
+		    printPostPadded(out, nurep, 10);
+		}
     }
     
     void printPostPadded (PrintStream out, String rep, int fieldsize)
