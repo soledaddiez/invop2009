@@ -11,6 +11,7 @@ import simplex.Simplex;
 import simplex.Variable;
 
 import dao.impl.InventarioDAO;
+import dao.impl.LineaDAO;
 import dao.impl.ProductoDAO;
 import dao.impl.TasaProduccionDAO;
 
@@ -100,7 +101,7 @@ public class Planificador {
 
 		//Funcion objetivo
 		LinkedList<Variable> objectiveVars = new LinkedList<Variable>();
-		//objVars.add(new Variable("p32", 10));
+
 		for(LineaHora linea : lineas){
 			for(RangoDemanda rangoDemanda : rangosDemanda){
 				if(getTasaProduccion(rangoDemanda.getProducto(), linea.getLinea()) > 0){
@@ -114,7 +115,6 @@ public class Planificador {
 		}
 		simplex.addObjectiveFunction("u", objectiveVars);
 		
-		
 		//Restricciones de horas
 		for(LineaHora linea : lineas){
 			LinkedList<Variable> resLineaVars = new LinkedList<Variable>();
@@ -123,16 +123,11 @@ public class Planificador {
 				Long tasaProduccion = getTasaProduccion(rangoDemanda.getProducto(), linea.getLinea());
 				
 				if(tasaProduccion > 0){
-					resLineaVars.add(new Variable(nombreVar, (double) (1.0 / (double) tasaProduccion)));
-				}else{
-					//Si una linea no puede producir un producto determinado, agrego una restriccion de igualdad a 0
-					/*LinkedList<Variable> tasaCeroVars = new LinkedList<Variable>();
-					tasaCeroVars.add(new Variable(nombreVar, 1.0));
-					simplex.addConstraint("=", 0.0, tasaCeroVars);*/
+					resLineaVars.add(new Variable(nombreVar, 1.0 / (double) tasaProduccion));
 				}
 			}
 			if(resLineaVars.size() > 0){
-				//simplex.addConstraint("<=", linea.getHorasLibres(), resLineaVars);
+				simplex.addConstraint("<=", linea.getHorasLibres(), resLineaVars);
 			}
 		}
 		
@@ -157,9 +152,8 @@ public class Planificador {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
-		simplex.describeProblem(System.out);
-		
+		//simplex.describeProblem(System.out);
+
 		List<AsignacionProduccion> asignaciones = new Vector<AsignacionProduccion>();
 		Timestamp timeNow = new Timestamp(Calendar.getInstance().getTimeInMillis());
 		//Asignar al plan
@@ -182,6 +176,8 @@ public class Planificador {
 	
 	//Planifica una lista de demandas en un conjunto de lineas
 	static public PlanProduccion planificar(List<Demanda> demandas, List<Linea> lineas){
+		
+		LineaDAO lineaDAO = new LineaDAO();
 		
 		//Tomo el dia de hoy como la menor fecha dentro de las demandas
 		Calendar today = Calendar.getInstance();
@@ -278,11 +274,25 @@ public class Planificador {
 				if(asignacion.getLinea().getId().equals(lineaHora.getLinea().getId())){
 					if(!formatos.contains(asignacion.getOrdenProduccion().getProducto().getFormato().getId())){
 						formatos.add(asignacion.getOrdenProduccion().getProducto().getFormato().getId());
-						cantFormatos++;
+						if(!lineaDAO.getIdUltimoFormato(asignacion.getLinea().getId()).equals(asignacion.getOrdenProduccion().getProducto().getFormato().getId()))
+							cantFormatos++;
 					}
 				}	
 			}
 			lineaHora.setHorasLibres(lineaHora.getHorasLibres() - cantFormatos * HORAS_CAMBIO_FORMATO);
+		}
+		
+		
+		//Calculo nuevamente la asignación para todas las lineas pero sin los tiempos de cambio de formato
+		//Este calculo no es el final, solo sirve para redeterminar los minimos de cada rango para que el simplex
+		//pueda encontrar un optimo
+		List<AsignacionProduccion> asignacionesIntermedias = calcularAsignacion(demandasRangoFinales, lineasHora);
+		for(AsignacionProduccion asignacion : asignacionesIntermedias){
+			for(RangoDemanda rangoDemanda : demandasRangoFinales){
+				if(asignacion.getOrdenProduccion().getProducto().getId().equals(rangoDemanda.getProducto().getId())){
+					rangoDemanda.setMinDemanda(asignacion.getOrdenProduccion().getCantidadAProducir());
+				}
+			}
 		}
 		
 		//Calculo nuevamente la asignación para todas las lineas pero sin los tiempos de cambio de formato
@@ -291,19 +301,31 @@ public class Planificador {
 		Producto cambioFormato = new Producto("[ Cambio de formato ]", null);
 		OrdenProduccion ordenCambioFormato = new OrdenProduccion(cambioFormato, (long) 0, HORAS_CAMBIO_FORMATO);
 		
-		//Ordeno las asignaciones por formato para minimizar los cambios
-		List<AsignacionProduccion> asignacionesOrdenadas = new Vector<AsignacionProduccion>(); 
+		List<AsignacionProduccion> asignacionesFinales2 = new Vector<AsignacionProduccion>();
+		//Coloco el formato anterior de cada linea adelante
 		for(int i = 0; i < asignacionesFinales.size(); i++){
 			AsignacionProduccion asignacion = asignacionesFinales.get(i);
+			if(asignacion.getOrdenProduccion().getProducto().getFormato().getId().equals(lineaDAO.getIdUltimoFormato(asignacion.getLinea().getId()))){
+				asignacionesFinales2.add(0, asignacion);
+			}else{
+				asignacionesFinales2.add(asignacion);
+			}
+		}
+		
+		//Ordeno las asignaciones por formato para minimizar los cambios
+		List<AsignacionProduccion> asignacionesOrdenadas = new Vector<AsignacionProduccion>(); 
+		for(int i = 0; i < asignacionesFinales2.size(); i++){
+			AsignacionProduccion asignacion = asignacionesFinales2.get(i);
 			if(!asignacionesOrdenadas.contains(asignacion)){
 				//Agrego el cambio de formato como un producto más
-				asignacionesOrdenadas.add(new AsignacionProduccion(asignacion.getLinea(), ordenCambioFormato));
+				if(!asignacion.getOrdenProduccion().getProducto().getFormato().getId().equals(lineaDAO.getIdUltimoFormato(asignacion.getLinea().getId())))
+					asignacionesOrdenadas.add(new AsignacionProduccion(asignacion.getLinea(), ordenCambioFormato));
 				asignacionesOrdenadas.add(asignacion);
 				Long formato = asignacion.getOrdenProduccion().getProducto().getFormato().getId();
-				for(int j = i+1; j < asignacionesFinales.size(); j++)
+				for(int j = i+1; j < asignacionesFinales2.size(); j++)
 					//Si es del mismo formato y esta en la misma linea lo coloco detrás de el
-					if(asignacionesFinales.get(j).getLinea().getId().equals(asignacion.getLinea().getId()) &&  asignacionesFinales.get(j).getOrdenProduccion().getProducto().getFormato().getId().equals(formato)){ 
-						asignacionesOrdenadas.add(asignacionesFinales.get(j));
+					if(asignacionesFinales2.get(j).getLinea().getId().equals(asignacion.getLinea().getId()) &&  asignacionesFinales2.get(j).getOrdenProduccion().getProducto().getFormato().getId().equals(formato)){ 
+						asignacionesOrdenadas.add(asignacionesFinales2.get(j));
 					}
 			}
 		}
