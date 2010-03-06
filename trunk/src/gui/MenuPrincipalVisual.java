@@ -8,10 +8,14 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.List;
 
+import javax.print.attribute.HashAttributeSet;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -123,6 +127,8 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane jScrollPane4 = null;
 	private JLabel jLabel3 = null;
 	private JEditorPane jEditorPane1 = null;
+	private JEditorPane jEditorPaneAsignaciones = null;
+	
 	/**
 	 * This is the default constructor
 	 */
@@ -609,7 +615,7 @@ public class MenuPrincipalVisual extends JFrame {
 		if (jScrollPane2 == null) {
 			jScrollPane2 = new JScrollPane();
 			jScrollPane2.setBounds(new Rectangle(2, 1, 753, 340));
-			jScrollPane2.setViewportView(getJTable2());
+			jScrollPane2.setViewportView(getJEditorPaneAsignaciones());
 		}
 		return jScrollPane2;
 	}
@@ -659,6 +665,68 @@ public class MenuPrincipalVisual extends JFrame {
 			jTable2.getColumn("E").setPreferredWidth(150);
 		}
 		return jTable2;
+	}
+	
+	private String getAsignacionesTable(){
+				
+		List<Linea> lineas = lineasDAO.getLineas();
+		Hashtable<Long, List<AsignacionProduccion>> hashAsignaciones = new Hashtable<Long, List<AsignacionProduccion>>();
+		
+		String asignacionesText = "<HTML><TABLE BORDER='1'>";
+		
+		//Encabezados
+		asignacionesText += "<TR>";
+			for(Linea linea : lineas){
+				hashAsignaciones.put(linea.getId(), new ArrayList<AsignacionProduccion>());
+				asignacionesText += "<TH>"+linea.getNombre()+"</TH>";
+			}
+		asignacionesText += "</TR>";
+		
+		//Filas
+		for (AsignacionProduccion a : asignacion){
+			List<AsignacionProduccion> list = hashAsignaciones.get(a.getLinea().getId());
+			list.add(list.size(), a);
+		}
+		
+		int max = 0;
+		for(Linea linea : lineas){
+			max = Math.max(max, hashAsignaciones.get(linea.getId()).size());
+		}
+		
+		for(int i=0; i<max; i++){
+			asignacionesText += "<TR>";
+			for(Linea linea : lineas){
+				List<AsignacionProduccion> list = hashAsignaciones.get(linea.getId());
+				asignacionesText += "<TH>";
+				if(list.size()>i){
+					AsignacionProduccion a = list.get(i);
+					if(a.getOrdenProduccion().getCantidadAProducir() > 0){
+						asignacionesText += a.getOrdenProduccion().getProducto().getNombre() + 
+						" x " +a.getOrdenProduccion().getCantidadAProducir()+
+						" (" + HoursConverter.getString(a.getOrdenProduccion().getTiempoEstimado()) + " hs)";
+					}
+					else{
+						asignacionesText += a.getOrdenProduccion().getProducto().getNombre() + 
+						" (" + HoursConverter.getString(a.getOrdenProduccion().getTiempoEstimado()) + " hs)";
+					}
+				}
+				asignacionesText += "</TH>";
+			}
+			asignacionesText += "</TR>";
+		}
+		asignacionesText += "</TABLE></HTML>";
+		return asignacionesText;
+	}
+	
+	private JEditorPane getJEditorPaneAsignaciones() {
+		if (jEditorPaneAsignaciones == null) {
+			jEditorPaneAsignaciones = new JEditorPane();
+			jEditorPaneAsignaciones.setVisible(false);
+			jEditorPaneAsignaciones.setEditable(false);
+			jEditorPaneAsignaciones.setContentType("text/html");
+			jEditorPaneAsignaciones.setText(getAsignacionesTable());
+		}
+		return jEditorPaneAsignaciones; //JTable2
 	}
 
 	/**
