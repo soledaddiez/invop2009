@@ -5,9 +5,11 @@ import gui.chart.VentanaGrafica;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.sql.Timestamp;
+import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -75,7 +77,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane jScrollPane1 = null;
 	private JTable jTable1 = null;
 	private JMenuItem jMenuItem1 = null;
-	private JDialog jDialog1 = null;  //  @jve:decl-index=0:visual-constraint="1337,14"
+	private JDialog jDialog1 = null;  //  @jve:decl-index=0:visual-constraint="1350,10"
 	private JPanel jContentPane2 = null;
 	private JScrollPane jScrollPane2 = null;
 	private JTable jTable2 = null;
@@ -128,6 +130,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JEditorPane jEditorPane1 = null;
 	private JEditorPane jEditorPaneAsignaciones = null;
 	
+	private Image img = new ImageIcon("img/icon.png").getImage();
 	/**
 	 * This is the default constructor
 	 */
@@ -152,6 +155,7 @@ public class MenuPrincipalVisual extends JFrame {
 		this.setJMenuBar(getJJMenuBar());
 		this.setContentPane(getJContentPane());
 		this.setTitle("Planificador");
+		this.setIconImage(img);
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {
 				System.exit(0);
@@ -254,6 +258,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jDialog.setLocation(new Point(200, 200));
 			jDialog.setResizable(false);
 			jDialog.setContentPane(getJContentPane1());
+			jDialog.setIconImage(img);
 			jDialog.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
 					jDialog.show(false);
@@ -344,6 +349,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jDialog2.setLocation(new Point(200, 200));
 			jDialog2.setResizable(false);
 			jDialog2.setContentPane(getJContentPane3());
+			jDialog2.setIconImage(img);
 			jDialog2.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
 					jDialog2.show(false);
@@ -509,6 +515,7 @@ public class MenuPrincipalVisual extends JFrame {
 		jDialog1.setLocation(new Point(50, 100));
 		jDialog1.setResizable(true);
 		jDialog1.setContentPane(getJContentPane2());
+		jDialog1.setIconImage(img);
 		jDialog1.addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {
 				jDialog1.show(false);
@@ -757,6 +764,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jDialog3.setTitle("@Copyright");
 			jDialog3.setLocation(new Point(300, 200));
 			jDialog3.setContentPane(getJContentPane4());
+			jDialog3.setIconImage(img);
 			jDialog3.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
 					jDialog3.show(false);
@@ -979,6 +987,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jDialog4.setTitle("Planificar Producción");
 			jDialog4.setLocation(new Point(300, 200));
 			jDialog4.setResizable(false);
+			jDialog4.setIconImage(img);
 			jDialog4.setContentPane(getJContentPane5());
 			jDialog4.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
@@ -1066,6 +1075,7 @@ public class MenuPrincipalVisual extends JFrame {
 		jDialog5.setSize(new Dimension(800, 600));
 		jDialog5.setTitle("Gráfico de Asignación");
 		jDialog5.setResizable(true);
+		jDialog5.setIconImage(img);
 		jDialog5.setContentPane(new PlanificacionDeTareasGantt(asignacion));
 		jDialog5.addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {
@@ -1107,6 +1117,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jDialogUtilidad.setTitle("Utilidades por Producto");
 			jDialogUtilidad.setLocation(new Point(200, 200));
 			jDialogUtilidad.setResizable(false);
+			jDialogUtilidad.setIconImage(img);
 			jDialogUtilidad.setContentPane(getJContentPaneUtilidad());
 			jDialogUtilidad.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
