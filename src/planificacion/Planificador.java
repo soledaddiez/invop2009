@@ -136,17 +136,6 @@ public class Planificador {
 		    	}
 		    }
 		    
-		    Collection<Long> c2 = lineasQueProducProd.keySet();
-			 
-		    Iterator<Long> itr2 = c2.iterator();
-		 
-		    while(itr2.hasNext()){
-		    	Long idProd = itr2.next();
-		    	for(Long idLinea : lineasQueProducProd.get(idProd)){
-		    		System.out.println("# La linea "+idLinea + " puede producir el prod "+idProd);
-		    	}
-		    }
-
 		}
 		
 		Simplex simplex = new Simplex();
