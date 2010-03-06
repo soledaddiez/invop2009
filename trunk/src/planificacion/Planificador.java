@@ -2,7 +2,9 @@ package planificacion;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
@@ -91,7 +93,61 @@ public class Planificador {
 	}
 	
 	//Este metodo ejecuta el algoritmo simplex
-	static public List<AsignacionProduccion> calcularAsignacion(List<RangoDemanda> rangosDemanda, List<LineaHora> lineas){
+	static public List<AsignacionProduccion> calcularAsignacion(List<RangoDemanda> rangosDemanda, List<LineaHora> lineas, List<AsignacionProduccion> asignacionPrevia){
+		
+		
+		//Recolecto las lineas de cada producto que en la asignacion previa, puediendo producir un producto, no lo hacen
+		HashMap<Long, Vector<Long>> lineasQueProducProd = new HashMap<Long, Vector<Long>>();
+		
+		for(RangoDemanda rangoDemanda : rangosDemanda){
+			Long idProd = rangoDemanda.getProducto().getId();
+			for(LineaHora linea : lineas){
+				Long tasaProduccion = getTasaProduccion(rangoDemanda.getProducto(), linea.getLinea());
+				
+				if(tasaProduccion > 0){
+					if(lineasQueProducProd.get(idProd) == null)
+						lineasQueProducProd.put(idProd, new Vector<Long>());
+					lineasQueProducProd.get(idProd).add(linea.getLinea().getId());
+				}
+			}
+		}
+		
+		if(asignacionPrevia.size() > 0){
+			
+			Collection<Long> c = lineasQueProducProd.keySet();
+			 
+		    Iterator<Long> itr = c.iterator();
+		 
+		    while(itr.hasNext()){
+		    	Long idProd = itr.next();
+		    	Vector<Long> aBorrar = new Vector<Long>();
+		    	for(Long idLinea : lineasQueProducProd.get(idProd)){
+		    		boolean asignado = false;
+			    	for(AsignacionProduccion asignacion : asignacionPrevia){
+						if(asignacion.getOrdenProduccion().getProducto().getId().equals(idProd) && asignacion.getLinea().getId().equals(idLinea)){
+							asignado = true;
+						}
+					}
+			    	if(!asignado)
+			    		aBorrar.add(idLinea);
+		    	}
+		    	for(Long idLinea : aBorrar){
+		    		lineasQueProducProd.get(idProd).remove(idLinea);
+		    	}
+		    }
+		    
+		    Collection<Long> c2 = lineasQueProducProd.keySet();
+			 
+		    Iterator<Long> itr2 = c2.iterator();
+		 
+		    while(itr2.hasNext()){
+		    	Long idProd = itr2.next();
+		    	for(Long idLinea : lineasQueProducProd.get(idProd)){
+		    		System.out.println("# La linea "+idLinea + " puede producir el prod "+idProd);
+		    	}
+		    }
+
+		}
 		
 		Simplex simplex = new Simplex();
 		HashMap<Variable, Producto> mapeoVarProducto = new HashMap<Variable, Producto>();
@@ -120,7 +176,17 @@ public class Planificador {
 				String nombreVar = getNombreVariable(rangoDemanda, linea);
 				Long tasaProduccion = getTasaProduccion(rangoDemanda.getProducto(), linea.getLinea());
 				
+				if(tasaProduccion > 0)
+					if(!lineasQueProducProd.get(rangoDemanda.getProducto().getId()).contains(linea.getLinea().getId()))
+						tasaProduccion = (long) 1;
 				if(tasaProduccion > 0){
+					
+					if(asignacionPrevia.size() > 0 && lineasQueProducProd.get(rangoDemanda.getProducto().getId()).contains(linea.getLinea().getId())){
+						//Agrego la restriccion por lote minimo
+						LinkedList<Variable> resLotVars = new LinkedList<Variable>();
+						resLotVars.add(new Variable(nombreVar, 1.0));
+						simplex.addConstraint(">=", rangoDemanda.getProducto().getLoteMinimo(), resLotVars);
+					}
 					resLineaVars.add(new Variable(nombreVar, 1.0 / (double) tasaProduccion));
 				}
 			}
@@ -242,17 +308,16 @@ public class Planificador {
 				inventarioSeguridad = Math.round(rangoDemanda.getProducto().getInventarioSeguridad());
 			if(inventarioActual < inventarioSeguridad)
 				rangoDemanda.setMaxDemanda(demandaMaxima + inventarioSeguridad - inventarioActual);
-
 		}
 		
 		List<RangoDemanda> demandasRangoFinales = new Vector<RangoDemanda>();
 		//Filtro las demandas que no sea rentable producir
 		for(RangoDemanda rangoDemanda : demandasRango){
 			Long demandaMinima = rangoDemanda.getMinDemanda();
-			/*if(demandaMinima > rangoDemanda.getProducto().getLoteMinimo()){
+			if(demandaMinima == 0 || demandaMinima != 0 && demandaMinima > rangoDemanda.getProducto().getLoteMinimo()){
 				demandasRangoFinales.add(rangoDemanda);
-			}*/
-			demandasRangoFinales.add(rangoDemanda);
+			}
+			//demandasRangoFinales.add(rangoDemanda);
 		}
 		
 		//Creo los wrappers para las lineas con sus horas disponibles 
@@ -263,7 +328,7 @@ public class Planificador {
 		}
 		
 		//Calculo la asignación para todas las lineas asumiendo que todas están libres 24 hs 
-		List<AsignacionProduccion> asignaciones = calcularAsignacion(demandasRangoFinales, lineasHora);
+		List<AsignacionProduccion> asignaciones = calcularAsignacion(demandasRangoFinales, lineasHora, new Vector<AsignacionProduccion>());
 		
 		//Calculo los cambios de formatos que va a tener cada linea y le resto ese tiempo a las hs disponibles
 		for (LineaHora lineaHora : lineasHora) {
@@ -285,7 +350,7 @@ public class Planificador {
 		//Calculo nuevamente la asignación para todas las lineas pero sin los tiempos de cambio de formato
 		//Este calculo no es el final, solo sirve para redeterminar los minimos de cada rango para que el simplex
 		//pueda encontrar un optimo
-		List<AsignacionProduccion> asignacionesIntermedias = calcularAsignacion(demandasRangoFinales, lineasHora);
+		List<AsignacionProduccion> asignacionesIntermedias = calcularAsignacion(demandasRangoFinales, lineasHora, asignaciones);
 		for(AsignacionProduccion asignacion : asignacionesIntermedias){
 			for(RangoDemanda rangoDemanda : demandasRangoFinales){
 				if(asignacion.getOrdenProduccion().getProducto().getId().equals(rangoDemanda.getProducto().getId())){
@@ -295,7 +360,7 @@ public class Planificador {
 		}
 		
 		//Calculo nuevamente la asignación para todas las lineas pero sin los tiempos de cambio de formato
-		List<AsignacionProduccion> asignacionesFinales = calcularAsignacion(demandasRangoFinales, lineasHora);
+		List<AsignacionProduccion> asignacionesFinales = calcularAsignacion(demandasRangoFinales, lineasHora, asignaciones);
 		
 		Producto cambioFormato = new Producto("[ Cambio de formato ]", null);
 		OrdenProduccion ordenCambioFormato = new OrdenProduccion(cambioFormato, (long) 0, HORAS_CAMBIO_FORMATO);
@@ -315,7 +380,7 @@ public class Planificador {
 		List<AsignacionProduccion> asignacionesOrdenadas = new Vector<AsignacionProduccion>(); 
 		for(int i = 0; i < asignacionesFinales2.size(); i++){
 			AsignacionProduccion asignacion = asignacionesFinales2.get(i);
-			if(!asignacionesOrdenadas.contains(asignacion)){
+			if(!asignacionesOrdenadas.contains(asignacion) && asignacion.getOrdenProduccion().getCantidadAProducir() > HORAS_TRABAJO){
 				//Agrego el cambio de formato como un producto más
 				if(!asignacion.getOrdenProduccion().getProducto().getFormato().getId().equals(lineaDAO.getIdUltimoFormato(asignacion.getLinea().getId())))
 					asignacionesOrdenadas.add(new AsignacionProduccion(asignacion.getLinea(), ordenCambioFormato));
