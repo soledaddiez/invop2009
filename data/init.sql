@@ -15,17 +15,17 @@ INSERT INTO formato(id, capacidad, nombre)
 VALUES (7, 5000, '5 lts');
 
 --producto 
-INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (1, 'Agua Chica', 1, 1, 1000, 108000);
-INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (2, 'Agua 600', 2, 1, 1000, 352512);
-INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (3, 'Agua Lt. y 1/2', 4, 1, 1000, 54000);
-INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (4, 'Agua Grande', 5, 1, 1000, 120000);
-INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (5, 'Agua Bidon', 7, 1, 1000, 11760);
-INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (6, 'Soda Sifon', 5, 1, 1000, 57600);
-INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (7, 'Soda Botella', 6, 1, 1000, 24000);
-INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (8, 'Gaseosa Sport', 6, 1, 1000, 65280);
-INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (9, 'Gaseosa Plena', 1, 1, 1000, 180000);
-INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (10, 'Saborizada Chica', 1, 1, 1000, 234000);
-INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (11, 'Saborizada Grande', 4, 1, 1000, 78000);
+INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (1, 'Agua Chica', 1, 1, 5400, 108000);
+INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (2, 'Agua 600', 2, 1, 5184, 352512);
+INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (3, 'Agua Lt. y 1/2', 4, 1, 1800, 54000);
+INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (4, 'Agua Grande', 5, 1, 1440, 120000);
+INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (5, 'Agua Bidon', 7, 1, 504, 11760);
+INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (6, 'Soda Sifon', 5, 1, 1080, 57600);
+INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (7, 'Soda Botella', 6, 1, 1440, 24000);
+INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (8, 'Gaseosa Sport', 6, 1, 1440, 65280);
+INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (9, 'Gaseosa Plena', 1, 1, 5400, 180000);
+INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (10, 'Saborizada Chica', 1, 1, 5400, 234000);
+INSERT INTO producto (id, nombre, id_formato, utilidad, lote_minimo, inventario_seguridad) VALUES (11, 'Saborizada Grande', 4, 1, 1800, 78000);
 
 
 --clientes
@@ -118,17 +118,17 @@ INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (4
 INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (43, '04/01/2009', 10, 5, 66401);
 INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (44, '04/01/2009', 11, 18, 11598);
 
-INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (45, '05/01/2009', 1, 17, 17000);
-INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (46, '05/01/2009', 2, 6, 193500);
-INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (47, '05/01/2009', 3, 10, 1200);
-INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (48, '05/01/2009', 4, 5, 69120);
+INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (45, '05/01/2009', 1, 17, 36000);
+INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (46, '05/01/2009', 2, 6, 245376);
+INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (47, '05/01/2009', 3, 10, 43800);
+INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (48, '05/01/2009', 4, 5, 95520);
 INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (49, '05/01/2009', 5, 14, 1848);
-INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (50, '05/01/2009', 6, 13, 34560);
+INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (50, '05/01/2009', 6, 13, 51840);
 INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (51, '05/01/2009', 7, 14, 4800);
-INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (52, '05/01/2009', 8, 11, 65400);
-INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (53, '05/01/2009', 9, 16, 32400);
-INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (54, '05/01/2009', 10, 15, 79200);
-INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (55, '05/01/2009', 11, 17, 10800);
+INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (52, '05/01/2009', 8, 11, 67200);
+INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (53, '05/01/2009', 9, 16, 111600);
+INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (54, '05/01/2009', 10, 15, 88200);
+INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (55, '05/01/2009', 11, 17, 30000);
 
 INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (56, '06/01/2009', 1, 12, 17318);
 INSERT into pedido(id, fecha_orden, id_producto, id_cliente, cantidad) values (57, '06/01/2009', 2, 5, 104631);
@@ -447,14 +447,14 @@ INSERT into tasa_produccion(id,id_producto,id_linea,botellas_hora) values (17,11
 
 
 --inventario
-INSERT INTO inventario(id, cantidad, id_producto) VALUES (1, 19800, 1);
-INSERT INTO inventario(id, cantidad, id_producto) VALUES (2, 58700, 2);
-INSERT INTO inventario(id, cantidad, id_producto) VALUES (3, 3600, 3);
-INSERT INTO inventario(id, cantidad, id_producto) VALUES (4, 20160, 4);
-INSERT INTO inventario(id, cantidad, id_producto) VALUES (5, 4536, 5);
-INSERT INTO inventario(id, cantidad, id_producto) VALUES (6, 9720, 6);
-INSERT INTO inventario(id, cantidad, id_producto) VALUES (7, 2400, 7);
-INSERT INTO inventario(id, cantidad, id_producto) VALUES (8, 53760, 8);
-INSERT INTO inventario(id, cantidad, id_producto) VALUES (9, 57600, 9);
-INSERT INTO inventario(id, cantidad, id_producto) VALUES (10, 72000, 10);
-INSERT INTO inventario(id, cantidad, id_producto) VALUES (11, 5400, 11);
+INSERT INTO inventario(id, cantidad, id_producto) VALUES (1, 72000, 1);
+INSERT INTO inventario(id, cantidad, id_producto) VALUES (2, 112320, 2);
+INSERT INTO inventario(id, cantidad, id_producto) VALUES (3, 18000, 3);
+INSERT INTO inventario(id, cantidad, id_producto) VALUES (4, 120000, 4);
+INSERT INTO inventario(id, cantidad, id_producto) VALUES (5, 6496, 5);
+INSERT INTO inventario(id, cantidad, id_producto) VALUES (6, 64800, 6);
+INSERT INTO inventario(id, cantidad, id_producto) VALUES (7, 17280, 7);
+INSERT INTO inventario(id, cantidad, id_producto) VALUES (8, 19200, 8);
+INSERT INTO inventario(id, cantidad, id_producto) VALUES (9, 30600, 9);
+INSERT INTO inventario(id, cantidad, id_producto) VALUES (10, 45000, 10);
+INSERT INTO inventario(id, cantidad, id_producto) VALUES (11, 18000, 11);
