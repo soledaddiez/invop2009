@@ -75,11 +75,10 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane jScrollPane1 = null;
 	private JTable jTable1 = null;
 	private JMenuItem jMenuItem1 = null;
-	private JDialog jDialog1 = null;  //  @jve:decl-index=0:visual-constraint="1352,9"
+	private JDialog jDialog1 = null;  //  @jve:decl-index=0:visual-constraint="1337,14"
 	private JPanel jContentPane2 = null;
 	private JScrollPane jScrollPane2 = null;
 	private JTable jTable2 = null;
-	private JButton jButton2 = null;
 	private JLabel jLabel = null;
 	private JMenu jMenu2 = null;
 	private JDialog jDialog3 = null;  //  @jve:decl-index=0:visual-constraint="-12,219"
@@ -503,106 +502,88 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return javax.swing.JDialog	
 	 */
 	private JDialog getJDialog1() {
-		if (jDialog1 == null) {
-			jDialog1 = new JDialog(getJDialog4());
-			jDialog1.setSize(new Dimension(800, 600));
-			jDialog1.setTitle("Asignación de Producción por Línea");
-			jDialog1.setLocation(new Point(50, 100));
-			jDialog1.setResizable(true);
-			jDialog1.setContentPane(getJContentPane2());
-			jDialog1.addWindowListener(new java.awt.event.WindowAdapter() {
-				public void windowClosing(java.awt.event.WindowEvent e) {
-					jDialog1.show(false);
-					jDialog4.show(false);
-				}
-			});
-		}
+		
+		jDialog1 = new JDialog(getJDialog4());
+		jDialog1.setSize(new Dimension(1007, 486));
+		jDialog1.setTitle("Asignación de Producción por Línea");
+		jDialog1.setLocation(new Point(50, 100));
+		jDialog1.setResizable(true);
+		jDialog1.setContentPane(getJContentPane2());
+		jDialog1.addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				jDialog1.show(false);
+				jDialog4.show(false);
+			}
+		});
+		
 		return jDialog1;
 	}
 
+	//TODO SOLE -> VER DONDE UBICARLO
+	private String getDatosResumenProduccion() {
+
+		List<Producto> productos = productoDAO.getList();
+		List<Demanda> demandas = pedidoDAO.getDemandasPorFecha(FechaPlan);
+		
+		String tablaResumen = "<HTML><TABLE BORDER='1'>";
+			tablaResumen += "<TR bgcolor='#8FBC8F'>";
+			tablaResumen += "<TH colspan='5'>Resumen</TH>";
+			tablaResumen += "<TR bgcolor='#8FBC8F'>";
+				tablaResumen += "<TH>"+"PRODUCTO"+"</TH>";
+				tablaResumen += "<TH>"+"STOCK"+"</TH>";
+				tablaResumen += "<TH>"+"DEMANDA"+"</TH>";
+				tablaResumen += "<TH>"+"PRODUCIDO"+"</TH>";
+				tablaResumen += "<TH>"+"BALANCE"+"</TH>";
+			tablaResumen += "</TR>";
+			
+		for(Producto producto : productos){
+			Long produccion = new Long(0);
+			for(AsignacionProduccion asign : asignacion){
+				if((asign.getOrdenProduccion().getProducto().getId()!= null)&&(asign.getOrdenProduccion().getProducto().getId().equals(producto.getId())))
+					produccion +=asign.getOrdenProduccion().getCantidadAProducir();
+			}
+			Long demanda = new Long(0);
+			for(Demanda d : demandas){
+				if(d.getProducto().getId().equals(producto.getId())){
+					demanda = d.getCantidad();
+				}
+			}
+			
+			Long stock = inventarioDAO.getInventarioPorProducto(producto).getCantidad();
+			Long balance = stock+produccion-demanda;
+			tablaResumen += "<TR>";
+				tablaResumen += "<TH>"+producto.getNombre()+"</TH>"; //PRODUCTO
+				tablaResumen += "<TH>"+stock.toString()+"</TH>"; //STOCK
+				tablaResumen += "<TH>"+demanda.toString()+"</TH>"; //DEMANDA del DIA
+				tablaResumen += "<TH>"+produccion.toString()+"</TH>"; //PRODUCIDO
+				if(balance >= 0) //BALANCE
+					tablaResumen += "<TH><FONT color='green'>"+balance.toString()+"</FONT></TH>"; 
+				else
+					tablaResumen += "<TH><FONT color='red'>"+balance.toString()+"<></TH>";
+			tablaResumen += "</TR>";
+			
+		}
+		
+		tablaResumen += "</TABLE></HTML>";
+		
+		return tablaResumen;
+	}
 	/**
 	 * This method initializes jContentPane2	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */
 	private JPanel getJContentPane2() {
-		if (jContentPane2 == null) {
-			jLabel3 = new JLabel();
-			jLabel3.setBounds(new Rectangle(8, 376, 109, 16));
-			jLabel3.setText("(+) RESUMEN: ");
-			jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-				public void mousePressed(java.awt.event.MouseEvent e) {
-					if ((jLabel3.getText()).equals("(-) RESUMEN: ")){
-						jLabel3.setText("(+) RESUMEN: ");
-						getJScrollPane4().setBounds(new Rectangle(3, 396, 500, 5));
-						getJEditorPane1().setVisible(false);
-					}
-					else{
-						jLabel3.setText("(-) RESUMEN: ");
-						getJScrollPane4().setBounds(new Rectangle(3, 396, 500, 350));
-						getJEditorPane1().setText(getDatosResumenProduccion());
-						
-						getJEditorPane1().setVisible(true);
-					}
-				}
-				//TODO SOLE -> VER DONDE UBICARLO
-				private String getDatosResumenProduccion() {
-
-					List<Producto> productos = productoDAO.getList();
-					List<Demanda> demandas = pedidoDAO.getDemandasPorFecha(FechaPlan);
-					
-					String tablaResumen = "<HTML><TABLE BORDER='1'>";
-										
-						tablaResumen += "<TR>";
-							tablaResumen += "<TH>"+"PRODUCTO"+"</TH>";
-							tablaResumen += "<TH>"+"STOCK"+"</TH>";
-							tablaResumen += "<TH>"+"DEMANDA"+"</TH>";
-							tablaResumen += "<TH>"+"PRODUCIDO"+"</TH>";
-							tablaResumen += "<TH>"+"BALANCE"+"</TH>";
-						tablaResumen += "</TR>";
-						
-					for(Producto producto : productos){
-						Long produccion = new Long(0);
-						for(AsignacionProduccion asign : asignacion){
-							if((asign.getOrdenProduccion().getProducto().getId()!= null)&&(asign.getOrdenProduccion().getProducto().getId().equals(producto.getId())))
-								produccion +=asign.getOrdenProduccion().getCantidadAProducir();
-						}
-						Long demanda = new Long(0);
-						for(Demanda d : demandas){
-							if(d.getProducto().getId().equals(producto.getId())){
-								demanda = d.getCantidad();
-							}
-						}
-						
-						Long stock = inventarioDAO.getInventarioPorProducto(producto).getCantidad();
-						Long balance = stock+produccion-demanda;
-						tablaResumen += "<TR>";
-							tablaResumen += "<TH>"+producto.getNombre()+"</TH>"; //PRODUCTO
-							tablaResumen += "<TH>"+stock.toString()+"</TH>"; //STOCK
-							tablaResumen += "<TH>"+demanda.toString()+"</TH>"; //DEMANDA del DIA
-							tablaResumen += "<TH>"+produccion.toString()+"</TH>"; //PRODUCIDO
-							if(balance >= 0) //BALANCE
-								tablaResumen += "<TH><FONT color='green'>"+balance.toString()+"</FONT></TH>"; 
-							else
-								tablaResumen += "<TH><FONT color='red'>"+balance.toString()+"<></TH>";
-						tablaResumen += "</TR>";
-						
-					}
-					
-					tablaResumen += "</TABLE></HTML>";
-					
-					return tablaResumen;
-				}
-			});
-			jContentPane2 = new JPanel();
-			jContentPane2.setLayout(null);
-			jContentPane2.add(getJScrollPane2(), null);
-			jContentPane2.add(getJButton2(), null);
-			jContentPane2.add(getJButtonGrafico(), null);
-			//jContentPane2.add(getJScrollPane3(), null);
-			jContentPane2.add(getJScrollPane4(), null);
-			jContentPane2.add(jLabel3, null);
-		}
+		
+		
+		
+		jContentPane2 = new JPanel();
+		jContentPane2.setLayout(null);
+		jContentPane2.add(getJScrollPane2(), null);
+		jContentPane2.add(getJButtonGrafico(), null);
+		//jContentPane2.add(getJScrollPane3(), null);
+		jContentPane2.add(getJScrollPane4(), null);
+	
 		return jContentPane2;
 	}
 
@@ -612,11 +593,11 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return javax.swing.JScrollPane	
 	 */
 	private JScrollPane getJScrollPane2() {
-		if (jScrollPane2 == null) {
-			jScrollPane2 = new JScrollPane();
-			jScrollPane2.setBounds(new Rectangle(2, 1, 753, 340));
-			jScrollPane2.setViewportView(getJEditorPaneAsignaciones());
-		}
+		
+		jScrollPane2 = new JScrollPane();
+		jScrollPane2.setBounds(new Rectangle(2, 1, 552, 361));
+		jScrollPane2.setViewportView(getJEditorPaneAsignaciones());
+	
 		return jScrollPane2;
 	}
 
@@ -672,10 +653,12 @@ public class MenuPrincipalVisual extends JFrame {
 		List<Linea> lineas = lineasDAO.getLineas();
 		Hashtable<Long, List<AsignacionProduccion>> hashAsignaciones = new Hashtable<Long, List<AsignacionProduccion>>();
 		
-		String asignacionesText = "<HTML><TABLE BORDER='1'>";
+		String asignacionesText = "<HTML><TABLE border='1'>";
 		
 		//Encabezados
-		asignacionesText += "<TR>";
+		asignacionesText += "<TR bgcolor='#8FBC8F'>";
+		asignacionesText += "<TH colspan='"+lineas.size()+"'>Asignación por Línea</TH>";
+		asignacionesText += "<TR bgcolor='#8FBC8F'>";
 			for(Linea linea : lineas){
 				hashAsignaciones.put(linea.getId(), new ArrayList<AsignacionProduccion>());
 				asignacionesText += "<TH>"+linea.getNombre()+"</TH>";
@@ -697,63 +680,44 @@ public class MenuPrincipalVisual extends JFrame {
 			asignacionesText += "<TR>";
 			for(Linea linea : lineas){
 				List<AsignacionProduccion> list = hashAsignaciones.get(linea.getId());
-				asignacionesText += "<TH>";
+				asignacionesText += "<TH width='auto'><FONT size='3'>";
 				if(list.size()>i){
 					AsignacionProduccion a = list.get(i);
 					if(a.getOrdenProduccion().getCantidadAProducir() > 0){
 						asignacionesText += a.getOrdenProduccion().getProducto().getNombre() + 
-						" x " +a.getOrdenProduccion().getCantidadAProducir()+
+						"<br/>x" +a.getOrdenProduccion().getCantidadAProducir()+
 						" (" + HoursConverter.getString(a.getOrdenProduccion().getTiempoEstimado()) + " hs)";
 					}
 					else{
-						asignacionesText += a.getOrdenProduccion().getProducto().getNombre() + 
-						" (" + HoursConverter.getString(a.getOrdenProduccion().getTiempoEstimado()) + " hs)";
+						asignacionesText +="<FONT color = 'gray'><i>"+ a.getOrdenProduccion().getProducto().getNombre() + 
+						"<br/>(" + HoursConverter.getString(a.getOrdenProduccion().getTiempoEstimado()) + " hs) </i></FONT>";
 					}
 				}
-				asignacionesText += "</TH>";
+				asignacionesText += "</FONT></TH>";
 			}
 			asignacionesText += "</TR>";
 		}
 		asignacionesText += "</TABLE></HTML>";
+		System.out.println(asignacionesText);
 		return asignacionesText;
 	}
 	
 	private JEditorPane getJEditorPaneAsignaciones() {
-		if (jEditorPaneAsignaciones == null) {
-			jEditorPaneAsignaciones = new JEditorPane();
-			jEditorPaneAsignaciones.setVisible(false);
-			jEditorPaneAsignaciones.setEditable(false);
-			jEditorPaneAsignaciones.setContentType("text/html");
-			jEditorPaneAsignaciones.setText(getAsignacionesTable());
-		}
+		
+		jEditorPaneAsignaciones = new JEditorPane();
+		jEditorPaneAsignaciones.setVisible(true);
+		jEditorPaneAsignaciones.setEditable(false);
+		jEditorPaneAsignaciones.setContentType("text/html");
+		jEditorPaneAsignaciones.setText(getAsignacionesTable());
+
 		return jEditorPaneAsignaciones; //JTable2
 	}
 
-	/**
-	 * This method initializes jButton2	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */
-	private JButton getJButton2() {
-		if (jButton2 == null) {
-			jButton2 = new JButton();
-			jButton2.setBounds(new Rectangle(250, 345, 91, 27));
-			jButton2.setText("Aceptar");
-			jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-				public void mouseClicked(java.awt.event.MouseEvent e) {
-					jDialog1.show(false);
-					jDialog4.show(false);
-				}
-			});
-		}
-		return jButton2;
-	}
-	
 	private JButton getJButtonGrafico() {
 		if (jButtonGrafico == null) {
 			jButtonGrafico = new JButton();
-			jButtonGrafico.setBounds(new Rectangle(360, 345, 182, 27));
-			jButtonGrafico.setText("Observar Graficamente");
+			jButtonGrafico.setBounds(new Rectangle(180, 383, 195, 39));
+			jButtonGrafico.setText("Graficar");
 			jButtonGrafico.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
 					getJDialog5().show();
@@ -1098,18 +1062,17 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return javax.swing.JDialog	
 	 */
 	private JDialog getJDialog5() {
-		if (jDialog5 == null) {
-			jDialog5 = new JDialog(getJDialog1());
-			jDialog5.setSize(new Dimension(800, 600));
-			jDialog5.setTitle("Gráfico de Asignación");
-			jDialog5.setResizable(true);
-			jDialog5.setContentPane(new PlanificacionDeTareasGantt(asignacion));
-			jDialog5.addWindowListener(new java.awt.event.WindowAdapter() {
-				public void windowClosing(java.awt.event.WindowEvent e) {
-					jDialog5.show(false);
-				}
-			});
-		}
+		jDialog5 = new JDialog(getJDialog1());
+		jDialog5.setSize(new Dimension(800, 600));
+		jDialog5.setTitle("Gráfico de Asignación");
+		jDialog5.setResizable(true);
+		jDialog5.setContentPane(new PlanificacionDeTareasGantt(asignacion));
+		jDialog5.addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				jDialog5.show(false);
+			}
+		});
+		
 		return jDialog5;
 	}
 
@@ -1278,12 +1241,11 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return javax.swing.JScrollPane	
 	 */
 	private JScrollPane getJScrollPane4() {
-		if (jScrollPane4 == null) {
-			jScrollPane4 = new JScrollPane();
-			jScrollPane4.setBounds(new Rectangle(3, 396, 500, 5));
-			jScrollPane4.setViewportView(getJEditorPane1());
-			
-		}
+		
+		jScrollPane4 = new JScrollPane();
+		jScrollPane4.setBounds(new Rectangle(558, 0, 431, 436));
+		jScrollPane4.setViewportView(getJEditorPane1());
+		
 		return jScrollPane4;
 	}
 
@@ -1293,12 +1255,13 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return javax.swing.JTextArea	
 	 */
 	private JEditorPane getJEditorPane1() {
-		if (jEditorPane1 == null) {
-			jEditorPane1 = new JTextPane();
-			jEditorPane1.setVisible(false);
-			jEditorPane1.setEditable(false);
-			jEditorPane1.setContentType("text/html");
-		}
+		
+		jEditorPane1 = new JTextPane();
+		jEditorPane1.setVisible(true);
+		jEditorPane1.setEditable(false);
+		jEditorPane1.setContentType("text/html");
+		jEditorPane1.setText(getDatosResumenProduccion());
+		
 		return jEditorPane1;
 	}
 	
