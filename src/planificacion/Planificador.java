@@ -43,14 +43,12 @@ public class Planificador {
 						if(cantidad - demanda.getCantidad() < 0){
 							demanda.setCantidad(demanda.getCantidad() - cantidad);
 							cantidad = 0;
-							demandasInsatisfechas.add(demanda);
 						}else{
 							cantidad -= demanda.getCantidad();
 							demanda.setCantidad((long) 0);
 						}
-					}else{
-						demandasInsatisfechas.add(demanda);
 					}
+					demandasInsatisfechas.add(demanda);
 				}
 			}
 		}
@@ -251,9 +249,10 @@ public class Planificador {
 		//Filtro las demandas que no sea rentable producir
 		for(RangoDemanda rangoDemanda : demandasRango){
 			Long demandaMinima = rangoDemanda.getMinDemanda();
-			if(demandaMinima > rangoDemanda.getProducto().getLoteMinimo()){
+			/*if(demandaMinima > rangoDemanda.getProducto().getLoteMinimo()){
 				demandasRangoFinales.add(rangoDemanda);
-			}
+			}*/
+			demandasRangoFinales.add(rangoDemanda);
 		}
 		
 		//Creo los wrappers para las lineas con sus horas disponibles 
