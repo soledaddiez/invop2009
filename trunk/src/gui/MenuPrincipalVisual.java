@@ -518,7 +518,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDialog getJDialog1() {
 		if(jDialog1 == null){
 			jDialog1 = new JDialog(getJDialog4());
-			jDialog1.setSize(new Dimension(1013, 486));
+			jDialog1.setSize(new Dimension(1025, 486));
 			jDialog1.setTitle("Asignación de Producción por Línea");
 			jDialog1.setLocation(new Point(50, 100));
 			jDialog1.setResizable(true);
@@ -608,7 +608,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane getJScrollPane2() {
 		if(jScrollPane2 == null){
 			jScrollPane2 = new JScrollPane();
-			jScrollPane2.setBounds(new Rectangle(2, 1, 552, 361));
+			jScrollPane2.setBounds(new Rectangle(2, 1, 570, 361));
 			jScrollPane2.setViewportView(getJEditorPaneAsignaciones());
 		}
 	
@@ -730,7 +730,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton getJButtonGrafico() {
 		if (jButtonGrafico == null) {
 			jButtonGrafico = new JButton();
-			jButtonGrafico.setBounds(new Rectangle(180, 383, 195, 39));
+			jButtonGrafico.setBounds(new Rectangle(181, 382, 209, 39));
 			jButtonGrafico.setText("Graficar");
 			jButtonGrafico.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -1266,7 +1266,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane getJScrollPane4() {
 		if(jScrollPane4 == null){
 			jScrollPane4 = new JScrollPane();
-			jScrollPane4.setBounds(new Rectangle(558, 0, 433, 436));
+			jScrollPane4.setBounds(new Rectangle(575, 1, 433, 436));
 			jScrollPane4.setViewportView(getJEditorPane1());
 		}
 		return jScrollPane4;
