@@ -37,7 +37,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import planificacion.Planificador;
-import planificacion.Planificador3;
 import util.HoursConverter;
 import modelo.AsignacionProduccion;
 import modelo.Cliente;
@@ -77,7 +76,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane jScrollPane1 = null;
 	private JTable jTable1 = null;
 	private JMenuItem jMenuItem1 = null;
-	private JDialog jDialog1 = null;  //  @jve:decl-index=0:visual-constraint="1350,10"
+	private JDialog jDialog1 = null;  //  @jve:decl-index=0:visual-constraint="1353,15"
 	private JPanel jContentPane2 = null;
 	private JScrollPane jScrollPane2 = null;
 	private JTable jTable2 = null;
@@ -129,6 +128,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JLabel jLabel3 = null;
 	private JEditorPane jEditorPane1 = null;
 	private JEditorPane jEditorPaneAsignaciones = null;
+
 	
 	private Image img = new ImageIcon("img/icon.png").getImage();
 	/**
@@ -508,21 +508,21 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return javax.swing.JDialog	
 	 */
 	private JDialog getJDialog1() {
-		
-		jDialog1 = new JDialog(getJDialog4());
-		jDialog1.setSize(new Dimension(1007, 486));
-		jDialog1.setTitle("Asignación de Producción por Línea");
-		jDialog1.setLocation(new Point(50, 100));
-		jDialog1.setResizable(true);
-		jDialog1.setContentPane(getJContentPane2());
-		jDialog1.setIconImage(img);
-		jDialog1.addWindowListener(new java.awt.event.WindowAdapter() {
-			public void windowClosing(java.awt.event.WindowEvent e) {
-				jDialog1.show(false);
-				jDialog4.show(false);
-			}
-		});
-		
+		if(jDialog1 == null){
+			jDialog1 = new JDialog(getJDialog4());
+			jDialog1.setSize(new Dimension(1013, 486));
+			jDialog1.setTitle("Asignación de Producción por Línea");
+			jDialog1.setLocation(new Point(50, 100));
+			jDialog1.setResizable(true);
+			jDialog1.setContentPane(getJContentPane2());
+			jDialog1.setIconImage(img);
+			jDialog1.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent e) {
+					jDialog1.show(false);
+					jDialog4.show(false);
+				}
+			});
+		}
 		return jDialog1;
 	}
 
@@ -581,16 +581,14 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return javax.swing.JPanel	
 	 */
 	private JPanel getJContentPane2() {
-		
-		
-		
-		jContentPane2 = new JPanel();
-		jContentPane2.setLayout(null);
-		jContentPane2.add(getJScrollPane2(), null);
-		jContentPane2.add(getJButtonGrafico(), null);
-		//jContentPane2.add(getJScrollPane3(), null);
-		jContentPane2.add(getJScrollPane4(), null);
-	
+		if (jContentPane2 == null) {
+			jContentPane2 = new JPanel();
+			jContentPane2.setLayout(null);
+			jContentPane2.add(getJScrollPane2(), null);
+			jContentPane2.add(getJButtonGrafico(), null);
+			//jContentPane2.add(getJScrollPane3(), null);
+			jContentPane2.add(getJScrollPane4(), null);
+		}
 		return jContentPane2;
 	}
 
@@ -600,10 +598,11 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return javax.swing.JScrollPane	
 	 */
 	private JScrollPane getJScrollPane2() {
-		
-		jScrollPane2 = new JScrollPane();
-		jScrollPane2.setBounds(new Rectangle(2, 1, 552, 361));
-		jScrollPane2.setViewportView(getJEditorPaneAsignaciones());
+		if(jScrollPane2 == null){
+			jScrollPane2 = new JScrollPane();
+			jScrollPane2.setBounds(new Rectangle(2, 1, 552, 361));
+			jScrollPane2.setViewportView(getJEditorPaneAsignaciones());
+		}
 	
 		return jScrollPane2;
 	}
@@ -710,13 +709,13 @@ public class MenuPrincipalVisual extends JFrame {
 	}
 	
 	private JEditorPane getJEditorPaneAsignaciones() {
-		
-		jEditorPaneAsignaciones = new JEditorPane();
-		jEditorPaneAsignaciones.setVisible(true);
-		jEditorPaneAsignaciones.setEditable(false);
-		jEditorPaneAsignaciones.setContentType("text/html");
-		jEditorPaneAsignaciones.setText(getAsignacionesTable());
-
+		if (jEditorPaneAsignaciones == null){
+			jEditorPaneAsignaciones = new JEditorPane();
+			jEditorPaneAsignaciones.setVisible(true);
+			jEditorPaneAsignaciones.setEditable(false);
+			jEditorPaneAsignaciones.setContentType("text/html");
+			jEditorPaneAsignaciones.setText(getAsignacionesTable());
+		}
 		return jEditorPaneAsignaciones; //JTable2
 	}
 
@@ -1021,6 +1020,8 @@ public class MenuPrincipalVisual extends JFrame {
 		if (jDateChooser1 == null) {
 			jDateChooser1 = new JDateChooser();
 			jDateChooser1.setBounds(new Rectangle(41, 35, 138, 22));
+			Date date = new Date("01/05/2009");
+			jDateChooser1.setDate(date);
 			
 		}
 		return jDateChooser1;
@@ -1058,6 +1059,10 @@ public class MenuPrincipalVisual extends JFrame {
 						PlanProduccion plan = Planificador.planificar(demandas, lineasDAO.getLineas());
 						plan.setFechaInicio(FechaPlan);
 						asignacion = plan.getAsignaciones();
+						
+						getJEditorPaneAsignaciones().setText(getAsignacionesTable());
+						getJEditorPane1().setText(getDatosResumenProduccion());
+						
 						getJDialog1().show();
 					}
 				}
@@ -1071,18 +1076,18 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return javax.swing.JDialog	
 	 */
 	private JDialog getJDialog5() {
-		jDialog5 = new JDialog(getJDialog1());
-		jDialog5.setSize(new Dimension(800, 600));
-		jDialog5.setTitle("Gráfico de Asignación");
-		jDialog5.setResizable(true);
-		jDialog5.setIconImage(img);
-		jDialog5.setContentPane(new PlanificacionDeTareasGantt(asignacion));
-		jDialog5.addWindowListener(new java.awt.event.WindowAdapter() {
-			public void windowClosing(java.awt.event.WindowEvent e) {
-				jDialog5.show(false);
-			}
-		});
 		
+			jDialog5 = new JDialog(getJDialog1());
+			jDialog5.setSize(new Dimension(800, 600));
+			jDialog5.setTitle("Gráfico de Asignación");
+			jDialog5.setResizable(true);
+			jDialog5.setContentPane(new PlanificacionDeTareasGantt(asignacion));
+			jDialog5.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent e) {
+					jDialog5.show(false);
+				}
+			});
+			
 		return jDialog5;
 	}
 
@@ -1117,7 +1122,6 @@ public class MenuPrincipalVisual extends JFrame {
 			jDialogUtilidad.setTitle("Utilidades por Producto");
 			jDialogUtilidad.setLocation(new Point(200, 200));
 			jDialogUtilidad.setResizable(false);
-			jDialogUtilidad.setIconImage(img);
 			jDialogUtilidad.setContentPane(getJContentPaneUtilidad());
 			jDialogUtilidad.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(java.awt.event.WindowEvent e) {
@@ -1252,11 +1256,11 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return javax.swing.JScrollPane	
 	 */
 	private JScrollPane getJScrollPane4() {
-		
-		jScrollPane4 = new JScrollPane();
-		jScrollPane4.setBounds(new Rectangle(558, 0, 431, 436));
-		jScrollPane4.setViewportView(getJEditorPane1());
-		
+		if(jScrollPane4 == null){
+			jScrollPane4 = new JScrollPane();
+			jScrollPane4.setBounds(new Rectangle(558, 0, 433, 436));
+			jScrollPane4.setViewportView(getJEditorPane1());
+		}
 		return jScrollPane4;
 	}
 
@@ -1266,13 +1270,13 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return javax.swing.JTextArea	
 	 */
 	private JEditorPane getJEditorPane1() {
-		
-		jEditorPane1 = new JTextPane();
-		jEditorPane1.setVisible(true);
-		jEditorPane1.setEditable(false);
-		jEditorPane1.setContentType("text/html");
-		jEditorPane1.setText(getDatosResumenProduccion());
-		
+		if (jEditorPane1 == null){
+			jEditorPane1 = new JTextPane();
+			jEditorPane1.setVisible(true);
+			jEditorPane1.setEditable(false);
+			jEditorPane1.setContentType("text/html");
+			jEditorPane1.setText(getDatosResumenProduccion());
+		}
 		return jEditorPane1;
 	}
 	
