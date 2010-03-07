@@ -365,20 +365,27 @@ public class Planificador {
 			}
 		}
 		
+		//Filtro las ordenes de pocas cantidades
+		List<AsignacionProduccion> asignacionesFiltradas = new Vector<AsignacionProduccion>();
+		for(AsignacionProduccion asignacion : asignacionesFinales2){
+			if(asignacion.getOrdenProduccion().getCantidadAProducir() > HORAS_TRABAJO)
+				asignacionesFiltradas.add(asignacion);
+		}
+		
 		//Ordeno las asignaciones por formato para minimizar los cambios
 		List<AsignacionProduccion> asignacionesOrdenadas = new Vector<AsignacionProduccion>(); 
-		for(int i = 0; i < asignacionesFinales2.size(); i++){
-			AsignacionProduccion asignacion = asignacionesFinales2.get(i);
-			if(!asignacionesOrdenadas.contains(asignacion) && asignacion.getOrdenProduccion().getCantidadAProducir() > HORAS_TRABAJO){
+		for(int i = 0; i < asignacionesFiltradas.size(); i++){
+			AsignacionProduccion asignacion = asignacionesFiltradas.get(i);
+			if(!asignacionesOrdenadas.contains(asignacion)){
 				//Agrego el cambio de formato como un producto más
 				if(!asignacion.getOrdenProduccion().getProducto().getFormato().getId().equals(lineaDAO.getIdUltimoFormato(asignacion.getLinea().getId())))
 					asignacionesOrdenadas.add(new AsignacionProduccion(asignacion.getLinea(), ordenCambioFormato));
 				asignacionesOrdenadas.add(asignacion);
 				Long formato = asignacion.getOrdenProduccion().getProducto().getFormato().getId();
-				for(int j = i+1; j < asignacionesFinales2.size(); j++)
+				for(int j = i+1; j < asignacionesFiltradas.size(); j++)
 					//Si es del mismo formato y esta en la misma linea lo coloco detrás de el
-					if(asignacionesFinales2.get(j).getLinea().getId().equals(asignacion.getLinea().getId()) &&  asignacionesFinales2.get(j).getOrdenProduccion().getProducto().getFormato().getId().equals(formato)){ 
-						asignacionesOrdenadas.add(asignacionesFinales2.get(j));
+					if(asignacionesFiltradas.get(j).getLinea().getId().equals(asignacion.getLinea().getId()) &&  asignacionesFiltradas.get(j).getOrdenProduccion().getProducto().getFormato().getId().equals(formato)){
+						asignacionesOrdenadas.add(asignacionesFiltradas.get(j));
 					}
 			}
 		}
