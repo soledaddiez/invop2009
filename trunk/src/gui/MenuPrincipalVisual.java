@@ -41,6 +41,7 @@ import util.HoursConverter;
 import modelo.AsignacionProduccion;
 import modelo.Cliente;
 import modelo.Demanda;
+import modelo.Formato;
 import modelo.Inventario;
 import modelo.Linea;
 import modelo.PlanProduccion;
@@ -48,6 +49,7 @@ import modelo.Producto;
 import com.toedter.calendar.JDateChooser;
 
 import dao.impl.ClienteDAO;
+import dao.impl.FormatoDAO;
 import dao.impl.InventarioDAO;
 import dao.impl.LineaDAO;
 import dao.impl.PedidoDAO;
@@ -93,7 +95,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDateChooser jDateChooser1 = null;
 	private JLabel jLabel1 = null;
 	private JPopupMenu jPopupMenu = null;  //  @jve:decl-index=0:visual-constraint="241,435"
-	private JMenuItem jMenuItemGuardarFormatosActuales = null;
+	private JMenuItem jMenuItem4 = null;
 	private JPopupMenu jPopupMenu1 = null;  //  @jve:decl-index=0:visual-constraint="158,437"
 	private JPopupMenu jPopupMenu2 = null;
 	private JMenuItem jMenuItem6 = null;
@@ -108,11 +110,14 @@ public class MenuPrincipalVisual extends JFrame {
 	private PedidoDAO pedidoDAO = new PedidoDAO();  //  @jve:decl-index=0:
 	private LineaDAO lineasDAO = new LineaDAO();  //  @jve:decl-index=0:
 	private InventarioDAO inventarioDAO = new InventarioDAO();  //  @jve:decl-index=0:
+	private FormatoDAO formatoDAO = new FormatoDAO();
+	
 	private Timestamp FechaPlan = new Timestamp(Calendar.getInstance().getTimeInMillis());  //  @jve:decl-index=0:
 	
 	private List<AsignacionProduccion> asignacion = null;
 	private List<Inventario> inventario = null;  //  @jve:decl-index=0:
 	private List<Producto> productos = null;  //  @jve:decl-index=0:
+	private List<Linea> lineas = null;  //  @jve:decl-index=0:
 	
 	private int CantidadClientes = 0;
 	private int CantidadProductos = 0;
@@ -138,6 +143,8 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane jScrollPaneFormatosActuales = null;
 	private JTable jTableFormatosActuales = null;
 	private JMenuItem jMenuItem5 = null;
+	private JMenuItem jMenuItemGuardarFormatosActuales = null;
+	private JPopupMenu jPopupMenuFormatosActuales = null;
 	private JEditorPane jEditorPaneKeys = null;
 	private JScrollPane jScrollPaneKeys = null;
 	private JLabel jLabelAyuda = null;
@@ -906,10 +913,10 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return javax.swing.JMenuItem	
 	 */
 	private JMenuItem getJMenuItem4() {
-		if (jMenuItemGuardarFormatosActuales == null) {
-			jMenuItemGuardarFormatosActuales = new JMenuItem();
-			jMenuItemGuardarFormatosActuales.setText("Guardar Inventario");
-			jMenuItemGuardarFormatosActuales.addMouseListener(new java.awt.event.MouseAdapter() {
+		if (jMenuItem4 == null) {
+			jMenuItem4 = new JMenuItem();
+			jMenuItem4.setText("Guardar Inventario");
+			jMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mousePressed(java.awt.event.MouseEvent e) {
 					
 					TableModel m = jTable.getModel();
@@ -930,7 +937,7 @@ public class MenuPrincipalVisual extends JFrame {
 				}
 			});
 		}
-		return jMenuItemGuardarFormatosActuales;
+		return jMenuItem4;
 	}
 
 	/**
@@ -1375,12 +1382,14 @@ public class MenuPrincipalVisual extends JFrame {
 			jTableFormatosActuales.setCellSelectionEnabled(true);
 			jTableFormatosActuales.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jTableFormatosActuales.setShowGrid(true);
-			
-			List<Linea> lineas = lineasDAO.getLineas();
+			jTableFormatosActuales.setComponentPopupMenu(getJPopupMenuFormatosActuales());
+			lineas = lineasDAO.getLineas();
 			DefaultTableModel m=new DefaultTableModel(lineas.size(), 2);
 			
-			for(int i = 0; i<lineas.size(); i++)
+			for(int i = 0; i<lineas.size(); i++){
 				m.setValueAt(lineas.get(i).getNombre(),i,0);
+				m.setValueAt(lineas.get(i).getUltimoFormato().getId(),i,1);
+			}
 			
 			jTableFormatosActuales.setModel(m);
 		}
@@ -1405,6 +1414,20 @@ public class MenuPrincipalVisual extends JFrame {
 		return jMenuItem5;
 	}
 	
+	
+	/**
+	 * This method initializes jPopupMenu	
+	 * 	
+	 * @return javax.swing.JPopupMenu	
+	 */
+	private JPopupMenu getJPopupMenuFormatosActuales() {
+		if (jPopupMenuFormatosActuales == null) {
+			jPopupMenuFormatosActuales = new JPopupMenu();
+			jPopupMenuFormatosActuales.add(getJMenuItemGuardarFormatosActuales());
+		}
+		return jPopupMenuFormatosActuales;
+	}
+	
 	/**
 	 * This method initializes jMenuItem4	
 	 * 	
@@ -1420,14 +1443,24 @@ public class MenuPrincipalVisual extends JFrame {
 					TableModel m = jTableFormatosActuales.getModel();
 
 					int index = 0;
-					for (Inventario inv: inventario){
-						String i = m.getValueAt(index+1, 1).toString();
-						inv.setCantidad(new Long(i));
+					for (Linea linea: lineas){
+						String i = m.getValueAt(index, 1).toString();
+						Formato f;
+						try {
+							f = (Formato)formatoDAO.load(new Long(i));
+							linea.setUltimoFormato(f);
+						} catch (NumberFormatException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (DataAccessException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
 						index++;
 					}
-					InventarioDAO inventarioDAO = new InventarioDAO();
 					try {
-						inventarioDAO.updateAll(inventario);
+						lineasDAO.updateAll(lineas);
 					} catch (DataAccessException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -1496,5 +1529,6 @@ public class MenuPrincipalVisual extends JFrame {
 		}
 		return jScrollPaneKeys;
 	}
+	
 	
 }  //  @jve:decl-index=0:visual-constraint="11,-2"
