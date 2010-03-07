@@ -140,6 +140,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JMenuItem jMenuItem5 = null;
 	private JEditorPane jEditorPaneKeys = null;
 	private JScrollPane jScrollPaneKeys = null;
+	private JLabel jLabelAyuda = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -1298,7 +1299,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDialog getJDialogFormatosActuales() {
 		if (jDialogFormatosActuales == null) {
 			jDialogFormatosActuales = new JDialog(this);
-			jDialogFormatosActuales.setSize(new Dimension(428, 308));
+			jDialogFormatosActuales.setSize(new Dimension(428, 331));
 			jDialogFormatosActuales.setTitle("Formatos Actuales de las Líneas");
 			jDialogFormatosActuales.setContentPane(getJContentPaneFormatosActuales());
 			jDialogFormatosActuales.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -1317,11 +1318,15 @@ public class MenuPrincipalVisual extends JFrame {
 	 */
 	private JPanel getJContentPaneFormatosActuales() {
 		if (jContentPaneFormatosActuales == null) {
+			jLabelAyuda = new JLabel();
+			jLabelAyuda.setBounds(new Rectangle(58, 2, 301, 24));
+			jLabelAyuda.setText("Ingrese el Id de Formato actual que posee cada linea");
 			jContentPaneFormatosActuales = new JPanel();
 			jContentPaneFormatosActuales.setLayout(null);
 			jContentPaneFormatosActuales.add(getJButton2(), null);
 			jContentPaneFormatosActuales.add(getJScrollPaneFormatosActuales(), null);
 			jContentPaneFormatosActuales.add(getJScrollPaneKeys(), null);
+			jContentPaneFormatosActuales.add(jLabelAyuda, null);
 		}
 		return jContentPaneFormatosActuales;
 	}
@@ -1334,7 +1339,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton getJButton2() {
 		if (jButton2 == null) {
 			jButton2 = new JButton();
-			jButton2.setBounds(new Rectangle(160, 228, 89, 26));
+			jButton2.setBounds(new Rectangle(162, 256, 89, 26));
 			jButton2.setText("Aceptar");
 			jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -1353,7 +1358,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane getJScrollPaneFormatosActuales() {
 		if (jScrollPaneFormatosActuales == null) {
 			jScrollPaneFormatosActuales = new JScrollPane();
-			jScrollPaneFormatosActuales.setBounds(new Rectangle(2, 4, 408, 100));
+			jScrollPaneFormatosActuales.setBounds(new Rectangle(3, 32, 407, 101));
 			jScrollPaneFormatosActuales.setViewportView(getJTableFormatosActuales());
 		}
 		return jScrollPaneFormatosActuales;
@@ -1486,7 +1491,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane getJScrollPaneKeys() {
 		if (jScrollPaneKeys == null) {
 			jScrollPaneKeys = new JScrollPane();
-			jScrollPaneKeys.setBounds(new Rectangle(14, 117, 382, 103));
+			jScrollPaneKeys.setBounds(new Rectangle(16, 143, 382, 103));
 			jScrollPaneKeys.setViewportView(getJEditorPaneKeys());
 		}
 		return jScrollPaneKeys;
