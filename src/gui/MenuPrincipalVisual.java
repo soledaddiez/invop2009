@@ -55,6 +55,7 @@ import dao.impl.ProductoDAO;
 import excepciones.DataAccessException;
 
 import javax.swing.JPopupMenu;
+import java.awt.BorderLayout;
 
 public class MenuPrincipalVisual extends JFrame {
 
@@ -82,7 +83,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JTable jTable2 = null;
 	private JLabel jLabel = null;
 	private JMenu jMenu2 = null;
-	private JDialog jDialog3 = null;  //  @jve:decl-index=0:visual-constraint="-12,219"
+	private JDialog jDialog3 = null;  //  @jve:decl-index=0:visual-constraint="-5,276"
 	private JPanel jContentPane4 = null;
 	private JButton jButton4 = null;
 	private JTextArea jTextArea = null;
@@ -131,6 +132,12 @@ public class MenuPrincipalVisual extends JFrame {
 
 	
 	private Image img = new ImageIcon("img/icon.png").getImage();
+	private JDialog jDialog6 = null;  //  @jve:decl-index=0:visual-constraint="508,786"
+	private JPanel jContentPane6 = null;
+	private JButton jButton2 = null;
+	private JScrollPane jScrollPane5 = null;
+	private JTable jTable3 = null;
+	private JMenuItem jMenuItem5 = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -149,7 +156,7 @@ public class MenuPrincipalVisual extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(300, 204);
+		this.setSize(299, 212);
 		this.setResizable(false);
 		this.setLocation(new Point(300, 200));
 		this.setJMenuBar(getJJMenuBar());
@@ -223,6 +230,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jMenu1.add(getJMenuItem2());
 			jMenu1.add(getJMenuItem());
 			jMenu1.add(getJMenuItem8());
+			jMenu1.add(getJMenuItem5());
 		}
 		return jMenu1;
 	}
@@ -1279,5 +1287,113 @@ public class MenuPrincipalVisual extends JFrame {
 		}
 		return jEditorPane1;
 	}
+
+	/**
+	 * This method initializes jDialog6	
+	 * 	
+	 * @return javax.swing.JDialog	
+	 */
+	private JDialog getJDialog6() {
+		if (jDialog6 == null) {
+			jDialog6 = new JDialog(this);
+			jDialog6.setSize(new Dimension(428, 250));
+			jDialog6.setTitle("Formatos Actuales de las Líneas");
+			jDialog6.setContentPane(getJContentPane6());
+			jDialog6.addWindowListener(new java.awt.event.WindowAdapter() {
+				public void windowClosing(java.awt.event.WindowEvent e) {
+					jDialog6.show(false);
+				}
+			});
+		}
+		return jDialog6;
+	}
+
+	/**
+	 * This method initializes jContentPane6	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */
+	private JPanel getJContentPane6() {
+		if (jContentPane6 == null) {
+			jContentPane6 = new JPanel();
+			jContentPane6.setLayout(null);
+			jContentPane6.add(getJButton2(), null);
+			jContentPane6.add(getJScrollPane5(), null);
+		}
+		return jContentPane6;
+	}
+
+	/**
+	 * This method initializes jButton2	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */
+	private JButton getJButton2() {
+		if (jButton2 == null) {
+			jButton2 = new JButton();
+			jButton2.setBounds(new Rectangle(162, 172, 89, 26));
+			jButton2.setText("Aceptar");
+			jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mouseClicked(java.awt.event.MouseEvent e) {
+					getJDialog6().show(false);
+				}
+			});
+		}
+		return jButton2;
+	}
+
+	/**
+	 * This method initializes jScrollPane5	
+	 * 	
+	 * @return javax.swing.JScrollPane	
+	 */
+	private JScrollPane getJScrollPane5() {
+		if (jScrollPane5 == null) {
+			jScrollPane5 = new JScrollPane();
+			jScrollPane5.setBounds(new Rectangle(2, 4, 408, 155));
+			jScrollPane5.setViewportView(getJTable3());
+		}
+		return jScrollPane5;
+	}
+
+	/**
+	 * This method initializes jTable3	
+	 * 	
+	 * @return javax.swing.JTable	
+	 */
+	private JTable getJTable3() {
+		if (jTable3 == null) {
+			jTable3 = new JTable();
+			jTable3.setCellSelectionEnabled(true);
+			jTable3.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+			jTable3.setShowGrid(true);
+			DefaultTableModel m=new DefaultTableModel(2,5);
+			m.setValueAt("Linea1_Agua",0,0);
+			m.setValueAt("Linea2_Agua",0,1);
+			m.setValueAt("Linea3_Agua",0,2);
+			m.setValueAt("Linea1_Gaseosa",0,3);
+			m.setValueAt("Linea2_Gaseosa",0,4);
+			jTable3.setModel(m);
+		}
+		return jTable3;
+	}
+
+	/**
+	 * This method initializes jMenuItem5	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getJMenuItem5() {
+		if (jMenuItem5 == null) {
+			jMenuItem5 = new JMenuItem();
+			jMenuItem5.setText("Formatos Actuales");
+			jMenuItem5.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mousePressed(java.awt.event.MouseEvent e) {
+					getJDialog6().show();
+				}
+			});
+		}
+		return jMenuItem5;
+	}
 	
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+}  //  @jve:decl-index=0:visual-constraint="11,-2"
