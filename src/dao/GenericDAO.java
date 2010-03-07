@@ -32,12 +32,24 @@ public abstract class GenericDAO<T> {
 		return domainClass;
 	}
  
-	@SuppressWarnings("unchecked")
-	public T load(Long id) {
-		T returnValue = (T) getHibernateTemplate().load(domainClass, id);
-		session.getTransaction().commit();
-		return returnValue;
-	}
+//	@SuppressWarnings("unchecked")
+//	public T load(Long id) {
+//		T returnValue = (T) getHibernateTemplate().load(domainClass, id);
+//		session.getTransaction().commit();
+//		return returnValue;
+//	}
+	
+	 @SuppressWarnings("unchecked")
+     public T load(Long id) throws DataAccessException {
+             try{
+                     T returnValue = (T) getHibernateTemplate().load(domainClass, id);       
+                     session.getTransaction().commit();      
+                     return returnValue;
+             } catch (HibernateException e) {
+                     throw new DataAccessException(e);
+             }
+     }
+
  
 	public void update(T t) throws DataAccessException {
 		try {
@@ -82,7 +94,7 @@ public abstract class GenericDAO<T> {
 		return returnList;
 	}
  
-	public void deleteById(Long id) {
+	public void deleteById(Long id) throws DataAccessException {
 	 	Object obj = this.load(id);
 	 	getHibernateTemplate().delete(obj);
 	}

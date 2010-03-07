@@ -63,11 +63,11 @@ public class mainDB {
 //        	System.out.println("Demanda ID producto "+d.getProducto().getId()+" -> '"+d.getFecha().toString()+"' / Cantidad: "+d.getCantidad());
  
         ClienteDAO clienteDAO = new ClienteDAO();
-        Cliente cliente = clienteDAO.load(new Long(1));
+//        Cliente cliente = clienteDAO.load(new Long(1));
+//        
+//       Producto producto = productoDAO.load(new Long(1));
         
-       Producto producto = productoDAO.load(new Long(1));
-        
-        System.out.println("El total es: "+pedido.getPedidoTotal(cliente, producto, new Timestamp(109, 0, 1, 0, 0, 0, 0)));
+//        System.out.println("El total es: "+pedido.getPedidoTotal(cliente, producto, new Timestamp(109, 0, 1, 0, 0, 0, 0)));
         
     }
 }
