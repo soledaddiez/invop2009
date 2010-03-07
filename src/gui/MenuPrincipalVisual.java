@@ -138,6 +138,8 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane jScrollPaneFormatosActuales = null;
 	private JTable jTableFormatosActuales = null;
 	private JMenuItem jMenuItem5 = null;
+	private JEditorPane jEditorPaneKeys = null;
+	private JScrollPane jScrollPaneKeys = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -1296,7 +1298,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JDialog getJDialogFormatosActuales() {
 		if (jDialogFormatosActuales == null) {
 			jDialogFormatosActuales = new JDialog(this);
-			jDialogFormatosActuales.setSize(new Dimension(428, 250));
+			jDialogFormatosActuales.setSize(new Dimension(428, 308));
 			jDialogFormatosActuales.setTitle("Formatos Actuales de las Líneas");
 			jDialogFormatosActuales.setContentPane(getJContentPaneFormatosActuales());
 			jDialogFormatosActuales.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -1319,6 +1321,7 @@ public class MenuPrincipalVisual extends JFrame {
 			jContentPaneFormatosActuales.setLayout(null);
 			jContentPaneFormatosActuales.add(getJButton2(), null);
 			jContentPaneFormatosActuales.add(getJScrollPaneFormatosActuales(), null);
+			jContentPaneFormatosActuales.add(getJScrollPaneKeys(), null);
 		}
 		return jContentPaneFormatosActuales;
 	}
@@ -1331,7 +1334,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JButton getJButton2() {
 		if (jButton2 == null) {
 			jButton2 = new JButton();
-			jButton2.setBounds(new Rectangle(162, 172, 89, 26));
+			jButton2.setBounds(new Rectangle(160, 228, 89, 26));
 			jButton2.setText("Aceptar");
 			jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -1350,7 +1353,7 @@ public class MenuPrincipalVisual extends JFrame {
 	private JScrollPane getJScrollPaneFormatosActuales() {
 		if (jScrollPaneFormatosActuales == null) {
 			jScrollPaneFormatosActuales = new JScrollPane();
-			jScrollPaneFormatosActuales.setBounds(new Rectangle(2, 4, 408, 155));
+			jScrollPaneFormatosActuales.setBounds(new Rectangle(2, 4, 408, 100));
 			jScrollPaneFormatosActuales.setViewportView(getJTableFormatosActuales());
 		}
 		return jScrollPaneFormatosActuales;
@@ -1428,6 +1431,65 @@ public class MenuPrincipalVisual extends JFrame {
 			});
 		}
 		return jMenuItemGuardarFormatosActuales;
+	}
+
+	/**
+	 * This method initializes jEditorPaneKeys	
+	 * 	
+	 * @return javax.swing.JEditorPane	
+	 */
+	private JEditorPane getJEditorPaneKeys() {
+		if (jEditorPaneKeys == null) {
+			jEditorPaneKeys = new JEditorPane();
+			jEditorPaneKeys.setContentType("text/html");
+			jEditorPaneKeys.setText(getTextKeys());
+		}
+		return jEditorPaneKeys;
+	}
+	
+	/**
+	 * This method generates a String for Keys of Format...
+	 * @return table
+	 */
+	private String getTextKeys() {
+		String table = "<HTML><TABLE border='1'>";
+		table += "<TR bgcolor='#8FBC8F'>";
+		table += "<TH colspan='"+8+"'>Claves de Formatos</TH>";
+		table += "<TR>";
+		table += "<TH bgcolor='#8FBC8F'>"+"CLAVE"+"</TH>";
+//		table += "</TR>";
+		table += "<TH>"+"1"+"</TH>";
+		table += "<TH>"+"2"+"</TH>";
+		table += "<TH>"+"3"+"</TH>";
+		table += "<TH>"+"4"+"</TH>";
+		table += "<TH>"+"5"+"</TH>";
+		table += "<TH>"+"6"+"</TH>";
+		table += "<TH>"+"7"+"</TH>";
+		table += "<TR>";
+		table += "<TH bgcolor='#8FBC8F'>"+"NOMBRE"+"</TH>";
+		table += "<TH>"+"500 cc"+"</TH>";
+		table += "<TH>"+"600 cc"+"</TH>";
+		table += "<TH>"+"1 lt"+"</TH>";
+		table += "<TH>"+"1.5 lts"+"</TH>";
+		table += "<TH>"+"2 lts"+"</TH>";
+		table += "<TH>"+"2.25 lts"+"</TH>";
+		table += "<TH>"+"5 lts"+"</TH>";
+		table += "</TABLE></HTML>";
+		return table;
+	}
+
+	/**
+	 * This method initializes jScrollPaneKeys	
+	 * 	
+	 * @return javax.swing.JScrollPane	
+	 */
+	private JScrollPane getJScrollPaneKeys() {
+		if (jScrollPaneKeys == null) {
+			jScrollPaneKeys = new JScrollPane();
+			jScrollPaneKeys.setBounds(new Rectangle(14, 117, 382, 103));
+			jScrollPaneKeys.setViewportView(getJEditorPaneKeys());
+		}
+		return jScrollPaneKeys;
 	}
 	
 }  //  @jve:decl-index=0:visual-constraint="11,-2"
